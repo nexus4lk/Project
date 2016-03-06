@@ -55,6 +55,7 @@ if ($_POST['type'] == "signup")
 }
 
 
+
 if ($_POST['type'] == "addroom")
 {
 	$str_Roomname=mysqli_real_escape_string($link,$_POST['roomname']);
@@ -70,5 +71,23 @@ if ($_POST['type'] == "addroom")
 		$query = mysqli_query($link, "INSERT INTO room (Room_Name, Type_id, Room_Capa)VALUES ('$str_Roomname', '$str_Roomtype', '$str_Roomcapa')");
 		echo "ok";
 	}
+}
+
+if ($_POST['type'] == "selectroom")
+{
+	$str_roomid=mysqli_real_escape_string($link,$_POST['roomid']);
+	$sql="SELECT * FROM room WHERE Room_ID = '$str_roomid'";
+	$result=mysqli_query($link,$sql);
+	$events = array();
+	while($row = mysqli_fetch_array($result,MYSQLI_ASSOC))
+	{
+		$room = array();
+		$room['RName'] = $row['Room_Name'];
+		$room['RType'] = $row['Type_id'];
+		$room['RCapa'] = $row['Room_Capa'];
+
+		array_push($events, $room);
+	}
+	echo json_encode($events);
 }
 ?>

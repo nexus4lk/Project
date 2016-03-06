@@ -66,7 +66,6 @@
       <form class="contact-form" id="add-form" method="post">
         <div class="row">
           <div class="col-md-10">
-            <!-- ซ้าย -->
             <div class="single_contact_info">
               <h3 class="form-heading" align="left">โปรดกรอกรายละเอียดของห้อง</h3>
             </div>
@@ -99,7 +98,7 @@
     </div>
     <div id="section3">
       <h2>Edit Room</h2>
-      <!-- <div class="col-md-10">
+      <div class="col-md-10">
       <form class="contact-form" id="edit-form" method="post">
         <div class="row">
           <div class="col-md-10">
@@ -108,24 +107,38 @@
             </div>
             <div class="single_contact_info">
               <h4 class="form-heading" align="left">Room Type</h4>
-                <select class="form-heading" name="Eroomname" id="Eroomname">
+                <select class="form-heading" name="Editroomname" id="Editroomname">
                 <option value="">Please Select Item</option>
               <?php
-            //  include("connect.php");
-            //  $sql = "SELECT * FROM roomtype ORDER BY Type_id ASC";
-            //	$result=mysqli_query($link,$sql);
-            //  while($row = mysqli_fetch_array($result)) {
-            //  ?>
-          //   <option value="<?php //echo $row["Type_id"];?>"><?php //echo $row["Type_id"]." - ".$row["Type_name"];?></option>
-            //  <?php
-              //}
-            //  ?>
-            //  </select>
+              include("connect.php");
+              $sql = "SELECT * FROM room ORDER BY Room_id ASC";
+            	$result=mysqli_query($link,$sql);
+             while($row = mysqli_fetch_array($result)) {
+              ?>
+          <option value="<?php echo $row["Room_ID"];?>"><?php echo $row["Room_Name"];?></option>
+              <?php
+              }
+            ?>
+            </select>
             </div>
-            <input type="text" class="form-control" name="roomname" id="roomname" placeholder="Roomname*" size="20">
+            <input type="text" class="form-control" name="Eroomname" id="Eroomname" placeholder="Roomname*" size="20">
             <div class="single_contact_info">
-              <input type="text" class="form-control" name="roomcapa" id="roomcapa" placeholder="Room Capacity* ตัวอย่าง 30 ที่นั่ง" size="20">
+              <input type="text" class="form-control" name="Eroomcapa" id="Eroomcapa" placeholder="Room Capacity* ตัวอย่าง 30 ที่นั่ง" size="20">
+              <select class="form-heading" name="Eroomtype" id="Eroomtype">
+              <option value="">Please Select Item</option>
+                <?php
+                include("connect.php");
+                $sql = "SELECT * FROM roomtype ORDER BY Type_id ASC";
+                $result=mysqli_query($link,$sql);
+                while($row = mysqli_fetch_array($result)) {
+                ?>
+                <option value="<?php echo $row["Type_id"];?>"><?php echo $row["Type_id"]." - ".$row["Type_name"];?></option>
+                <?php
+                }
+                ?>
+                </select>
           </div>
+
 
           </div>
           <div class="col-md-12">
@@ -134,7 +147,7 @@
           </div>
         </div>
       </form>
-    </div> -->
+    </div>
     </div>
     <div id="section4">
       <h2>Remove Room</h2>
@@ -162,6 +175,7 @@
   <script src="js/wow.js"></script>
   <script src="js/script.js"></script>
   <script type="text/javascript" src="js/addroom.js"></script>
+  <script type="text/javascript" src="js/editroom.js"></script>
   <script type="text/javascript" src="js/validation.min.js"></script>
   <script>
     $('.container > div').hide();

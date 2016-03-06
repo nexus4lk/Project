@@ -1,10 +1,38 @@
-// JavaScript Document
+$(document).ready(function() {
+  $("#Editroomname").change(function() {
+    var roomid = $('#Editroomname').val();
+    var type = "selectroom"
+    $("#Eroomname").val(""); //ล้างข้อมูล
+    $("#Eroomcapa").val(""); //ล้างข้อมูล
+    $.ajax({
+      type: 'POST',
+      url: 'checksql.php',
+      data: {
+        roomid: roomid,
+        type: type
+      },
+      success: function(response) {
+        var json_obj = jQuery.parseJSON(response);
+        $.each(json_obj, function(key, value) {
+          var RName = value.RName;
+          var RType = value.RType;
+          var RCapa = value.RCapa;
+          document.getElementById("Eroomname").value = RName;
+          document.getElementById("Eroomcapa").value = RCapa;
+          // document.getElementById("roomtype").value = RType;
+          document.getElementById("Eroomtype").selectedIndex = RType;
+        }); //eac
+      } //function
+    }); //ajax
+  }) //function
+});
+
 $(function() {
   /* validation */
-  $("#add-form").validate({
+  $("#edit-form").validate({
     rules: {
-      roomname: "required",
-      roomcapa: "required",
+      Eroomname: "required",
+      Eroomcapa: "required",
       roomtype: "required"
     },
     messages: {
@@ -19,10 +47,10 @@ $(function() {
   /* form submit */
   function submitForm() {
     $('#roomname').focus();
-    var txtRoomname = $('#roomname').val();
-    var txtRoomcapa = $('#roomcapa').val();
+    var txtRoomname = $('#Eroomname').val();
+    var txtRoomcapa = $('#Eroomcapa').val();
     var txtRoomtype = $('#roomtype').val();
-    var type = "addroom"
+    var type = "editroom"
     $.ajax({
       type: 'POST',
       url: 'checksql.php',
