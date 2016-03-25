@@ -1,19 +1,3 @@
-<?php
-
-/*
-Author: Pradeep Khodke
-URL: http://www.codingcage.com/
-*/
-
-
-session_start();
-
-if(isset($_SESSION['user_session'])!="")
-{
-	header("Location: home.php");
-}
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,11 +42,13 @@ if(isset($_SESSION['user_session'])!="")
                     <div id="status">&nbsp;</div>
                 </div> -->
 
+
+
+
     <header id="HOME" style="background-position: 50% -125px;">
 	        <div class="section_overlay">
-	            <nav class="navbar navbar-default navbar-fixed-top">
+	            <!-- <nav class="navbar navbar-default navbar-fixed-top">
 	              <div class="container">
-	                <!-- Brand and toggle get grouped for better mobile display -->
 	                <div class="navbar-header">
 	                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 	                    <span class="sr-only">Toggle navigation</span>
@@ -70,46 +56,44 @@ if(isset($_SESSION['user_session'])!="")
 	                    <span class="icon-bar"></span>
 	                    <span class="icon-bar"></span>
 	                  </button>
-	                  <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt=""></a>
+	                  <a class="navbar-brand" href="#"><img src="images/logo.png" alt=""></a>
 	                </div>
 
-	                <!-- Collect the nav links, forms, and other content for toggling -->
 	                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	                  <ul class="nav navbar-nav navbar-right">
-	                    <li><a href="index.html">Home</a></li>
+	                    <li><a href="#HOME">Home</a></li>
 	                    <li><a href="#SERVICE">Services</a></li>
 	                    <li><a href="#ABOUT">About</a></li>
 	                    <li><a href="#TESTIMONIAL">Testimonial</a></li>
-	                    <li><a href="Register.html">Register</a></li>
-	                    <li><a href="signin.html">Sign In</a></li>
+	                    <li><a href="#WORK">Work</a></li>
+	                    <li><a href="#CONTACT">Contact</a></li>
 	                  </ul>
-	                </div><!-- /.navbar-collapse -->
-	              </div><!-- /.container -->
-	            </nav>
+	                </div>
+	              </div>
+	            </nav> -->
 
 	            <div class="container">
 	                <div class="row">
 	                    <div class="col-md-12 text-center">
-	                        <div class="home_text">
-	                            <h2>it’s Srinakharinwirot University's Room service</h2>
-	                            <p>test</p>
-	                            <img src="images/shape.png" alt="">
+	                        <div class="home_text wow fadeInUp animated">
+                              <h2>Welcome to Srinakharinwirot University's Room service</h2>
+                              <p>"2016"</p>
+	                            <!-- <img src="images/shape.png" alt=""> -->
 	                        </div>
 	                    </div>
 	                </div>
 	            </div>
 
-	            <div class="container">
+	            <!-- <div class="container">
 	                <div class="row">
 	                    <div class="col-md-12 text-center">
 	                        <div class="scroll_down">
-                            <!-- <a href="#SERVICE"><img src="images/scroll.png" alt=""></a>
-	                          <h4>Scroll Down</h4> -->
+                            <a href="#SERVICE"><img src="images/scroll.png" alt=""></a>
+	                            <h4>Scroll Down</h4>
 	                        </div>
-
 	                    </div>
 	                </div>
-	            </div>
+	            </div> -->
 	        </div>
 	    </section>
     </header>
@@ -118,52 +102,53 @@ if(isset($_SESSION['user_session'])!="")
     <section class="services" id="SERVICE">
         <div class="container">
             <div class="row">
-                <div class="col-md-3 text-center">
+                <div class="col-md-4 text-center">
                     <div class="single_service wow fadeInUp" data-wow-delay="1s">
-                        <i class="icon-pencil"></i>
-                        <h2>Design</h2>
-                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa.</p>
+                        <i class="icon-calendar"></i>
+                        <h2>เลือกวัน</h2>
+                        <h4>เลือกวัน และ คลิกที่วันที่ต้องการจอง เพื่อกรอกข้อมูล</h4>
                     </div>
                 </div>
-                <div class="col-md-3 text-center">
+                <div class="col-md-4 text-center">
                     <div class="single_service wow fadeInUp" data-wow-delay="2s">
-                        <i class="icon-gears"></i>
-                        <h2>Development</h2>
-                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa.</p>
+                        <i class="icon-document"></i>
+                        <h2>กรอกข้อมูล</h2>
+                        <h4>กรอกข้อมูลเพื่อทำการจองห้อง</h4>
                     </div>
                 </div>
-                <div class="col-md-3 text-center">
+                <div class="col-md-4 text-center">
                     <div class="single_service wow fadeInUp" data-wow-delay="3s">
-                        <i class="icon-camera"></i>
-                        <h2>Photography</h2>
-                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa.</p>
+                        <i class="icon-ribbon"></i>
+                        <h2>เสร็จสิ้น</h2>
+                        <h4>เสร็จสิ้นกระบวนการจอง กรุณารอ 3 - 4 วันเพื่อรับผลการจอง</h4>
                     </div>
                 </div>
-                <div class="col-md-3 text-center">
+                <!-- <div class="col-md-3 text-center">
                     <div class="single_service wow fadeInUp" data-wow-delay="4s">
                         <i class="icon-magnifying-glass"></i>
                         <h2>Seo</h2>
                         <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa.</p>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
-    <section class="about_us_area" id="ABOUT">
+    <section class="calendar_area" id="ABOUT">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
                     <div class="about_title">
-                        <h2>About Me</h2>
-                        <img src="images/shape.png" alt="">
-                        <div id='calendar'></div>
+                        <h2>Calendar</h2>
+                        <div class="wow fadeInLeft animated" id='calendar'></div>
+                        <!-- <br>
+                        <br>
+                        <br>
+                        <br> -->
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4  wow fadeInLeft animated">
+                <!-- <div class="col-md-4  wow fadeInLeft animated">
                     <div class="single_progress_bar">
                         <h2>DESIGN - 90%</h2>
                         <div class="progress">
@@ -202,10 +187,66 @@ if(isset($_SESSION['user_session'])!="")
                 </div>
                 <div class="col-md-4  wow fadeInRight animated">
                     <p class="about_us_p">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
+
+    <!-- Modal -->
+    <!-- <div class="modal fade" id="new_calendar_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">New Fullcalendar Modal With MySQL</h4>
+        </div>
+        <div class="modal-body">
+          <form id="new_calendar">
+            <div class="form-group">
+            <label >เรื่อง</label>
+            <input type="text" class="form-control" name="title" placeholder="">
+            </div>
+            <div class="form-group">
+            <label >วันที่เริมต้น</label>
+            <input type="text" class="form-control" name="start"  placeholder="">
+            </div>
+            <div class="form-group">
+            <label >วันที่สิ้นสุด</label>
+            <input type="text" class="form-control" name="end"  placeholder="">
+            </div>
+            <input type="hidden" name="new_calendar_form">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" onclick="return new_calendar();">บันทึกข้อมูล</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+
+        </div>
+      </div>
+      </div>
+    </div> -->
+
+    <!-- The Modal -->
+<div id="myModal" class="modal ">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+
+      <h2 id="modalTitle"></h2>
+    </div>
+    <div class="modal-body">
+      <h4 id="modalroom" class="modal-room"></h4>
+      <h4 id="modalmem" class="modal-mem"></h4>
+      <p>Some text in the Modal Body</p>
+      <p>Some other text...</p>
+    </div>
+    <!-- <div class="modal-footer">
+      <h3>Modal Footer</h3>
+    </div> -->
+  </div>
+
+</div>
 
 
     <section class="testimonial text-center wow fadeInUp animated" id="TESTIMONIAL">
@@ -227,7 +268,7 @@ if(isset($_SESSION['user_session'])!="")
     </section>
 
 
-    <div class="fun_facts">
+    <!-- <div class="fun_facts">
     	<section class="header parallax home-parallax page" id="fun_facts" style="background-position: 50% -150px;">
 	        <div class="section_overlay">
 	            <div class="container">
@@ -266,8 +307,8 @@ if(isset($_SESSION['user_session'])!="")
 	            </div>
 	        </div>
 	    </section>
-    </div>
-    <section class="work_area" id="WORK">
+    </div> -->
+    <!-- <section class="work_area" id="WORK">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
@@ -345,8 +386,8 @@ if(isset($_SESSION['user_session'])!="")
                 </div>
             </div>
         </div>
-    </section>
-    <section class="call_to_action">
+    </section> -->
+    <!-- <section class="call_to_action">
         <div class="container">
             <div class="row">
                 <div class="col-md-8 wow fadeInLeft animated">
@@ -365,14 +406,14 @@ if(isset($_SESSION['user_session'])!="")
                 </div>
             </div>
         </div>
-    </section>
-    <section class="contact" id="CONTACT">
+    </section> -->
+    <!-- <section class="contact" id="CONTACT">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
                     <div class="contact_title  wow fadeInUp animated">
                         <h1>get in touch</h1>
-                        <img src="images/shape.png" alt="">
+
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna<br/> aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.</p>
                     </div>
                 </div>
@@ -420,13 +461,13 @@ if(isset($_SESSION['user_session'])!="")
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
 
 
 <footer>
     <div class="container">
-        <div class="container">
+        <!-- <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
                     <div class="footer_logo   wow fadeInUp animated">
@@ -434,8 +475,8 @@ if(isset($_SESSION['user_session'])!="")
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="container">
+        </div> -->
+        <!-- <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center   wow fadeInUp animated">
                     <div class="social">
@@ -450,7 +491,7 @@ if(isset($_SESSION['user_session'])!="")
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
@@ -466,87 +507,26 @@ if(isset($_SESSION['user_session'])!="")
 
 
 
-
-
-
-
-
-
-
-
 <!-- =========================
      SCRIPTS
 ============================== -->
 
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <!-- <script src="js/jquery.nicescroll.js"></script> -->
+  <script src="js/owl.carousel.js"></script>
+  <script src="js/wow.js"></script>
+  <script src="js/script.js"></script>
+  <script type='text/javascript' src='fullcalendar/lib/jquery.min.js'></script>
+  <script type='text/javascript' src='fullcalendar/lib/moment.min.js'></script>
+  <script type='text/javascript' src='fullcalendar/lib/jquery-ui.custom.min.js'></script>
+  <script type="text/javascript" src="fullcalendar/fullcalendar.js"></script>
+  <script type="text/javascript" src="fullcalendar/fullcalendar.min.js"></script>
+  <script type="text/javascript" src="js/fullcalendar.js"></script>
+  <style>
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.nicescroll.js"></script>
-    <script src="js/owl.carousel.js"></script>
-    <script src="js/wow.js"></script>
-    <script src="js/script.js"></script>
-    <script type='text/javascript' src='fullcalendar/lib/jquery.min.js'></script>
-    <script type='text/javascript' src='fullcalendar/lib/moment.min.js'></script>
-    <script type='text/javascript' src='fullcalendar/lib/jquery-ui.custom.min.js'></script>
-    <script type="text/javascript" src="fullcalendar/fullcalendar.js"></script>
-    <script type="text/javascript" src="fullcalendar/fullcalendar.min.js"></script>
-    <script>
+  </style>
 
-	$(document).ready(function() {
-
-    $.ajax({
-  		url: 'getCalendar.php',
-          type: 'POST', // Send post data
-          data: 'type=fetch',
-          async: false,
-          success: function(response){
-          	json_events = response;
-          }
-  	});
-
-		$('#calendar').fullCalendar({
-      events: JSON.parse(json_events),
-			header: {
-				right: 'prev,next today',
-				// center: 'title',
-				// right: 'month,basicWeek,basicDay'
-			},
-      // defaultDate: '<?php echo date('Y-m-d');?>',
-    	editable: false,
-			eventLimit: true, // allow "more" link when too many events
-		});
-
-	});
-
-  function getFreshEvents(){
-		$.ajax({
-			url: 'getCalendar.php',
-	        type: 'POST', // Send post data
-	        data: 'type=fetch',
-	        async: false,
-	        success: function(response){
-	        	freshevents = response;
-	        }
-		});
-		$('#calendar').fullCalendar('addEventSource', JSON.parse(freshevents));
-	}
-
-
-</script>
-    <style>
-	body {
-		margin: 40px 10px;
-		padding: 0;
-		/*font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;*/
-		font-size: 14px;
-	}
-
-	#calendar {
-		max-width: 1000px;
-		margin: 0 auto;
-	}
-
-</style>
 </body>
 
 </html>

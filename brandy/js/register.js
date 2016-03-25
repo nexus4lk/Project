@@ -69,7 +69,6 @@ $(function() {
     var txtemail = $('#txtemail').val();
     var txttel = $('#txttel').val();
     var type = "signup"
-    alert("กำ");
     $.ajax({
       type: 'POST',
       url: 'checksql.php',
@@ -84,9 +83,8 @@ $(function() {
         type: type
       },
       success: function(response) {
-        alert(response);
         if (response == "ok") {
-          window.location = "signin.html";
+          window.location = "login.html";
         } else if (response == "failu") {
           $("#error").html("<span align='left' style='color:#cc0000'>Error:</span> Username นี้ซ้ำกับบุคคลอื่น. ");
         } else {

@@ -89,13 +89,15 @@
             </div>
           </div>
           <div class="col-md-12">
-            <div class ="error"></div>
+            <div class ="add_error"></div>
             <button type="submit" id="submit" class="btn btn-primary cs-btn">Add </button>
           </div>
         </div>
       </form>
     </div>
     </div>
+
+
     <div id="section3">
       <h2>Edit Room</h2>
       <div class="col-md-10">
@@ -142,8 +144,8 @@
 
           </div>
           <div class="col-md-12">
-            <div class ="error"></div>
-            <button type="submit" id="submit" class="btn btn-primary cs-btn">Add </button>
+            <div class ="Edit_error"></div>
+            <button type="submit" id="submit" class="btn btn-primary cs-btn">Edit</button>
           </div>
         </div>
       </form>

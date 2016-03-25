@@ -30,6 +30,7 @@ if ($_POST['type']=="signin") {
 	{
 		echo "failu";
 	}
+	mysqli_close($link);
 }
 
 ///////////////////////////////////////// REGISTER //////////////////////////////////////////////////
@@ -52,9 +53,8 @@ if ($_POST['type'] == "signup")
 		$query = mysqli_query($link, "INSERT INTO member (Mem_Fname, Mem_Lname, Mem_Tel, Mem_Email , Username, Password, Acc_Permission)VALUES ('$str_Fname', '$str_Lname', '$str_Tel', '$str_Email', '$str_Username', '$str_Password', 'USER')");
 		echo "ok";
 	}
+	mysqli_close($link);
 }
-
-
 
 if ($_POST['type'] == "addroom")
 {
@@ -71,6 +71,7 @@ if ($_POST['type'] == "addroom")
 		$query = mysqli_query($link, "INSERT INTO room (Room_Name, Type_id, Room_Capa)VALUES ('$str_Roomname', '$str_Roomtype', '$str_Roomcapa')");
 		echo "ok";
 	}
+	mysqli_close($link);
 }
 
 if ($_POST['type'] == "selectroom")
@@ -89,5 +90,25 @@ if ($_POST['type'] == "selectroom")
 		array_push($events, $room);
 	}
 	echo json_encode($events);
+	mysqli_close($link);
+}
+
+if ($_POST['type'] == "editroom")
+{
+	$str_Roomname=mysqli_real_escape_string($link,$_POST['Eroomname']);
+	$str_Roomcapa=mysqli_real_escape_string($link,$_POST['Eroomcapa']);
+	$str_Roomtype=mysqli_real_escape_string($link,$_POST['Eroomtype']);
+	$str_roomid=mysqli_real_escape_string($link,$_POST['roomid']);
+	$sql = "update room set Room_Name = '$str_Roomname', Type_id = '$str_Roomtype', Room_Capa = '$str_Roomcapa' where Room_ID = '$str_roomid'";
+	$query = mysqli_query($link,$sql);
+	if($query) {
+	 	echo "ok";
+		mysqli_close($link);
+	}
+	else
+	{
+		echo "ไม่สามารถแก้ไขข้อมูลในฐานข้อมูลได";
+	}
+
 }
 ?>

@@ -36,21 +36,21 @@ $('.owl-carousel').owlCarousel({
     }
 })
 
-$(document).ready(
-
-  function() {
-
-    $("php").niceScroll({
-    	cursorcolor:"#f74d65",
-    	scrollspeed :"100",
-    	cursorborder:"1px solid #f74d65",
-    	horizrailenabled: "false",
-    	cursorborderradius: "0px"
-    });
-
-  }
-
-);
+// $(document).ready(
+//
+//   function() {
+//
+//     $("html").niceScroll({
+//     	cursorcolor:"#f74d65",
+//     	scrollspeed :"100",
+//     	cursorborder:"1px solid #f74d65",
+//     	horizrailenabled: "false",
+//     	cursorborderradius: "0px"
+//     });
+//
+//   }
+//
+// );
 
 new WOW().init();
 

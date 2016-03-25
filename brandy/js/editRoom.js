@@ -36,8 +36,8 @@ $(function() {
       roomtype: "required"
     },
     messages: {
-      roomname: "กรุณากรอกชื่อห้อง",
-      roomcapa: "กรุณากรอกความจุของห้อง",
+      Eroomname: "กรุณากรอกชื่อห้อง",
+      Eroomcapa: "กรุณากรอกความจุของห้อง",
       roomtype: "กรุณาเลือกประเภทห้อง"
     },
     submitHandler: submitForm
@@ -49,25 +49,28 @@ $(function() {
     $('#roomname').focus();
     var txtRoomname = $('#Eroomname').val();
     var txtRoomcapa = $('#Eroomcapa').val();
-    var txtRoomtype = $('#roomtype').val();
+    var txtRoomtype = $('#Eroomtype').val();
+    var roomid = $('#Editroomname').val();
     var type = "editroom"
     $.ajax({
       type: 'POST',
       url: 'checksql.php',
       data: {
-        roomname: txtRoomname,
-        roomcapa: txtRoomcapa,
-        roomtype: txtRoomtype,
+        Eroomname: txtRoomname,
+        Eroomcapa: txtRoomcapa,
+        Eroomtype: txtRoomtype,
+        roomid: roomid,
         type: type
       },
       success: function(response) {
+        alert(response);
         if (response == "ok") {
-          $("#error").html("<span align='left' style='color:#cc0000'>Error:</span> 'เพิ่มห้องเรียน' + txtRoomname + 'เรียบร้อยแล้ว' ");
+          $("#Edit_error").html("<span align='left' style='color:#cc0000'>Error:</span> 'แก้ไขห้องเรียน' + txtRoomname + 'เรียบร้อยแล้ว' ");
           // alert("เพิ่มห้องเรียน" + txtRoomname + "เรียบร้อยแล้ว");
-        } else if (response == "failname") {
-          $("#error").html("<span align='left' style='color:#cc0000'>Error:</span> 'ห้อง' + txtRoomname + 'มีอยู่ในระบบแล้ว' ");
+        } else if (response == "fail") {
+          $("#Edit_error").html("<span align='left' style='color:#cc0000'>Error:</span> 'ห้อง' + txtRoomname + 'มีอยู่ในระบบแล้ว' ");
         } else {
-          $("#error").html("<span align='left' style='color:#cc0000'>Error:</span> กรุณากรอกข้อมูลให้ครบถ้วน ");
+          $("#Edit_error").html("<span align='left' style='color:#cc0000'>Error:</span> กรุณากรอกข้อมูลให้ครบถ้วน ");
         }
       }
     });
