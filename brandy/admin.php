@@ -1,3 +1,15 @@
+<?php
+require "dbmember.php";
+$member = new member();
+$user_id = $_SESSION['user_session'];
+if(!$member->is_loggedin())
+{
+ $member->redirect('login.php');
+}else if($member->get_status($user_id) != "ADMIN"){
+  $member->redirect('index.php');
+}
+ ?>
+
 <!DOCTYPE html>
 <html lang="en">
 

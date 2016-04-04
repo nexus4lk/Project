@@ -3,19 +3,22 @@ require "dbconfig.php";
 class Fullcalendar {
 
 	//function show data in fullcalendar
-	public function get_fullcalendar(){
+	public function get_fullcalendar($roomid){
     $connect = new connect();
 		$db = $connect->connect();
 		$get_calendar = $db->query("SELECT * FROM reserne_completed");
 		while($calendar = $get_calendar->fetch_assoc()){
       $reserdetail = $calendar["Reser_ID"];
-      $get_reser = $db->query("SELECT * FROM reserve_data WHERE Reser_ID ='$reserdetail'");
+      $get_reser = $db->query("SELECT * FROM reserve_data WHERE Reser_ID ='$reserdetail' AND Room_Id = '$roomid'");
       	while($reser = $get_reser->fetch_assoc()){
           	$result[] = $reser;
         }
 		}
 		if(!empty($result)){
 
+			return $result;
+		}else {
+			$result = "empty";
 			return $result;
 		}
 	}

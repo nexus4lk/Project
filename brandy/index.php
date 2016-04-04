@@ -1,3 +1,15 @@
+<?php
+require "dbmember.php";
+$member = new member();
+if(!$member->is_loggedin())
+{
+ $member->redirect('login.php');
+}else {
+  $user_id = $_SESSION['user_session'];
+  $status = $member->get_status($user_id);
+}
+
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,9 +59,9 @@
 
     <header id="HOME" style="background-position: 50% -125px;">
 	        <div class="section_overlay">
-	            <!-- <nav class="navbar navbar-default navbar-fixed-top">
+	            <nav class="navbar navbar-default navbar-fixed-top">
 	              <div class="container">
-	                <div class="navbar-header">
+	                <!-- <div class="navbar-header">
 	                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 	                    <span class="sr-only">Toggle navigation</span>
 	                    <span class="icon-bar"></span>
@@ -57,27 +69,26 @@
 	                    <span class="icon-bar"></span>
 	                  </button>
 	                  <a class="navbar-brand" href="#"><img src="images/logo.png" alt=""></a>
-	                </div>
+	                </div> -->
 
 	                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	                  <ul class="nav navbar-nav navbar-right">
-	                    <li><a href="#HOME">Home</a></li>
+	                    <!-- <li><a href="#HOME">Home</a></li>
 	                    <li><a href="#SERVICE">Services</a></li>
-	                    <li><a href="#ABOUT">About</a></li>
-	                    <li><a href="#TESTIMONIAL">Testimonial</a></li>
-	                    <li><a href="#WORK">Work</a></li>
-	                    <li><a href="#CONTACT">Contact</a></li>
+	                    <li><a href="#ABOUT">About</a></li> -->
+                      <li><a href="logout.php?logout=true"><?php print($user_id); ?></a></li>
+	                    <li><a type="button" href="logout.php?logout=true" class="btn btn-default navbar-btn">LOGOUT</a></li>
 	                  </ul>
 	                </div>
 	              </div>
-	            </nav> -->
+	            </nav>
 
 	            <div class="container">
 	                <div class="row">
 	                    <div class="col-md-12 text-center">
 	                        <div class="home_text wow fadeInUp animated">
                               <h2>Welcome to Srinakharinwirot University's Room service</h2>
-                              <p>"2016"</p>
+                              <p>"<?php print(" ".date("d-m-Y")." "); ?>"</p>
 	                            <!-- <img src="images/shape.png" alt=""> -->
 	                        </div>
 	                    </div>
@@ -139,6 +150,22 @@
                 <div class="col-md-12 text-center">
                     <div class="about_title">
                         <h2>Calendar</h2>
+                        <br>
+                        <p>"เลือกห้องเพื่อดูปฏิทิน"</p>
+                        <select class="form-heading" name="roomid" id="roomid">
+                        <option value="">Please Select Room</option>
+                          <?php
+                          $connect = new connect();
+                          $db = $connect->connect();
+                          $get_room = $db->query("SELECT * FROM room ORDER BY Room_id ASC");
+                          while($room = $get_room->fetch_assoc()){
+                          ?>
+                            <option value="<?php echo $room["Room_ID"];?>"><?php echo $room["Room_Name"];?></option>
+                            <?php
+                          }
+                          ?>
+                          </select>
+
                         <div class="wow fadeInLeft animated" id='calendar'></div>
                         <!-- <br>
                         <br>
@@ -226,20 +253,77 @@
       </div>
     </div> -->
 
-    <!-- The Modal -->
-<div id="myModal" class="modal ">
+    <!-- The eventClick Modal  -->
+<div id="eventClick_Modal" class="modal ">
 
   <!-- Modal content -->
   <div class="modal-content">
     <div class="modal-header">
 
-      <h2 id="modalTitle"></h2>
+      <h2 id="ecmTitle"></h2>
     </div>
     <div class="modal-body">
-      <h4 id="modalroom" class="modal-room"></h4>
-      <h4 id="modalmem" class="modal-mem"></h4>
+      <h4 id="ecmroom" class="modal-room"></h4>
+      <h4 id="ecmmem" class="modal-mem"></h4>
       <p>Some text in the Modal Body</p>
       <p>Some other text...</p>
+    </div>
+    <!-- <div class="modal-footer">
+      <h3>Modal Footer</h3>
+    </div> -->
+  </div>
+
+</div>
+
+
+    <!-- The dayClick Modal  -->
+<div id="dayClick_Modal" class="modal ">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+
+      <h3 id="dcmTitle"></h3>
+    </div>
+    <div class="modal-body">
+      <form id="new_calendar">
+        <div class="form-group">
+          <label>ห้อง</label>
+          <br>
+          <select class="form-heading" name="roomtype" id="roomtype">
+          <option value="">Please Select Item</option>
+            <?php
+            $connect = new connect();
+            $db = $connect->connect();
+            $room = $db->query("SELECT * FROM room ORDER BY Room_id ASC");
+            while($get_room= $room->fetch_assoc()){
+            ?>
+            <option value="<?php echo $get_room["Room_ID"];?>"><?php echo $get_room["Room_Name"];?></option>
+            <?php
+            }
+            ?>
+            </select>
+            <br>
+        <label>เรื่อง</label>
+        <input type="text" class="form-control" name="title" placeholder="" id="dcmtitle">
+        </div>
+        <div class="form-group">
+        <label >วันที่เริมต้น</label>
+        <input type="text" class="form-control" name="start"  placeholder="" id="dcmstart">
+        </div>
+        <div class="form-group">
+        <label >วันที่สิ้นสุด</label>
+        <input type="text" class="form-control" name="end"  placeholder="" id="dcmend">
+        </div>
+        <div class ="reser_error"></div>
+        <button type="submit" id="submit" class="btn btn-primary" >บันทึกข้อมูล</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+      </form>
+
+      <div class="modal-footer">
+
+
+      </div>
     </div>
     <!-- <div class="modal-footer">
       <h3>Modal Footer</h3>
@@ -523,6 +607,8 @@
   <script type="text/javascript" src="fullcalendar/fullcalendar.js"></script>
   <script type="text/javascript" src="fullcalendar/fullcalendar.min.js"></script>
   <script type="text/javascript" src="js/fullcalendar.js"></script>
+  <script type="text/javascript" src="js/reserRoom.js"></script>
+  <script type="text/javascript" src="js/validation.min.js"></script>
   <style>
 
   </style>

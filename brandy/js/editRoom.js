@@ -21,7 +21,7 @@ $(document).ready(function() {
           document.getElementById("Eroomcapa").value = RCapa;
           // document.getElementById("roomtype").value = RType;
           document.getElementById("Eroomtype").selectedIndex = RType;
-        }); //eac
+        }); //each
       } //function
     }); //ajax
   }) //function

@@ -3,7 +3,18 @@
  * Docs & License: http://fullcalendar.io/
  * (c) 2015 Adam Shaw
  */
-
+ .fc-day:hover{
+     background:#321654;
+ }
+ .fc-slats,
+ .fc-content-skeleton,
+ .fc-bgevent-skeleton{
+     pointer-events:none;
+ }
+ .fc-bgevent,
+ .fc-event-container{
+     pointer-events:auto;
+ }
 
 .fc {
 	direction: ltr;
@@ -46,7 +57,8 @@ body .fc { /* extra precedence to overcome jqui */
 }
 
 .fc-unthemed .fc-today {
-	background: #fcf8e3;
+	background: #6a7790;
+	color: #fff;
 }
 
 .fc-highlight { /* when user is selecting cells */

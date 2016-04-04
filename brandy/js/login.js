@@ -47,16 +47,25 @@ $(function() {
       },
       success: function(response) {
         alert(response);
-        if (response == "ok") {
-          window.location = "index.php";
-        } else if (response == "failu") {
-          $("#error").html("<span align='left' style='color:#cc0000'>Error:</span> Username นี้ซ้ำกับบุคคลอื่น. ");
-        } else {
-          $("#error").html("<span align='left' style='color:#cc0000'>Error:</span> กรุณากรอกข้อมูลให้ถูกต้อง ");
+        switch (response) {
+          case "ADMIN":
+            window.location = "admin.php";
+            break;
+          case "USER":
+            window.location = "index.php";
+            break;
+          case "fail":
+            $("#error").html("<span align='left' style='color:#cc0000'>Error:</span> กรุณากรอกข้อมูลให้ถูกต้อง ");
+            break;
         }
+        // if (response == "success") {
+        //   window.location = "index.php";
+        // } else if (response == "fail") {
+        //   $("#error").html("<span align='left' style='color:#cc0000'>Error:</span> กรุณากรอกข้อมูลให้ถูกต้อง ");
+        // }
       }
     });
-  return false;
+    return false;
 
-}
+  }
 });
