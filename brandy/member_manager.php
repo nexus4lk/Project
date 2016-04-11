@@ -17,4 +17,13 @@ if ($_POST['type']=="login") {
     echo "fail";
   }
 }
+
+if ($_POST['type'] == "register") {
+  $register = $member->register($_POST['reusername'],md5($_POST['repassword']),$_POST['refname'],$_POST['relname'],$_POST['reemail'],$_POST['retel']);
+  if ($register) {
+    echo "สมัครสมาชิกเรียบร้อย";
+  }else {
+    echo "username: ".$_POST['reusername']." ซ้ำกับผู้อื่น";
+  }
+}
  ?>

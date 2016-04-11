@@ -35,7 +35,6 @@ $(function() {
       success: function(response) {
         if (response == "ok") {
           $("#add_error").html("<span align='left' style='color:#cc0000'>Error:</span> 'เพิ่มห้องเรียน' + txtRoomname + 'เรียบร้อยแล้ว' ");
-          // alert("เพิ่มห้องเรียน" + txtRoomname + "เรียบร้อยแล้ว");
         } else if (response == "failname") {
           $("#add_error").html("<span align='left' style='color:#cc0000'>Error:</span> 'ห้อง' + txtRoomname + 'มีอยู่ในระบบแล้ว' ");
         } else {

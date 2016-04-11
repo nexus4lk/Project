@@ -63,10 +63,8 @@ $(function() {
         type: type
       },
       success: function(response) {
-        alert(response);
         if (response == "ok") {
           $("#Edit_error").html("<span align='left' style='color:#cc0000'>Error:</span> 'แก้ไขห้องเรียน' + txtRoomname + 'เรียบร้อยแล้ว' ");
-          // alert("เพิ่มห้องเรียน" + txtRoomname + "เรียบร้อยแล้ว");
         } else if (response == "fail") {
           $("#Edit_error").html("<span align='left' style='color:#cc0000'>Error:</span> 'ห้อง' + txtRoomname + 'มีอยู่ในระบบแล้ว' ");
         } else {

@@ -8,7 +8,7 @@ $(function() {
       username: {
         required: true,
         minlength: 5,
-        maxlength: 15
+        maxlength: 20
       },
       password: {
         required: true,
@@ -34,13 +34,13 @@ $(function() {
       txtlname: "กรุณากรอกนามสกุล",
       username: {
         required: "กรุณากรอก username",
-        minlength: "username ควรมีความยาวมากกว่า 5 ตัวอักษร",
-        maxlength: "username ควรมีความยาวไม่เกิน 15 ตัวอักษร"
+        minlength: "username ควรมีความยาวตั้งแต่ 5 ตัวอักษรขึ้นไป",
+        maxlength: "username ควรมีความยาวไม่เกิน 20 ตัวอักษร"
       },
       password: {
         required: "กรุณากรอก password",
-        minlength: "password ควรมีความยาวมมากกว่า 5 ตัวอักษร",
-        maxlength: "password ควรมีความยาวไม่เกิน 15 ตัวอักษร"
+        minlength: "password ควรมีความยาวตั้งแต่ 5 ตัวอักษรขึ้นไป",
+        maxlength: "password ควรมีความยาวไม่เกิน 20 ตัวอักษร"
       },
       txttel: {
         required: "กรุณากรอกเบอร์โทรศัพท์",
@@ -68,10 +68,10 @@ $(function() {
     var txtlname = $('#txtlname').val();
     var txtemail = $('#txtemail').val();
     var txttel = $('#txttel').val();
-    var type = "signup"
+    var type = "register";
     $.ajax({
       type: 'POST',
-      url: 'checksql.php',
+      url: 'member_manager.php',
       data: {
         reusername: txtUsername,
         repassword: txtPassword,
@@ -83,13 +83,7 @@ $(function() {
         type: type
       },
       success: function(response) {
-        if (response == "ok") {
-          window.location = "login.html";
-        } else if (response == "failu") {
-          $("#error").html("<span align='left' style='color:#cc0000'>Error:</span> Username นี้ซ้ำกับบุคคลอื่น. ");
-        } else {
-          $("#error").html("<span align='left' style='color:#cc0000'>Error:</span> กรุณากรอกข้อมูลให้ครบถ้วน ");
-        }
+        window.location = "login.php";
       }
     });
   return false;

@@ -46,7 +46,7 @@ $(function() {
         type: type
       },
       success: function(response) {
-        alert(response);
+        
         switch (response) {
           case "ADMIN":
             window.location = "admin.php";
@@ -58,11 +58,6 @@ $(function() {
             $("#error").html("<span align='left' style='color:#cc0000'>Error:</span> กรุณากรอกข้อมูลให้ถูกต้อง ");
             break;
         }
-        // if (response == "success") {
-        //   window.location = "index.php";
-        // } else if (response == "fail") {
-        //   $("#error").html("<span align='left' style='color:#cc0000'>Error:</span> กรุณากรอกข้อมูลให้ถูกต้อง ");
-        // }
       }
     });
     return false;

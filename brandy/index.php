@@ -5,8 +5,8 @@ if(!$member->is_loggedin())
 {
  $member->redirect('login.php');
 }else {
-  $user_id = $_SESSION['user_session'];
-  $status = $member->get_status($user_id);
+  $username = $member->get_username($_SESSION['user_session']);
+  $status = $member->get_status($_SESSION['user_session']);
 }
 
  ?>
@@ -76,7 +76,7 @@ if(!$member->is_loggedin())
 	                    <!-- <li><a href="#HOME">Home</a></li>
 	                    <li><a href="#SERVICE">Services</a></li>
 	                    <li><a href="#ABOUT">About</a></li> -->
-                      <li><a href="logout.php?logout=true"><?php print($user_id); ?></a></li>
+                      <li><a href="logout.php?logout=true"><?php print($username); ?></a></li>
 	                    <li><a type="button" href="logout.php?logout=true" class="btn btn-default navbar-btn">LOGOUT</a></li>
 	                  </ul>
 	                </div>
@@ -165,12 +165,16 @@ if(!$member->is_loggedin())
                           }
                           ?>
                           </select>
-
+                          <br>
+                          <br>
+                          <br>
+                          <font size="3" color="#ff4444" >*สามารถจองได้เฉพาะ 4 วันจากวันที่ปัจจุบันเพื่อเว้นระยะการดำเนินเรื่องจองห้อง</font>
                         <div class="wow fadeInLeft animated" id='calendar'></div>
                         <!-- <br>
                         <br>
                         <br>
                         <br> -->
+
                     </div>
                 </div>
             </div>
@@ -253,7 +257,7 @@ if(!$member->is_loggedin())
       </div>
     </div> -->
 
-    <!-- The eventClick Modal  -->
+    <!-- The eventClick Modal  ดูรายละเอียดอีเว้นนนนนนนนนนนนนนนนนนนนนน-->
 <div id="eventClick_Modal" class="modal ">
 
   <!-- Modal content -->
@@ -276,13 +280,13 @@ if(!$member->is_loggedin())
 </div>
 
 
-    <!-- The dayClick Modal  -->
+
+    <!-- The dayClick Modal กดจองห้องงงงงงงงงงงงงงงงงง -->
 <div id="dayClick_Modal" class="modal ">
 
   <!-- Modal content -->
   <div class="modal-content">
     <div class="modal-header">
-
       <h3 id="dcmTitle"></h3>
     </div>
     <div class="modal-body">
@@ -305,25 +309,24 @@ if(!$member->is_loggedin())
             </select>
             <br>
         <label>เรื่อง</label>
-        <input type="text" class="form-control" name="title" placeholder="" id="dcmtitle">
+        <input type="text" class="form-control" name="dcmtitle" placeholder="" id="dcmtitle">
         </div>
         <div class="form-group">
         <label >วันที่เริมต้น</label>
-        <input type="text" class="form-control" name="start"  placeholder="" id="dcmstart">
+        <input type="text" class="form-control" name="dcmstart"  placeholder="" id="dcmstart">
         </div>
         <div class="form-group">
         <label >วันที่สิ้นสุด</label>
-        <input type="text" class="form-control" name="end"  placeholder="" id="dcmend">
+        <input type="text" class="form-control" name="dcmend"  placeholder="" id="dcmend">
         </div>
         <div class ="reser_error"></div>
-        <button type="submit" id="submit" class="btn btn-primary" >บันทึกข้อมูล</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+        <div class="modal-footer">
+          <br>
+          <button type="submit" id="submit" class="btn btn-primary" >บันทึกข้อมูล</button>
+        </div>
       </form>
 
-      <div class="modal-footer">
 
-
-      </div>
     </div>
     <!-- <div class="modal-footer">
       <h3>Modal Footer</h3>

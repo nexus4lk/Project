@@ -53,9 +53,9 @@
                         <div class="single_contact_info">
                           <h4 class="form-heading" align="left">กรอกรหัสชื่อผู้ใช้ และ รหัสผ่าน</h4>
                         </div>
-                        <input type="text" class="form-control" name="username" id="username" placeholder="Username*" size="20">
-                        <input type="password" class="form-control" name="password" id="password" placeholder="Password*" size="20">
-                        <input type="password" class="form-control" name="cpassword" id="cpassword" placeholder="Confirm password*" size="20">
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Username*" maxlength="20">
+                        <input type="password" class="form-control" name="password" id="password" placeholder="Password*" maxlength="20">
+                        <input type="password" class="form-control" name="cpassword" id="cpassword" placeholder="Confirm password*" maxlength="20">
                         <hr>
                         <div class="single_contact_info">
                           <h4 class="form-heading" align="left">กรอกข้อมูลส่วนตัว</h4>
@@ -63,7 +63,7 @@
                         <input type="text" class="form-control" name="txtfname" id="txtfname" placeholder="First Name*" size="20">
                         <input type="text" class="form-control" name="txtlname" id="txtlname" placeholder="Last Name*" size="20">
                         <input type="email" class="form-control" name="txtemail" id="txtemail" placeholder="Email*" size="20">
-                        <input type="text" class="form-control" name="txttel" id="txttel" placeholder="Tel*" size="10">
+                        <input type="text" class="form-control" name="txttel" id="txttel" placeholder="Tel*" maxlength="10">
                       </div>
                       <div class="col-md-12">
                         <div class="error"></div>

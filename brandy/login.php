@@ -65,9 +65,9 @@
                       <div class="col-md-8">
                       <p align="right" class="form-heading">ยังไม่มีบัญชีผู้ใช้</p>
                       </div>
-                      <div class="col-md-4">
-                      <input type="button" id="submit" Onclick="window.location.href='register.html'" value="สมัครสมาชิก" class="btn btn-default submit-btn form_submit"></button>
                       </div>
+                      <div class="col-md-12">
+                      <input type="button" id="submit" Onclick="window.location.href='register.php'" value="สมัครสมาชิก" class="btn btn-default submit-btn form_submit"></button>
                       </div>
                     </div>
                   </div>

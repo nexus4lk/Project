@@ -1,36 +1,15 @@
 <?php
-require "dbfullcalendar.php";
+require "dbroom.php";
 
 //new object
-$fullcalendar = new Fullcalendar();
+$roomManager= new roomManager();
 
 //check data for show fullcalendar
-if(isset($_POST['json'])){
-
-	//call method get_fullcalendar
-	$get_calendar = $fullcalendar->get_fullcalendar($_POST['roomid']);
-	if($get_calendar != "empty"){
-		foreach($get_calendar as $calendar){
-			$get_roomname = $fullcalendar->get_roomname($calendar['Room_ID']);
-			$get_membername = $fullcalendar->get_membername($calendar['Mem_ID']);
-			$json[] = array(
-				'id'=>$calendar['Reser_ID'],
-				'title'=>$calendar['Title']." - ".$get_roomname,
-				'start'=>$calendar['Reser_Startdate'],
-				'end'=>$calendar['Reser_Enddate'],
-				'titleModal'=>$calendar['Title'],
-				'room'=>$get_roomname,
-				'mem'=>$get_membername
-				// 'url'=>'javascript:get_modal('.$calendar['Calendar_id'].');',
-			);
-		}
-		//return JSON object
-		echo json_encode($json);
+if(isset($_POST['reser'])){
+	//call method reserRoom
+	$roomManager->reserRoom($_SESSION['user_session'],$_POST['roomid'],$_POST['dcmtitle'],$_POST['date'],$_POST['dcmstart'],$_POST['dcmend']);
+	echo " กรุณารอการดำเนินเรื่อง 3-4 วัน";
 	}
-	else {
-		echo "empty";
-	}
-}
 
 // //show edit data modal
 // if(isset($_POST['id'])){
@@ -78,3 +57,4 @@ if(isset($_POST['json'])){
 //
 // 	$fullcalendar->del_calendar($_POST['del_id']);
 // }
+?>
