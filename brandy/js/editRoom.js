@@ -1,26 +1,57 @@
+function loadDistrict(){
+  var option = '{list}<option value="{Id}">{Name}</option>{/list}';
+  var action = "load_district";
+
+    $.ajax({
+        type: 'POST',
+        url: 'room_manager.php',
+        data: {
+          action: action
+        },
+        success: function(response) {
+          console.log(response);
+          $('#roomid3 option[value!="0"]').remove();
+          var json_obj = jQuery.parseJSON(response);
+          $.each(json_obj, function(key, value) {
+            var Id = value.Id;
+            var Name = value.Name;
+            var x = document.getElementById("roomid3");
+            var option = document.createElement("option");
+            option.text = Name;
+            // x.add(option);
+             $("#roomid3").append("<option value="+Id+">"+Name+"</option>");
+            // $('#roomid3').html('{list}<option value="{Id}">{Name}</option>{/list}');
+          });// each
+
+        } //function
+    });
+}
+
+
 $(document).ready(function() {
-  $("#Editroomname").change(function() {
-    var roomid = $('#Editroomname').val();
-    var type = "selectroom"
-    $("#Eroomname").val(""); //ล้างข้อมูล
-    $("#Eroomcapa").val(""); //ล้างข้อมูล
+  $("#roomid3").change(function() {
+    var roomid = $('#roomid3').val();
+    var selectroom = "selectroom"
+    $("#roomname3").val(""); //ล้างข้อมูล
+    $("#roomcapa3").val(""); //ล้างข้อมูล
     $.ajax({
       type: 'POST',
-      url: 'checksql.php',
+      url: 'room_manager.php',
       data: {
         roomid: roomid,
-        type: type
+        selectroom: selectroom
       },
       success: function(response) {
+        console.log(response);
         var json_obj = jQuery.parseJSON(response);
         $.each(json_obj, function(key, value) {
           var RName = value.RName;
           var RType = value.RType;
           var RCapa = value.RCapa;
-          document.getElementById("Eroomname").value = RName;
-          document.getElementById("Eroomcapa").value = RCapa;
+          document.getElementById("roomname3").value = RName;
+          document.getElementById("roomcapa3").value = RCapa;
           // document.getElementById("roomtype").value = RType;
-          document.getElementById("Eroomtype").selectedIndex = RType;
+          document.getElementById("roomtype3").selectedIndex = RType;
         }); //each
       } //function
     }); //ajax
@@ -31,14 +62,14 @@ $(function() {
   /* validation */
   $("#edit-form").validate({
     rules: {
-      Eroomname: "required",
-      Eroomcapa: "required",
-      roomtype: "required"
+      roomname3: "required",
+      roomcapa3: "required",
+      roomtype3: "required"
     },
     messages: {
-      Eroomname: "กรุณากรอกชื่อห้อง",
-      Eroomcapa: "กรุณากรอกความจุของห้อง",
-      roomtype: "กรุณาเลือกประเภทห้อง"
+      roomname3: "กรุณากรอกชื่อห้อง",
+      roomcapa3: "กรุณากรอกความจุของห้อง",
+      roomtype3: "กรุณาเลือกประเภทห้อง"
     },
     submitHandler: submitForm
   });
@@ -47,29 +78,32 @@ $(function() {
   /* form submit */
   function submitForm() {
     $('#roomname').focus();
-    var txtRoomname = $('#Eroomname').val();
-    var txtRoomcapa = $('#Eroomcapa').val();
-    var txtRoomtype = $('#Eroomtype').val();
-    var roomid = $('#Editroomname').val();
-    var type = "editroom"
+    var txtRoomname = $('#roomname3').val();
+    var txtRoomcapa = $('#roomcapa3').val();
+    var txtRoomtype = $('#roomtype3').val();
+    var roomid = $('#roomid3').val();
+    var editroom = "editroom"
     $.ajax({
       type: 'POST',
-      url: 'checksql.php',
+      url: 'room_manager.php',
       data: {
-        Eroomname: txtRoomname,
-        Eroomcapa: txtRoomcapa,
-        Eroomtype: txtRoomtype,
+        roomname: txtRoomname,
+        roomcapa: txtRoomcapa,
+        roomtype: txtRoomtype,
         roomid: roomid,
-        type: type
+        editroom: editroom
       },
       success: function(response) {
-        if (response == "ok") {
-          $("#Edit_error").html("<span align='left' style='color:#cc0000'>Error:</span> 'แก้ไขห้องเรียน' + txtRoomname + 'เรียบร้อยแล้ว' ");
-        } else if (response == "fail") {
-          $("#Edit_error").html("<span align='left' style='color:#cc0000'>Error:</span> 'ห้อง' + txtRoomname + 'มีอยู่ในระบบแล้ว' ");
-        } else {
-          $("#Edit_error").html("<span align='left' style='color:#cc0000'>Error:</span> กรุณากรอกข้อมูลให้ครบถ้วน ");
-        }
+        alert(response);
+        loadDistrict();
+
+        // if (response == "ok") {
+        //   $("#Edit_error").html("<span align='left' style='color:#cc0000'>Error:</span> 'แก้ไขห้องเรียน' + txtRoomname + 'เรียบร้อยแล้ว' ");
+        // } else if (response == "fail") {
+        //   $("#Edit_error").html("<span align='left' style='color:#cc0000'>Error:</span> 'ห้อง' + txtRoomname + 'มีอยู่ในระบบแล้ว' ");
+        // } else {
+        //   $("#Edit_error").html("<span align='left' style='color:#cc0000'>Error:</span> กรุณากรอกข้อมูลให้ครบถ้วน ");
+        // }
       }
     });
     return false;

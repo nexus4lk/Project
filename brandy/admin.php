@@ -60,19 +60,60 @@ if(!$member->is_loggedin())
 
   <div style="margin-left:25%;" class="container">
     <div id="section1">
-      <h2>Dash Board</h2>
-      <h3>Try to scroll this area, and see how the sidenav sticks to the page</h3>
-      <p>Notice that this div element has a left margin of 25%. This is because the side navigation is set to 25% width. If you remove the margin, the sidenav will overlay/sit on top of this div.</p>
-      <p>Also notice that we have set overflow:auto to sidenav. This will add a scrollbar when the sidenav is too long (for example if it has over 50 links inside of it).</p>
-      <p>Some text..</p>
-      <p>Some text..</p>
-      <p>Some text..</p>
-      <p>Some text..</p>
-      <p>Some text..</p>
-      <p>Some text..</p>
-      <p>Some text..</p>
+      <h2>Reser Incomes</h2>
+      <?php
+      // Check connection
+      $connect = new connect();
+      $db = $connect->connect();
+      $get_reser = $db->query("SELECT * FROM reserve_data WHERE Reser_Satatus LIKE 'Wait' ORDER BY Reser_Date DESC");
+
+      if ($get_reser->num_rows > 0) {
+           echo "<table border='1' width='100%'  cellspacing=''>
+           <tr>
+           <th>ID</th>
+           <th>วันที่จอง</th>
+           <th>ชื่อ - นามสกุล</th>
+           <th>เบอร์โทรศัพท์</th>
+           <th>ห้อง</th>
+           <th>เรื่อง</th>
+           <th>วันที่เริ่ม</th>
+           <th>วันที่สิ้นสุด</th>
+           <th>สถานะการจอง</th>
+           <th>อนุมัติ</th>
+           <th>ปฏิเสธ</th>
+           </tr>";
+           // output data of each row
+           while($row = $get_reser->fetch_assoc()) {
+             $mem = $row['Mem_ID'];
+             $room = $row['Room_ID'];
+             $get_member = $db->query("SELECT * FROM member WHERE Mem_ID = $mem  ");
+             $get_room = $db->query("SELECT * FROM room WHERE Room_ID = $room  ");
+             if ($memberName = $get_member->fetch_assoc() AND $roomName = $get_room->fetch_assoc()) {
+                 echo "<tr>
+                 <td>" . $row["Reser_ID"]. "</td>
+                 <td>" . $row["Reser_Date"]. "</td>
+                 <td>" . $memberName["Mem_Fname"] ." ".$memberName["Mem_Lname"]. "</td>
+                 <td>" . $memberName["Mem_Tel"]. "</td>
+                 <td>" . $roomName["Room_Name"]. "</td>
+                 <td>" . $row["Title"]. "</td>
+                 <td>" . $row["Reser_Startdate"]. "</td>
+                 <td>" . $row["Reser_Enddate"]. "</td>
+                 <td>" . $row["Reser_Satatus"]. "</td>
+                 <td><input name='btnAdd' type='button' id='btnAdd' value='Add' OnClick='frmMain.hdnCmd.value='Add';frmMain.submit();'></td>
+                 <td><input name='btnAdd' type='button' id='btnAdd' value='Add' OnClick='frmMain.hdnCmd.value='Add';frmMain.submit();'></td>
+                </tr>";
+             }
+           }
+           echo "</table>";
+      } else {
+           echo "0 results";
+      }
+      $db->close();
+      ?>
     </div>
+
     <div id="section2">
+
       <h2>Add Room</h2>
       <div class="col-md-10">
       <form class="contact-form" id="add-form" method="post">
@@ -81,28 +122,28 @@ if(!$member->is_loggedin())
             <div class="single_contact_info">
               <h3 class="form-heading" align="left">โปรดกรอกรายละเอียดของห้อง</h3>
             </div>
-            <input type="text" class="form-control" name="roomname" id="roomname" placeholder="Roomname*" size="20">
-            <input type="text" class="form-control" name="roomcapa" id="roomcapa" placeholder="Room Capacity* ตัวอย่าง 30 ที่นั่ง" size="20">
+            <input type="text" class="form-control" name="roomname2" id="roomname2" placeholder="Roomname*" size="20">
+            <input type="number" class="form-control" name="roomcapa2" id="roomcapa2" placeholder="Room Capacity* ตัวอย่าง 30 ที่นั่ง" size="20">
             <div class="single_contact_info">
-            <h4 class="form-heading" align="left">Room Type</h4>
-            <select class="form-heading" name="roomtype" id="roomtype">
+            <h4 class="form-heading" align="left">Room</h4>
+            <select class="form-heading" name="roomtype2" id="roomtype2" >
             <option value="">Please Select Item</option>
               <?php
-              include("connect.php");
-              $sql = "SELECT * FROM roomtype ORDER BY Type_id ASC";
-              $result=mysqli_query($link,$sql);
-              while($row = mysqli_fetch_array($result)) {
+              $connect = new connect();
+              $db = $connect->connect();
+              $get_type = $db->query("SELECT * FROM roomtype ORDER BY Type_id ASC");
+              while($room = $get_type->fetch_assoc()){
               ?>
-              <option value="<?php echo $row["Type_id"];?>"><?php echo $row["Type_id"]." - ".$row["Type_name"];?></option>
+              <option value="<?php echo $room["Type_id"];?>"><?php echo $room["Type_id"]." - ".$room["Type_name"];?></option>
               <?php
-              }
-              ?>
-              </select>
+            }
+            ?>
+            </select>
             </div>
           </div>
           <div class="col-md-12">
-            <div class ="add_error"></div>
-            <button type="submit" id="submit" class="btn btn-primary cs-btn">Add </button>
+            <div id ="error2"></div>
+            <button type="submit" id="submit" class="btn btn-primary cs-btn">Add</button>
           </div>
         </div>
       </form>
@@ -120,44 +161,42 @@ if(!$member->is_loggedin())
               <h3 class="form-heading" align="left">โปรดกรอกรายละเอียดของห้อง</h3>
             </div>
             <div class="single_contact_info">
-              <h4 class="form-heading" align="left">Room Type</h4>
-                <select class="form-heading" name="Editroomname" id="Editroomname">
-                <option value="">Please Select Item</option>
-              <?php
-              include("connect.php");
-              $sql = "SELECT * FROM room ORDER BY Room_id ASC";
-            	$result=mysqli_query($link,$sql);
-             while($row = mysqli_fetch_array($result)) {
-              ?>
-          <option value="<?php echo $row["Room_ID"];?>"><?php echo $row["Room_Name"];?></option>
-              <?php
-              }
-            ?>
-            </select>
-            </div>
-            <input type="text" class="form-control" name="Eroomname" id="Eroomname" placeholder="Roomname*" size="20">
-            <div class="single_contact_info">
-              <input type="text" class="form-control" name="Eroomcapa" id="Eroomcapa" placeholder="Room Capacity* ตัวอย่าง 30 ที่นั่ง" size="20">
-              <select class="form-heading" name="Eroomtype" id="Eroomtype">
-              <option value="">Please Select Item</option>
+              <h4 class="form-heading" align="left">Room</h4>
+              <select class="form-heading" name="roomid3" id="roomid3">
+              <option value="">Please Select Room</option>
                 <?php
-                include("connect.php");
-                $sql = "SELECT * FROM roomtype ORDER BY Type_id ASC";
-                $result=mysqli_query($link,$sql);
-                while($row = mysqli_fetch_array($result)) {
+                $connect = new connect();
+                $db = $connect->connect();
+                $get_room = $db->query("SELECT * FROM room ORDER BY Room_id ASC");
+                while($room = $get_room->fetch_assoc()){
                 ?>
-                <option value="<?php echo $row["Type_id"];?>"><?php echo $row["Type_id"]." - ".$row["Type_name"];?></option>
-                <?php
+                  <option value="<?php echo $room["Room_ID"];?>"><?php echo $room["Room_Name"];?></option>
+                  <?php
                 }
                 ?>
                 </select>
+            </div>
+            <input type="text" class="form-control" name="roomname3" id="roomname3" placeholder="Roomname*" size="20">
+            <div class="single_contact_info">
+              <input type="text" class="form-control" name="roomcapa3" id="roomcapa3" placeholder="Room Capacity* ตัวอย่าง 30 ที่นั่ง" size="20">
+              <select class="form-heading" name="roomtype3" id="roomtype3" onchange="this.form.submit();">
+              <option value="">Please Select Item</option>
+                <?php
+                $connect = new connect();
+                $db = $connect->connect();
+                $get_type = $db->query("SELECT * FROM roomtype ORDER BY Type_id ASC");
+                while($room = $get_type->fetch_assoc()){
+                ?>
+                <option value="<?php echo $room["Type_id"];?>"><?php echo $room["Type_id"]." - ".$room["Type_name"];?></option>
+                <?php
+              }
+              ?>
+              </select>
           </div>
-
-
           </div>
           <div class="col-md-12">
             <div class ="Edit_error"></div>
-            <button type="submit" id="submit" class="btn btn-primary cs-btn">Edit</button>
+            <button type="submit" id="submitEdit" class="btn btn-primary cs-btn">Edit</button>
           </div>
         </div>
       </form>
@@ -165,16 +204,37 @@ if(!$member->is_loggedin())
     </div>
     <div id="section4">
       <h2>Remove Room</h2>
-      <h3>Try to scroll this area, and see how the sidenav sticks to the page</h3>
-      <p>Notice that this div element has a left margin of 25%. This is because the side navigation is set to 25% width. If you remove the margin, the sidenav will overlay/sit on top of this div.</p>
-      <p>Also notice that we have set overflow:auto to sidenav. This will add a scrollbar when the sidenav is too long (for example if it has over 50 links inside of it).</p>
-      <p>Some text..</p>
-      <p>Some text..</p>
-      <p>Some text..</p>
-      <p>Some text..</p>
-      <p>Some text..</p>
-      <p>Some text..</p>
-      <p>Some text..</p>
+      <div class="col-md-10">
+      <form class="contact-form" id="remove-form" method="post" >
+        <div class="row">
+          <div class="col-md-10">
+            <div class="single_contact_info">
+              <h3 class="form-heading" align="left">โปรดเลือกห้องที่ต้องการ</h3>
+            </div>
+            <div class="single_contact_info">
+              <h4 class="form-heading" align="left">Room</h4>
+              <select class="form-heading" name="roomid4" id="roomid4">
+              <option value="">Please Select Room</option>
+                <?php
+                $connect = new connect();
+                $db = $connect->connect();
+                $get_room = $db->query("SELECT * FROM room ORDER BY Room_id ASC");
+                while($room = $get_room->fetch_assoc()){
+                ?>
+                  <option value="<?php echo $room["Room_ID"];?>"><?php echo $room["Room_Name"];?></option>
+                  <?php
+                }
+                ?>
+                </select>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class ="Edit_error"></div>
+            <button type="submit" id="submit" class="btn btn-primary cs-btn">Remove</button>
+          </div>
+        </div>
+      </form>
+    </div>
     </div>
   </div>
 
@@ -190,6 +250,7 @@ if(!$member->is_loggedin())
   <script src="js/script.js"></script>
   <script type="text/javascript" src="js/addroom.js"></script>
   <script type="text/javascript" src="js/editroom.js"></script>
+  <script type="text/javascript" src="js/removeRoom.js"></script>
   <script type="text/javascript" src="js/validation.min.js"></script>
   <script>
     $('.container > div').hide();
@@ -204,6 +265,11 @@ if(!$member->is_loggedin())
       $(this).addClass("active");
     });
   </script>
+  <style>
+table, th, td {
+     border: 1px solid black;
+    text-align: center;
+}
   <style>
     body {
       margin: 0;

@@ -76,8 +76,8 @@ if(!$member->is_loggedin())
 	                    <!-- <li><a href="#HOME">Home</a></li>
 	                    <li><a href="#SERVICE">Services</a></li>
 	                    <li><a href="#ABOUT">About</a></li> -->
-                      <li><a href="logout.php?logout=true"><?php print($username); ?></a></li>
-	                    <li><a type="button" href="logout.php?logout=true" class="btn btn-default navbar-btn">LOGOUT</a></li>
+                      <li><a ><?php print($username); ?></a></li>
+	                    <li><button type="button" onclick="window.location.href='logout.php?logout=true'" class="btn btn-default navbar-btn">LOGOUT</button></li>
 	                  </ul>
 	                </div>
 	              </div>

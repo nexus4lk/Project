@@ -56,42 +56,46 @@ include("connect.php");
 // 	mysqli_close($link);
 // }
 
-if ($_POST['type'] == "addroom")
-{
-	$str_Roomname=mysqli_real_escape_string($link,$_POST['roomname']);
-	$str_Roomcapa=mysqli_real_escape_string($link,$_POST['roomcapa']);
-	$str_Roomtype=mysqli_real_escape_string($link,$_POST['roomtype']);
-	$sql="SELECT count(*) FROM room WHERE Room_Name = '$str_Roomname'";
-	$result=mysqli_query($link,$sql);
-	$row = mysqli_fetch_row($result);
-	if ($row[0] == 1) {
-		echo "failname"; //ห้องซ้ำ
-	}
-	else {
-		$query = mysqli_query($link, "INSERT INTO room (Room_Name, Type_id, Room_Capa)VALUES ('$str_Roomname', '$str_Roomtype', '$str_Roomcapa')");
-		echo "ok";
-	}
-	mysqli_close($link);
-}
+// if ($_POST['type'] == "addroom")
+// {
+// 	$str_Roomname=mysqli_real_escape_string($link,$_POST['roomname']);
+// 	$str_Roomcapa=mysqli_real_escape_string($link,$_POST['roomcapa']);
+// 	$str_Roomtype=mysqli_real_escape_string($link,$_POST['roomtype']);
+// 	$sql="SELECT count(*) FROM room WHERE Room_Name = '$str_Roomname'";
+// 	$result=mysqli_query($link,$sql);
+// 	$row = mysqli_fetch_row($result);
+// 	if ($row[0] == 1) {
+// 		echo "failname"; //ห้องซ้ำ
+// 	}
+// 	else {
+// 		$query = mysqli_query($link, "INSERT INTO room (Room_Name, Type_id, Room_Capa)VALUES ('$str_Roomname', '$str_Roomtype', '$str_Roomcapa')");
+// 		echo "ok";
+// 	}
+// 	mysqli_close($link);
+// }
 
-if ($_POST['type'] == "selectroom")
-{
-	$str_roomid=mysqli_real_escape_string($link,$_POST['roomid']);
-	$sql="SELECT * FROM room WHERE Room_ID = '$str_roomid'";
-	$result=mysqli_query($link,$sql);
-	$events = array();
-	while($row = mysqli_fetch_array($result,MYSQLI_ASSOC))
-	{
-		$room = array();
-		$room['RName'] = $row['Room_Name'];
-		$room['RType'] = $row['Type_id'];
-		$room['RCapa'] = $row['Room_Capa'];
 
-		array_push($events, $room);
-	}
-	echo json_encode($events);
-	mysqli_close($link);
-}
+
+
+
+// if ($_POST['type'] == "selectroom")
+// {
+// 	$str_roomid=mysqli_real_escape_string($link,$_POST['roomid']);
+// 	$sql="SELECT * FROM room WHERE Room_ID = '$str_roomid'";
+// 	$result=mysqli_query($link,$sql);
+// 	$events = array();
+// 	while($row = mysqli_fetch_array($result,MYSQLI_ASSOC))
+// 	{
+// 		$room = array();
+// 		$room['RName'] = $row['Room_Name'];
+// 		$room['RType'] = $row['Type_id'];
+// 		$room['RCapa'] = $row['Room_Capa'];
+//
+// 		array_push($events, $room);
+// 	}
+// 	echo json_encode($events);
+// 	mysqli_close($link);
+// }
 
 if ($_POST['type'] == "editroom")
 {

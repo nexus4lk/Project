@@ -79,9 +79,6 @@ $(document).ready(function() {
             modal.style.display = "none";
           }
         }
-				span.onclick = function() {
-          modal.style.display = "none";
-        }
       }
 
     },

@@ -40,7 +40,7 @@ $(function() {
         reser: reser
       },
       success: function(response) {
-
+        alert(response);
          modal.style.display = "none";
       }
     });

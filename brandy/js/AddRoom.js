@@ -3,14 +3,14 @@ $(function() {
   /* validation */
   $("#add-form").validate({
     rules: {
-      roomname: "required",
-      roomcapa: "required",
-      roomtype: "required"
+      roomname2: "required",
+      roomcapa2: "required",
+      roomtype2: "required"
     },
     messages: {
-      roomname: "กรุณากรอกชื่อห้อง",
-      roomcapa: "กรุณากรอกความจุของห้อง",
-      roomtype: "กรุณาเลือกประเภทห้อง"
+      roomname2: "กรุณากรอกชื่อห้อง",
+      roomcapa2: "กรุณากรอกความจุของห้อง",
+      roomtype2: "กรุณาเลือกประเภทห้อง"
     },
     submitHandler: submitForm
   });
@@ -19,26 +19,24 @@ $(function() {
   /* form submit */
   function submitForm() {
     $('#roomname').focus();
-    var txtRoomname = $('#roomname').val();
-    var txtRoomcapa = $('#roomcapa').val();
-    var txtRoomtype = $('#roomtype').val();
-    var type = "addroom"
+    var txtRoomname = $('#roomname2').val();
+    var txtRoomcapa = $('#roomcapa2').val();
+    var txtRoomtype = $('#roomtype2').val();
+    var addroom = "addroom"
     $.ajax({
       type: 'POST',
-      url: 'checksql.php',
+      url: 'room_manager.php',
       data: {
         roomname: txtRoomname,
         roomcapa: txtRoomcapa,
         roomtype: txtRoomtype,
-        type: type
+        addroom: addroom
       },
       success: function(response) {
-        if (response == "ok") {
-          $("#add_error").html("<span align='left' style='color:#cc0000'>Error:</span> 'เพิ่มห้องเรียน' + txtRoomname + 'เรียบร้อยแล้ว' ");
-        } else if (response == "failname") {
-          $("#add_error").html("<span align='left' style='color:#cc0000'>Error:</span> 'ห้อง' + txtRoomname + 'มีอยู่ในระบบแล้ว' ");
-        } else {
-          $("#add_error").html("<span align='left' style='color:#cc0000'>Error:</span> กรุณากรอกข้อมูลให้ครบถ้วน ");
+        if (response == "success") {
+        alert('เพิ่มห้องเรียน ' + txtRoomname + ' เรียบร้อยแล้ว');
+        } else  {
+        alert('ห้อง ' + txtRoomname + ' มีอยู่ในระบบแล้ว');
         }
       }
     });
