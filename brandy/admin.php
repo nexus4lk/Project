@@ -48,9 +48,9 @@ if(!$member->is_loggedin())
 </head>
 
 <body>
-
   <div id="navbar">
     <ul class="nav" id="nav">
+
       <li><a class="active" href="#section1">Dash Board</a></li>
       <li><a href="#section2">Add Room</a></li>
       <li><a href="#section3">Edit Room</a></li>
@@ -59,37 +59,43 @@ if(!$member->is_loggedin())
   </div>
 
   <div style="margin-left:25%;" class="container">
+    <li><a href="index.php">Home</a></li>
     <div id="section1">
       <h2>Reser Incomes</h2>
       <?php
       // Check connection
+
       $connect = new connect();
       $db = $connect->connect();
       $get_reser = $db->query("SELECT * FROM reserve_data WHERE Reser_Satatus LIKE 'Wait' ORDER BY Reser_Date DESC");
 
       if ($get_reser->num_rows > 0) {
-           echo "<table border='1' width='100%'  cellspacing=''>
-           <tr>
-           <th>ID</th>
-           <th>วันที่จอง</th>
-           <th>ชื่อ - นามสกุล</th>
-           <th>เบอร์โทรศัพท์</th>
-           <th>ห้อง</th>
-           <th>เรื่อง</th>
-           <th>วันที่เริ่ม</th>
-           <th>วันที่สิ้นสุด</th>
-           <th>สถานะการจอง</th>
-           <th>อนุมัติ</th>
-           <th>ปฏิเสธ</th>
-           </tr>";
-           // output data of each row
+        echo "<table border='1' width='100%'   cellspacing=''  class='table-style-three' >
+        <thead id='thead'>
+        <tr>
+        <th>ID</th>
+        <th>วันที่จอง</th>
+        <th>ชื่อ - นามสกุล</th>
+        <th>เบอร์โทรศัพท์</th>
+        <th>ห้อง</th>
+        <th>เรื่อง</th>
+        <th>วันที่เริ่ม</th>
+        <th>วันที่สิ้นสุด</th>
+        <th>สถานะการจอง</th>
+        <th>อนุมัติ</th>
+        <th>ปฏิเสธ</th>
+        </tr>
+        </thead>";
            while($row = $get_reser->fetch_assoc()) {
              $mem = $row['Mem_ID'];
              $room = $row['Room_ID'];
              $get_member = $db->query("SELECT * FROM member WHERE Mem_ID = $mem  ");
              $get_room = $db->query("SELECT * FROM room WHERE Room_ID = $room  ");
              if ($memberName = $get_member->fetch_assoc() AND $roomName = $get_room->fetch_assoc()) {
-                 echo "<tr>
+                $reser_id = $row["Reser_ID"];
+                 echo "
+                 <tbody id='tbody'>
+                 <tr>
                  <td>" . $row["Reser_ID"]. "</td>
                  <td>" . $row["Reser_Date"]. "</td>
                  <td>" . $memberName["Mem_Fname"] ." ".$memberName["Mem_Lname"]. "</td>
@@ -99,9 +105,10 @@ if(!$member->is_loggedin())
                  <td>" . $row["Reser_Startdate"]. "</td>
                  <td>" . $row["Reser_Enddate"]. "</td>
                  <td>" . $row["Reser_Satatus"]. "</td>
-                 <td><input name='btnAdd' type='button' id='btnAdd' value='Add' OnClick='frmMain.hdnCmd.value='Add';frmMain.submit();'></td>
-                 <td><input name='btnAdd' type='button' id='btnAdd' value='Add' OnClick='frmMain.hdnCmd.value='Add';frmMain.submit();'></td>
-                </tr>";
+                 <td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='allowFunction($reser_id)'></td>
+                 <td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='denyFunction($reser_id)'></td>
+                </tr>
+                </tbody>";
              }
            }
            echo "</table>";
@@ -125,9 +132,9 @@ if(!$member->is_loggedin())
             <input type="text" class="form-control" name="roomname2" id="roomname2" placeholder="Roomname*" size="20">
             <input type="number" class="form-control" name="roomcapa2" id="roomcapa2" placeholder="Room Capacity* ตัวอย่าง 30 ที่นั่ง" size="20">
             <div class="single_contact_info">
-            <h4 class="form-heading" align="left">Room</h4>
-            <select class="form-heading" name="roomtype2" id="roomtype2" >
-            <option value="">Please Select Item</option>
+            <h4 class="form-heading" align="left">Room Type</h4>
+            <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomtype2" id="roomtype2" >
+            <option value="">       </option>
               <?php
               $connect = new connect();
               $db = $connect->connect();
@@ -162,8 +169,8 @@ if(!$member->is_loggedin())
             </div>
             <div class="single_contact_info">
               <h4 class="form-heading" align="left">Room</h4>
-              <select class="form-heading" name="roomid3" id="roomid3">
-              <option value="">Please Select Room</option>
+              <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomid3" id="roomid3">
+              <option value="">       </option>
                 <?php
                 $connect = new connect();
                 $db = $connect->connect();
@@ -179,8 +186,9 @@ if(!$member->is_loggedin())
             <input type="text" class="form-control" name="roomname3" id="roomname3" placeholder="Roomname*" size="20">
             <div class="single_contact_info">
               <input type="text" class="form-control" name="roomcapa3" id="roomcapa3" placeholder="Room Capacity* ตัวอย่าง 30 ที่นั่ง" size="20">
-              <select class="form-heading" name="roomtype3" id="roomtype3" onchange="this.form.submit();">
-              <option value="">Please Select Item</option>
+              <h4 class="form-heading" align="left">Room Type</h4>
+              <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomtype3" id="roomtype3" onchange="this.form.submit();">
+              <option value="">       </option>
                 <?php
                 $connect = new connect();
                 $db = $connect->connect();
@@ -213,8 +221,8 @@ if(!$member->is_loggedin())
             </div>
             <div class="single_contact_info">
               <h4 class="form-heading" align="left">Room</h4>
-              <select class="form-heading" name="roomid4" id="roomid4">
-              <option value="">Please Select Room</option>
+              <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomid4" id="roomid4">
+              <option value="">       </option>
                 <?php
                 $connect = new connect();
                 $db = $connect->connect();
@@ -225,7 +233,7 @@ if(!$member->is_loggedin())
                   <?php
                 }
                 ?>
-                </select>
+              </select>
             </div>
           </div>
           <div class="col-md-12">
@@ -264,7 +272,101 @@ if(!$member->is_loggedin())
       $('#nav li').find(".active").removeClass("active");
       $(this).addClass("active");
     });
-  </script>
+</script>
+<script>
+  function allowFunction(reser_id) {
+    var reser_id = reser_id;
+    var allow = "allow"
+    $.ajax({
+      type: 'POST',
+      url: 'room_manager.php',
+      data: {
+        reser_id: reser_id,
+        allow: allow
+      },
+      success: function(response) {
+        alert(response);
+        getReser();
+      }
+    });
+  }
+
+  function denyFunction(reser_id) {
+    var reser_id = reser_id;
+    var deny = "deny";
+    $.ajax({
+      type: 'POST',
+      url: 'room_manager.php',
+      data: {
+        reser_id: reser_id,
+        deny: deny
+      },
+      success: function(response) {
+        alert(response);
+        getReser();
+      }
+    });
+  }
+
+  function getReser(){
+    var getreser = "getreser";
+    $.ajax({
+      type: 'POST',
+      url: 'room_manager.php',
+      data: {
+        getreser: getreser
+      },
+      success: function(response) {
+        if (response != "empty") {
+          console.log(response);
+          $('#tbody').remove();
+          var json_obj = jQuery.parseJSON(response);
+          $.each(json_obj, function(key, value) {
+            var Id = value.reserId;
+            var reserDate = value.reserDate;
+            var Name = value.Name;
+            var Tel = value.tel;
+            var roomName = value.roomName;
+            var resertitle = value.resertitle;
+            var reserStart = value.reserStart;
+            var reserEnd = value.reserEnd;
+            var reserStatus = value.reserStatus;
+            var texttable = "<tr>"
+            "<td>"+Id+"</td>"
+            "<td>"+reserDate+"</td>"
+            "<td>"+Name+"</td>"
+            "<td>"+Tel+"</td>"
+            "<td>"+roomName+"</td>"
+            "<td>"+resertitle+"</td>"
+            "<td>"+reserStart+"</td>"
+            "<td>"+reserEnd+"</td>"
+            "<td>"+reserStatus+"</td>"
+            "<td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='allowFunction("+Id+")'></td>"
+            "<td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='denyFunction("+Id+")'></td>"
+            "</tr>";
+            $("#tbody").append(texttable);
+          });
+        }else {
+          $('#tbody').remove();
+          var texttable = "<tr>"
+          "<td>"+" "+"</td>"
+          "<td>"+" "+"</td>"
+          "<td>"+" "+"</td>"
+          "<td>"+" "+"</td>"
+          "<td>"+" "+"</td>"
+          "<td>"+" "+"</td>"
+          "<td>"+" "+"</td>"
+          "<td>"+" "+"</td>"
+          "<td>"+" "+"</td>"
+          "<td><input name='btnAdd' type='button' id='btnAdd' value='Add' ></td>"
+          "<td><input name='btnAdd' type='button' id='btnAdd' value='Add' ></td>"
+          "</tr>";
+          $("#tbody").append(texttable);
+        }
+      }
+    });
+  }
+</script>
   <style>
 table, th, td {
      border: 1px solid black;
@@ -305,7 +407,39 @@ table, th, td {
       background-color: #555;
       color: white;
     }
+
+    table.table-style-three {
+  width: 100%;
+  /*font-family: verdana, arial, sans-serif;
+  font-size: 11px;*/
+  color: #333333;
+  border-width: 1px;
+  border-color: #3A3A3A;
+  border-collapse: collapse;
+}
+table.table-style-three th {
+  border: 1px solid black;
+  padding: 5px;
+  border-style: solid;
+  border-color: #000000;
+  background-color: #4CAF50;
+  color: #FFFFFF;
+}
+table.table-style-three tr:hover td {
+  cursor: pointer;
+}
+table.table-style-three tr:nth-child(even) td{
+  background-color: #f1f1f1;
+}
+table.table-style-three td {
+  border-width: 1px;
+  padding: 8px;
+  border-style: solid;
+  border-color: #000000;
+  background-color: #ffffff;
+}
   </style>
+
 </body>
 
 </html>

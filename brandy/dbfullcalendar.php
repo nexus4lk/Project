@@ -52,6 +52,8 @@ class Fullcalendar {
 		}
 	}
 
+	
+
 	//show data in modal
 	// public function get_fullcalendar_id($get_id){
   //

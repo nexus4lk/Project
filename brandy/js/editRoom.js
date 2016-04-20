@@ -1,4 +1,4 @@
-function loadDistrict(){
+function loadOption(){
   var option = '{list}<option value="{Id}">{Name}</option>{/list}';
   var action = "load_district";
 
@@ -15,9 +15,9 @@ function loadDistrict(){
           $.each(json_obj, function(key, value) {
             var Id = value.Id;
             var Name = value.Name;
-            var x = document.getElementById("roomid3");
-            var option = document.createElement("option");
-            option.text = Name;
+            // var x = document.getElementById("roomid3");
+            // var option = document.createElement("option");
+            // option.text = Name;
             // x.add(option);
              $("#roomid3").append("<option value="+Id+">"+Name+"</option>");
             // $('#roomid3').html('{list}<option value="{Id}">{Name}</option>{/list}');
@@ -95,8 +95,7 @@ $(function() {
       },
       success: function(response) {
         alert(response);
-        loadDistrict();
-
+        loadOption();
         // if (response == "ok") {
         //   $("#Edit_error").html("<span align='left' style='color:#cc0000'>Error:</span> 'แก้ไขห้องเรียน' + txtRoomname + 'เรียบร้อยแล้ว' ");
         // } else if (response == "fail") {

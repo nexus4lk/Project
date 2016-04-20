@@ -152,7 +152,7 @@ if(!$member->is_loggedin())
                         <h2>Calendar</h2>
                         <br>
                         <p>"เลือกห้องเพื่อดูปฏิทิน"</p>
-                        <select class="form-heading" name="roomid" id="roomid">
+                        <select class="btn btn-default dropdown-toggle" name="roomid" id="roomid">
                         <option value="">Please Select Room</option>
                           <?php
                           $connect = new connect();
