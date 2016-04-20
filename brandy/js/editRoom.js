@@ -1,16 +1,17 @@
-function loadOption(){
+function loadroomOption(){
   var option = '{list}<option value="{Id}">{Name}</option>{/list}';
-  var action = "load_district";
+  var loadroomOption = "loadroomOption";
 
     $.ajax({
         type: 'POST',
         url: 'room_manager.php',
         data: {
-          action: action
+          loadroomOption: loadroomOption
         },
         success: function(response) {
           console.log(response);
           $('#roomid3 option[value!="0"]').remove();
+          $('#roomid4 option[value!="0"]').remove();
           var json_obj = jQuery.parseJSON(response);
           $.each(json_obj, function(key, value) {
             var Id = value.Id;
@@ -19,7 +20,9 @@ function loadOption(){
             // var option = document.createElement("option");
             // option.text = Name;
             // x.add(option);
-             $("#roomid3").append("<option value="+Id+">"+Name+"</option>");
+
+            $("#roomid3").append("<option value="+Id+">"+Name+"</option>");
+            $("#roomid4").append("<option value="+Id+">"+Name+"</option>");
             // $('#roomid3').html('{list}<option value="{Id}">{Name}</option>{/list}');
           });// each
 
@@ -94,8 +97,7 @@ $(function() {
         editroom: editroom
       },
       success: function(response) {
-        alert(response);
-        loadOption();
+        loadroomOption();
         // if (response == "ok") {
         //   $("#Edit_error").html("<span align='left' style='color:#cc0000'>Error:</span> 'แก้ไขห้องเรียน' + txtRoomname + 'เรียบร้อยแล้ว' ");
         // } else if (response == "fail") {

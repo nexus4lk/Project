@@ -75,6 +75,36 @@ if (isset($_POST['addroom'])){
 	}
 }
 
+if (isset($_POST['addroomtype'])){
+	$addroomType = $roomManager->addroomType($_POST['roomtype']);
+	if($addroomType){
+		echo "success";
+	}
+	else {
+		echo "ไม่สามารถเพิ่มประเภทของห้องได้";
+	}
+}
+
+if (isset($_POST['addBuilding'])){
+	$addBuilding= $roomManager->addBuilding($_POST['buildingName'],$_POST['buildingNum']);
+	if($addBuilding){
+		echo "success";
+	}
+	else {
+		echo "ไม่สามารถเพิ่มอาคารได้";
+	}
+}
+
+if (isset($_POST['editbuilding'])){
+	$editBuilding = $roomManager->editBuilding($_POST['buildingid'],$_POST['buildingname'],$_POST['buildingfloor']);
+	if($editBuilding){
+		echo "success";
+	}
+	else {
+		echo "ไม่สามารถอัพเดทข้อมูลอาคารได้";
+	}
+}
+
 if (isset($_POST['editroom'])){
 	$editRoom = $roomManager->editRoom($_POST['roomid'],$_POST['roomname'],$_POST['roomcapa'],$_POST['roomtype']);
 	if($editRoom){
@@ -82,6 +112,16 @@ if (isset($_POST['editroom'])){
 	}
 	else {
 		echo "ไม่สามารถอัพเดทข้อมูลห้องได้";
+	}
+}
+
+if (isset($_POST['editroomType'])){
+	$editRoomType = $roomManager->editroomTyperoom($_POST['roomTypeid'],$_POST['roomtypeName']);
+	if($editRoomType){
+		echo "success";
+	}
+	else {
+		echo "ไม่สามารถอัพเดทประเภทห้องได้";
 	}
 }
 
@@ -103,6 +143,35 @@ if(isset($_POST['selectroom'])){
 	}
 }
 
+if(isset($_POST['selectbuilding'])){
+	$get_building = $roomManager->selectBuilding($_POST['building_id']);
+	if($get_building != "empty"){
+		foreach($get_building as $building){
+			$json[] = array(
+				'BName'=>$building['Building_name'],
+				'BMax'=>$building['Max_Floor']
+			);
+		}
+		//return JSON object
+		echo json_encode($json);
+	}
+	else {
+		echo "empty";
+	}
+}
+
+if(isset($_POST['selecttype'])){
+	$get_roomType = $roomManager->selectRoomType($_POST['roomtype_id']);
+	if($get_roomType != "empty"){
+		$result = $get_roomType;
+		//return JSON object
+		echo $result;
+	}
+	else {
+		echo "empty";
+	}
+}
+
 if (isset($_POST['removeroom'])){
 	$removeRoom = $roomManager->removeRoom($_POST['roomid']);
 	if($removeRoom){
@@ -113,13 +182,47 @@ if (isset($_POST['removeroom'])){
 	}
 }
 
-if(isset($_POST['action'])){
+if(isset($_POST['loadroomOption'])){
 	$get_roomOption = $roomManager->getroomOption();
 	if($get_roomOption != "empty"){
 		foreach($get_roomOption as $roomOption){
 			$json[] = array(
 				'Id'=>$roomOption['Room_ID'],
 	      'Name'=>$roomOption['Room_Name'],
+			);
+		}
+		//return JSON object
+		echo json_encode($json);
+	}
+	else {
+		echo "empty";
+	}
+}
+
+if(isset($_POST['loadBuildingOption'])){
+	$get_buildingOption = $roomManager->getbuildingOption();
+	if($get_buildingOption != "empty"){
+		foreach($get_buildingOption as $buildingOption){
+			$json[] = array(
+				'BId'=>$buildingOption['Building_id'],
+	      'BName'=>$buildingOption['Building_name'],
+			);
+		}
+		//return JSON object
+		echo json_encode($json);
+	}
+	else {
+		echo "empty";
+	}
+}
+
+if(isset($_POST['loadroomTypeOption'])){
+	$get_roomTypeOption = $roomManager->getroomTypeOption();
+	if($get_roomTypeOption != "empty"){
+		foreach($get_roomTypeOption as $roomTypeOption){
+			$json[] = array(
+				'RTId'=>$roomTypeOption['Type_id'],
+	      'RTName'=>$roomTypeOption['Type_name'],
 			);
 		}
 		//return JSON object

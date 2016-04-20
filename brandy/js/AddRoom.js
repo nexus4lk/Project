@@ -23,6 +23,9 @@ $(function() {
     var txtRoomcapa = $('#roomcapa2').val();
     var txtRoomtype = $('#roomtype2').val();
     var addroom = "addroom"
+    // $("#viewImage").html('');
+    // $("#viewImage").html('<img rel="lightbox" src="loader.gif" alt="uploading......"/>');
+    // $("#formUpload").ajaxForm({target: '#viewImage'}).submit();
     $.ajax({
       type: 'POST',
       url: 'room_manager.php',
@@ -34,6 +37,7 @@ $(function() {
       },
       success: function(response) {
         if (response == "success") {
+        loadroomOption();
         alert('เพิ่มห้องเรียน ' + txtRoomname + ' เรียบร้อยแล้ว');
         } else  {
         alert('ห้อง ' + txtRoomname + ' มีอยู่ในระบบแล้ว');

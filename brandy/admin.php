@@ -55,6 +55,12 @@ if(!$member->is_loggedin())
       <li><a href="#section2">Add Room</a></li>
       <li><a href="#section3">Edit Room</a></li>
       <li><a href="#section4">Remove Room</a></li>
+      <li><a href="#section5">Add Room Type</a></li>
+      <li><a href="#section6">Edit Room Type</a></li>
+      <li><a href="#section7">Remove Room Type</a></li>
+      <li><a href="#section8">Add Building</a></li>
+      <li><a href="#section9">Edit Building</a></li>
+      <li><a href="#section10">Remove Building</a></li>
     </ul>
   </div>
 
@@ -123,7 +129,7 @@ if(!$member->is_loggedin())
 
       <h2>Add Room</h2>
       <div class="col-md-10">
-      <form class="contact-form" id="add-form" method="post">
+      <form class="contact-form" id="add-form" action="processupload.php" method="post" enctype="multipart/form-data">
         <div class="row">
           <div class="col-md-10">
             <div class="single_contact_info">
@@ -141,15 +147,17 @@ if(!$member->is_loggedin())
               $get_type = $db->query("SELECT * FROM roomtype ORDER BY Type_id ASC");
               while($room = $get_type->fetch_assoc()){
               ?>
-              <option value="<?php echo $room["Type_id"];?>"><?php echo $room["Type_id"]." - ".$room["Type_name"];?></option>
+              <option value="<?php echo $room["Type_id"];?>"><?php echo $room["Type_name"];?></option>
               <?php
             }
             ?>
             </select>
             </div>
+            <input name="image_file" id="imageInput" type="file" />
+            <div id="viewImage" align="center"></div>
+            <br>
           </div>
           <div class="col-md-12">
-            <div id ="error2"></div>
             <button type="submit" id="submit" class="btn btn-primary cs-btn">Add</button>
           </div>
         </div>
@@ -195,7 +203,7 @@ if(!$member->is_loggedin())
                 $get_type = $db->query("SELECT * FROM roomtype ORDER BY Type_id ASC");
                 while($room = $get_type->fetch_assoc()){
                 ?>
-                <option value="<?php echo $room["Type_id"];?>"><?php echo $room["Type_id"]." - ".$room["Type_name"];?></option>
+                <option value="<?php echo $room["Type_id"];?>"><?php echo $room["Type_name"];?></option>
                 <?php
               }
               ?>
@@ -203,7 +211,6 @@ if(!$member->is_loggedin())
           </div>
           </div>
           <div class="col-md-12">
-            <div class ="Edit_error"></div>
             <button type="submit" id="submitEdit" class="btn btn-primary cs-btn">Edit</button>
           </div>
         </div>
@@ -237,13 +244,199 @@ if(!$member->is_loggedin())
             </div>
           </div>
           <div class="col-md-12">
-            <div class ="Edit_error"></div>
             <button type="submit" id="submit" class="btn btn-primary cs-btn">Remove</button>
           </div>
         </div>
       </form>
     </div>
     </div>
+
+    <div id="section5">
+      <h2>Add Room Type </h2>
+      <div class="col-md-10">
+      <form class="contact-form" id="roomType-form" method="post" >
+        <div class="row">
+          <div class="col-md-10">
+            <div class="single_contact_info">
+              <h3 class="form-heading" align="left">กรอกประเภทของห้องที่ต้องการ</h3>
+            </div>
+            <div class="single_contact_info">
+              <h4 class="form-heading" align="left">Room Type</h4>
+              <input type="text" class="form-control" name="addroomtype" id="addroomtype" placeholder="ชนิดของห้อง* ตัวอย่าง ห้องปฏิบัติการ" size="20">
+
+            </div>
+          </div>
+          <div class="col-md-12">
+            <button type="submit" id="submit" class="btn btn-primary cs-btn">Add Room Type</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    </div>
+
+    <div id="section6">
+      <h2>Edit Room Type </h2>
+      <div class="col-md-10">
+      <form class="contact-form" id="editroomtype-form" method="post">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="single_contact_info">
+              <h3 class="form-heading" align="left">โปรดกรอกรายละเอียดประเภทของห้อง</h3>
+            </div>
+            <div class="single_contact_info">
+              <h4 class="form-heading" align="left">Room Type</h4>
+              <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomtype6" id="roomtype6">
+              <option value="">       </option>
+                <?php
+                $connect = new connect();
+                $db = $connect->connect();
+                $get_type = $db->query("SELECT * FROM roomtype ORDER BY Type_id ASC");
+                while($room = $get_type->fetch_assoc()){
+                ?>
+                  <option value="<?php echo $room["Type_id"];?>"><?php echo $room["Type_name"];?></option>
+                  <?php
+                }
+                ?>
+                </select>
+            </div>
+            <input type="text" class="form-control" name="editroomtype" id="editroomtype" placeholder="ประเภทของห้อง* ตัวอย่าง ห้องปฏิบัติการ" size="20">
+          </div>
+          <div class="col-md-12">
+            <button type="submit" id="submitEdit" class="btn btn-primary cs-btn">Edit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    </div>
+
+    <div id="section7">
+      <h2>Remove Room Type ยังไม่ได้ทำ</h2>
+      <div class="col-md-10">
+      <form class="contact-form" id="remove-form" method="post" >
+        <div class="row">
+          <div class="col-md-10">
+            <div class="single_contact_info">
+              <h3 class="form-heading" align="left">โปรดเลือกห้องที่ต้องการ</h3>
+            </div>
+            <div class="single_contact_info">
+              <h4 class="form-heading" align="left">Room</h4>
+              <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomid4" id="roomid4">
+              <option value="">       </option>
+                <?php
+                $connect = new connect();
+                $db = $connect->connect();
+                $get_room = $db->query("SELECT * FROM room ORDER BY Room_id ASC");
+                while($room = $get_room->fetch_assoc()){
+                ?>
+                  <option value="<?php echo $room["Room_ID"];?>"><?php echo $room["Room_Name"];?></option>
+                  <?php
+                }
+                ?>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <button type="submit" id="submit" class="btn btn-primary cs-btn">Remove</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    </div>
+
+    <div id="section8">
+      <h2>Add Building</h2>
+      <div class="col-md-10">
+      <form class="contact-form" id="Building-form" method="post" >
+        <div class="row">
+          <div class="col-md-10">
+            <div class="single_contact_info">
+              <h3 class="form-heading" align="left">กรอกรายละเอียดอาคารที่ต้องการ</h3>
+            </div>
+            <div class="single_contact_info">
+              <h4 class="form-heading" align="left">ชื่ออาคาร</h4>
+              <input type="text" class="form-control" name="buildingName" id="buildingName" placeholder="ชื่ออาคาร* ตัวอย่าง อาคารวิศวกรรมศาสตร์" size="20">
+              <input type="number" class="form-control" name="buildingNum" id="buildingNum" placeholder="จำนวนชั้น* ตัวอย่าง 8 ชั้น" size="2">
+
+            </div>
+          </div>
+          <div class="col-md-12">
+            <button type="submit" id="submit" class="btn btn-primary cs-btn">Add Building</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    </div>
+
+    <div id="section9">
+      <h2>Edit Room Type </h2>
+      <div class="col-md-10">
+      <form class="contact-form" id="editBuilding-form" method="post">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="single_contact_info">
+              <h3 class="form-heading" align="left">โปรดกรอกรายละเอียดอาคาร</h3>
+            </div>
+            <div class="single_contact_info">
+              <h4 class="form-heading" align="left">อาคาร</h4>
+              <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="Building9" id="Building9">
+              <option value="">       </option>
+                <?php
+                $connect = new connect();
+                $db = $connect->connect();
+                $get_Building = $db->query("SELECT * FROM building ORDER BY Building_id ASC");
+                while($Building = $get_Building->fetch_assoc()){
+                ?>
+                  <option value="<?php echo $Building["Building_id"];?>"><?php echo $Building["Building_name"];?></option>
+                  <?php
+                }
+                ?>
+                </select>
+            </div>
+            <input type="text" class="form-control" name="editbuilding" id="editbuilding" placeholder="ชื่ออาคาร* ตัวอย่าง อาคารวิศวกรรมศาสตร" size="20">
+            <input type="number" class="form-control" name="editMax_floor" id="editMax_floor" placeholder="จำนวนชั้น* ตัวอย่าง 8 ชั้น" size="2">
+          </div>
+          <div class="col-md-12">
+            <button type="submit" id="submitEdit" class="btn btn-primary cs-btn">Edit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    </div>
+
+    <div id="section10">
+      <h2>Remove Building ยังไม่ได้ทำ</h2>
+      <div class="col-md-10">
+      <form class="contact-form" id="remove-form" method="post" >
+        <div class="row">
+          <div class="col-md-10">
+            <div class="single_contact_info">
+              <h3 class="form-heading" align="left">โปรดเลือกห้องที่ต้องการ</h3>
+            </div>
+            <div class="single_contact_info">
+              <h4 class="form-heading" align="left">Room</h4>
+              <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomid4" id="roomid4">
+              <option value="">       </option>
+                <?php
+                $connect = new connect();
+                $db = $connect->connect();
+                $get_Building = $db->query("SELECT * FROM building ORDER BY Building_id ASC");
+                while($Building = $get_Building->fetch_assoc()){
+                ?>
+                  <option value="<?php echo $Building["Building_id"];?>"><?php echo $Building["Building_name"];?></option>
+                  <?php
+                }
+                ?>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <button type="submit" id="submit" class="btn btn-primary cs-btn">Remove</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    </div>
+
   </div>
 
   <!-- =========================
@@ -257,7 +450,11 @@ if(!$member->is_loggedin())
   <script src="js/wow.js"></script>
   <script src="js/script.js"></script>
   <script type="text/javascript" src="js/addroom.js"></script>
+  <script type="text/javascript" src="js/addroomType.js"></script>
+  <script type="text/javascript" src="js/addBuilding.js"></script>
   <script type="text/javascript" src="js/editroom.js"></script>
+  <script type="text/javascript" src="js/editroomtype.js"></script>
+  <script type="text/javascript" src="js/editBuilding.js"></script>
   <script type="text/javascript" src="js/removeRoom.js"></script>
   <script type="text/javascript" src="js/validation.min.js"></script>
   <script>
@@ -365,8 +562,99 @@ if(!$member->is_loggedin())
         }
       }
     });
+//     $(function() {
+//        $('#imageUpload').click(function(){
+//
+//               $("#viewImage").html('');
+//               $("#viewImage").html('<img rel="lightbox" src="loader.gif" alt="uploading......"/>');
+//               $("#formUpload").ajaxForm({target: '#viewImage'}).submit();
+//
+//
+//       });
+// });
   }
 </script>
+<!-- <script type="text/javascript">
+ $(document).ready(function () {
+ var options = {
+ target: '#output', // target element(s) to be updated with server response
+ beforeSubmit: beforeSubmit, // pre-submit callback
+ success: afterSuccess, // post-submit callback
+ resetForm: true // reset the form after successful submit
+ };
+
+ $('#add-form').submit(function () {
+ $(this).ajaxSubmit(options);
+ // always return false to prevent standard browser submit and page navigation
+ return false;
+ });
+ });
+
+ function afterSuccess()
+ {
+ $('#submit-btn').show(); //hide submit button
+ $('#loading-img').hide(); //hide submit button
+
+ }
+
+ //function to check file size before uploading.
+ function beforeSubmit() {
+ //check whether browser fully supports all File API
+ if (window.File && window.FileReader && window.FileList && window.Blob)
+ {
+
+ if (!$('#imageInput').val()) //check empty input filed
+ {
+ $("#output").html("Are you kidding me?");
+ return false
+ }
+
+ var fsize = $('#imageInput')[0].files[0].size; //get file size
+ var ftype = $('#imageInput')[0].files[0].type; // get file type
+
+
+ //allow only valid image file types
+ switch (ftype)
+ {
+ case 'image/png':
+ case 'image/gif':
+ case 'image/jpeg':
+ case 'image/pjpeg':
+ break;
+ default:
+ $("#output").html("<b>" + ftype + "</b> Unsupported file type!");
+ return false
+ }
+
+ //Allowed file size is less than 1 MB (1048576)
+ if (fsize > 1048576)
+ {
+ $("#output").html("<b>" + bytesToSize(fsize) + "</b> Too big Image file! <br />Please reduce the size of your photo using an image editor.");
+ return false
+ }
+
+ $('#submit-btn').hide(); //hide submit button
+ $('#loading-img').show(); //hide submit button
+ $("#output").html("");
+ }
+ else
+ {
+ //Output error to older browsers that do not support HTML5 File API
+ $("#output").html("Please upgrade your browser, because your current browser lacks some new features we need!");
+ return false;
+ }
+ }
+
+ //function to format bites bit.ly/19yoIPO
+ function bytesToSize(bytes) {
+ var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+ if (bytes == 0)
+ return '0 Bytes';
+ var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+ return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+ }
+
+ </script> -->
   <style>
 table, th, td {
      border: 1px solid black;

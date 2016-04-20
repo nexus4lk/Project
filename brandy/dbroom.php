@@ -76,6 +76,42 @@ class roomManager {
         }
       }
 
+      public function addBuilding($buildingName,$buildingNum){
+        $connect = new connect();
+        $db = $connect->connect();
+        $checkBuilding = $db->query("SELECT * FROM building WHERE Building_name = '$buildingName'");
+        if ($get_room = $checkBuilding->fetch_assoc()){
+          return false;
+        }
+        else {
+          $add_Building = $db->prepare("INSERT INTO building (Building_id, Building_name, Max_Floor) VALUES (NULL, ?, ?)");
+          $add_Building->bind_param("si",$buildingName, $buildingNum);
+          if(!$add_Building->execute()){
+            return false;
+          }else{
+            return true;
+          }
+          }
+        }
+
+      public function addroomType($roomtype){
+        $connect = new connect();
+        $db = $connect->connect();
+        $checkroom = $db->query("SELECT * FROM roomtype WHERE Type_name = '$roomtype'");
+        if ($get_room = $checkroom->fetch_assoc()){
+          return false;
+        }
+        else {
+          $add_roomType = $db->prepare("INSERT INTO roomtype (Type_id, Type_name) VALUES (NULL, ?)");
+          $add_roomType->bind_param("s",$roomtype);
+          if(!$add_roomType->execute()){
+            return false;
+          }else{
+            return true;
+          }
+          }
+        }
+
       public function allowRoom($reser_id){
         $connect = new connect();
         $db = $connect->connect();
@@ -168,17 +204,42 @@ class roomManager {
             // }
           }
 
-      public function editRoom($roomid,$roomname,$roomcapa,$roomtype){
+      public function editBuilding($buildingid,$buildingname,$Buildingfloor){
         $connect = new connect();
         $db = $connect->connect();
-        $add_room = $db->prepare("UPDATE room SET Room_Name = ?, Type_id = ?, Room_Capa = ? WHERE Room_ID = ?");
-        $add_room->bind_param("siii",$roomname, $roomtype, $roomcapa,$roomid);
-        if(!$add_room->execute()){
+        $add_Building = $db->prepare("UPDATE building SET Building_name = ?, Max_Floor = ? WHERE Building_id = ?");
+        $add_Building->bind_param("sii",$buildingname, $Buildingfloor,$buildingid);
+        if(!$add_Building->execute()){
           return false;
         }else{
           return true;
           }
         }
+
+        public function editRoom($roomid,$roomname,$roomcapa,$roomtype){
+          $connect = new connect();
+          $db = $connect->connect();
+          $add_room = $db->prepare("UPDATE room SET Room_Name = ?, Type_id = ?, Room_Capa = ? WHERE Room_ID = ?");
+          $add_room->bind_param("siii",$roomname, $roomtype, $roomcapa,$roomid);
+          if(!$add_room->execute()){
+            return false;
+          }else{
+            return true;
+            }
+          }
+
+        public function editroomTyperoom($roomTypeid,$roomtypeName){
+          $connect = new connect();
+          $db = $connect->connect();
+          $add_roomType = $db->prepare("UPDATE roomtype SET Type_name = ? WHERE Type_id = ?");
+          $add_roomType->bind_param("si",$roomtypeName, $roomTypeid);
+          if(!$add_roomType->execute()){
+            return false;
+          }else{
+            return true;
+            }
+          }
+
       public function selectRoom($roomid){
         $connect = new connect();
       	$db = $connect->connect();
@@ -193,11 +254,72 @@ class roomManager {
       		return $result;
     		}
     	}
+
+      public function selectbuilding($buildingid){
+        $connect = new connect();
+      	$db = $connect->connect();
+        $get_Building = $db->query("SELECT * FROM building WHERE Building_id = '$buildingid'");
+        while($building= $get_Building->fetch_assoc()){
+            $result[] = $building;
+        }
+    		if(!empty($result)){
+    			return $result;
+    		}else {
+    			$result = "empty";
+      		return $result;
+    		}
+    	}
+
+      public function selectRoomType($roomtype_id){
+        $connect = new connect();
+        $db = $connect->connect();
+        $get_roomType = $db->query("SELECT * FROM roomtype WHERE Type_id = '$roomtype_id'");
+        while($roomType= $get_roomType->fetch_assoc()){
+            $result = $roomType['Type_name'];
+        }
+        if(!empty($result)){
+          return $result;
+        }else {
+          $result = "empty";
+          return $result;
+        }
+      }
+
       public function getroomOption(){
         $connect = new connect();
         $db = $connect->connect();
         $get_roomOption = $db->query("SELECT * FROM room ORDER BY Room_id ASC");
         while($room= $get_roomOption->fetch_assoc()){
+            $result[] = $room;
+        }
+        if(!empty($result)){
+          return $result;
+        }else {
+          $result = "empty";
+          return $result;
+        }
+      }
+
+      public function getbuildingOption(){
+        $connect = new connect();
+        $db = $connect->connect();
+        $get_buildingOption = $db->query("SELECT * FROM building ORDER BY Building_id ASC");
+        while($building = $get_buildingOption->fetch_assoc()){
+            $result[] = $building;
+        }
+        if(!empty($result)){
+          return $result;
+        }else {
+          $result = "empty";
+          return $result;
+        }
+      }
+
+      public function getroomTypeOption(){
+        $connect = new connect();
+        $db = $connect->connect();
+        $get_roomTypeOption = $db->query("SELECT * FROM roomtype ORDER BY Type_id ASC");
+        while($room= $get_roomTypeOption->fetch_assoc()){
             $result[] = $room;
         }
         if(!empty($result)){
