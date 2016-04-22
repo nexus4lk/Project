@@ -311,6 +311,10 @@ if(!$member->is_loggedin())
         <label>เรื่อง</label>
         <input type="text" class="form-control" name="dcmtitle" placeholder="" id="dcmtitle">
         </div>
+        <label for="gender">ช่วงเวลาที่ต้องการจอง: </label><br>
+        <input type="radio" id="myRadio" name="myRadio" value="Morning" >ช่วงเช้า</input><br>
+        <input type="radio" id="myRadio" name="myRadio" value="Afternoon" >ช่วงบ่าย</input><br>
+        <input type="radio" id="myRadio" name="myRadio" value="Night" >ช่วงค่ำ</input>
         <div class="form-group">
         <label >วันที่เริมต้น</label>
         <input type="text" class="form-control" name="dcmstart"  placeholder="" id="dcmstart">
@@ -613,7 +617,30 @@ if(!$member->is_loggedin())
   <script type="text/javascript" src="js/reserRoom.js"></script>
   <script type="text/javascript" src="js/validation.min.js"></script>
   <style>
-
+  #calendar {
+      width: 1000;
+    }
+    .Morning,
+    .Morning div,
+    .Morning span {
+      background-color: green; /* background color */
+      border-color: green;     /* border color */
+      color: white;           /* text color */
+    }
+    .Afternoon,
+    .Afternoon div,
+    .Afternoon span {
+      background-color: red; /* background color */
+      border-color: red;     /* border color */
+      color: white;           /* text color */
+    }
+    .Night,
+    .Night div,
+    .Night span {
+      background-color: black; /* background color */
+      border-color: black;     /* border color */
+      color: white;           /* text color */
+    }
   </style>
 
 </body>

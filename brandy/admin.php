@@ -8,6 +8,7 @@ if(!$member->is_loggedin())
 }else if($member->get_status($user_id) != "ADMIN"){
   $member->redirect('index.php');
 }
+
  ?>
 
 <!DOCTYPE html>
@@ -123,6 +124,9 @@ if(!$member->is_loggedin())
       }
       $db->close();
       ?>
+
+
+  <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
     </div>
 
     <div id="section2">
@@ -135,10 +139,10 @@ if(!$member->is_loggedin())
             <div class="single_contact_info">
               <h3 class="form-heading" align="left">โปรดกรอกรายละเอียดของห้อง</h3>
             </div>
-            <input type="text" class="form-control" name="roomname2" id="roomname2" placeholder="Roomname*" size="20">
-            <input type="number" class="form-control" name="roomcapa2" id="roomcapa2" placeholder="Room Capacity* ตัวอย่าง 30 ที่นั่ง" size="20">
+            <input type="text" class="form-control" name="roomname2" id="roomname2" placeholder="Roomname*" size="50">
+            <input type="number" class="form-control" name="roomcapa2" id="roomcapa2" placeholder="Room Capacity* ตัวอย่าง 30 ที่นั่ง" size="3">
             <div class="single_contact_info">
-            <h4 class="form-heading" align="left">Room Type</h4>
+            <h4 class="form-heading" align="left">ประเภทห้อง</h4>
             <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomtype2" id="roomtype2" >
             <option value="">       </option>
               <?php
@@ -152,9 +156,32 @@ if(!$member->is_loggedin())
             }
             ?>
             </select>
+
+            <h4 class="form-heading" align="left">อาคาร</h4>
+            <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="Building2" id="Building2">
+            <option value="">       </option>
+              <?php
+              $connect = new connect();
+              $db = $connect->connect();
+              $get_Building = $db->query("SELECT * FROM building ORDER BY Building_id ASC");
+              while($Building = $get_Building->fetch_assoc()){
+              ?>
+                <option value="<?php echo $Building["Building_id"];?>"><?php echo $Building["Building_name"];?></option>
+                <?php
+              }
+              ?>
+              </select>
+              <h4 class="form-heading" align="left">ชั้น</h4>
+              <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="floor2" id="floor2">
+              <option value="">       </option>
+
+                </select>
             </div>
-            <input name="image_file" id="imageInput" type="file" />
-            <div id="viewImage" align="center"></div>
+            <div class="single_contact_info">
+
+            </div>
+            <!-- <input name="image_file" id="imageInput" type="file" />
+            <div id="viewImage" align="center"></div> -->
             <br>
           </div>
           <div class="col-md-12">
@@ -176,7 +203,7 @@ if(!$member->is_loggedin())
               <h3 class="form-heading" align="left">โปรดกรอกรายละเอียดของห้อง</h3>
             </div>
             <div class="single_contact_info">
-              <h4 class="form-heading" align="left">Room</h4>
+              <h4 class="form-heading" align="left">ห้อง</h4>
               <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomid3" id="roomid3">
               <option value="">       </option>
                 <?php
@@ -191,11 +218,11 @@ if(!$member->is_loggedin())
                 ?>
                 </select>
             </div>
-            <input type="text" class="form-control" name="roomname3" id="roomname3" placeholder="Roomname*" size="20">
+            <input type="text" class="form-control" name="roomname3" id="roomname3" placeholder="Roomname*" size="50">
             <div class="single_contact_info">
-              <input type="text" class="form-control" name="roomcapa3" id="roomcapa3" placeholder="Room Capacity* ตัวอย่าง 30 ที่นั่ง" size="20">
-              <h4 class="form-heading" align="left">Room Type</h4>
-              <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomtype3" id="roomtype3" onchange="this.form.submit();">
+              <input type="text" class="form-control" name="roomcapa3" id="roomcapa3" placeholder="Room Capacity* ตัวอย่าง 30 ที่นั่ง" size="3">
+              <h4 class="form-heading" align="left">ประเภทห้อง</h4>
+              <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomtype3" id="roomtype3">
               <option value="">       </option>
                 <?php
                 $connect = new connect();
@@ -208,6 +235,26 @@ if(!$member->is_loggedin())
               }
               ?>
               </select>
+              <h4 class="form-heading" align="left">อาคาร</h4>
+              <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="Building3" id="Building3">
+              <option value="">       </option>
+                <?php
+                $connect = new connect();
+                $db = $connect->connect();
+                $get_Building = $db->query("SELECT * FROM building ORDER BY Building_id ASC");
+                while($Building = $get_Building->fetch_assoc()){
+                ?>
+                  <option value="<?php echo $Building["Building_id"];?>"><?php echo $Building["Building_name"];?></option>
+                  <?php
+                }
+                ?>
+                </select>
+                <h4 class="form-heading" align="left">ชั้น</h4>
+                <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="floor3" id="floor3">
+                <option value="">       </option>
+
+                  </select>
+
           </div>
           </div>
           <div class="col-md-12">
@@ -262,7 +309,7 @@ if(!$member->is_loggedin())
             </div>
             <div class="single_contact_info">
               <h4 class="form-heading" align="left">Room Type</h4>
-              <input type="text" class="form-control" name="addroomtype" id="addroomtype" placeholder="ชนิดของห้อง* ตัวอย่าง ห้องปฏิบัติการ" size="20">
+              <input type="text" class="form-control" name="addroomtype" id="addroomtype" placeholder="ชนิดของห้อง* ตัวอย่าง ห้องปฏิบัติการ" size="50">
 
             </div>
           </div>
@@ -299,7 +346,7 @@ if(!$member->is_loggedin())
                 ?>
                 </select>
             </div>
-            <input type="text" class="form-control" name="editroomtype" id="editroomtype" placeholder="ประเภทของห้อง* ตัวอย่าง ห้องปฏิบัติการ" size="20">
+            <input type="text" class="form-control" name="editroomtype" id="editroomtype" placeholder="ประเภทของห้อง* ตัวอย่าง ห้องปฏิบัติการ" size="50">
           </div>
           <div class="col-md-12">
             <button type="submit" id="submitEdit" class="btn btn-primary cs-btn">Edit</button>
@@ -354,7 +401,7 @@ if(!$member->is_loggedin())
             </div>
             <div class="single_contact_info">
               <h4 class="form-heading" align="left">ชื่ออาคาร</h4>
-              <input type="text" class="form-control" name="buildingName" id="buildingName" placeholder="ชื่ออาคาร* ตัวอย่าง อาคารวิศวกรรมศาสตร์" size="20">
+              <input type="text" class="form-control" name="buildingName" id="buildingName" placeholder="ชื่ออาคาร* ตัวอย่าง อาคารวิศวกรรมศาสตร์" size="50">
               <input type="number" class="form-control" name="buildingNum" id="buildingNum" placeholder="จำนวนชั้น* ตัวอย่าง 8 ชั้น" size="2">
 
             </div>
@@ -392,7 +439,7 @@ if(!$member->is_loggedin())
                 ?>
                 </select>
             </div>
-            <input type="text" class="form-control" name="editbuilding" id="editbuilding" placeholder="ชื่ออาคาร* ตัวอย่าง อาคารวิศวกรรมศาสตร" size="20">
+            <input type="text" class="form-control" name="editbuilding" id="editbuilding" placeholder="ชื่ออาคาร* ตัวอย่าง อาคารวิศวกรรมศาสตร" size="50">
             <input type="number" class="form-control" name="editMax_floor" id="editMax_floor" placeholder="จำนวนชั้น* ตัวอย่าง 8 ชั้น" size="2">
           </div>
           <div class="col-md-12">
@@ -449,6 +496,8 @@ if(!$member->is_loggedin())
   <script src="js/owl.carousel.js"></script>
   <script src="js/wow.js"></script>
   <script src="js/script.js"></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
   <script type="text/javascript" src="js/addroom.js"></script>
   <script type="text/javascript" src="js/addroomType.js"></script>
   <script type="text/javascript" src="js/addBuilding.js"></script>

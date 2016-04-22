@@ -19,6 +19,7 @@ if(isset($_POST['json'])){
 				'start'=>$calendar['Reser_Startdate'],
 				'end'=>$calendar['Reser_Enddate'],
 				'titleModal'=>$calendar['Title'],
+				'className'=>$calendar['Day_time'],
 				'room'=>$get_roomname,
 				'mem'=>$get_membername
 				// 'url'=>'javascript:get_modal('.$calendar['Calendar_id'].');',

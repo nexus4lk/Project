@@ -4,16 +4,26 @@ require "dbconfig.php";
 class roomManager {
 
   // login
-  public function reserRoom($user_id,$roomid,$title,$date,$start,$end){
+  public function reserRoom($user_id,$roomid,$title,$date,$start,$end,$time){
       $connect = new connect();
       $db = $connect->connect();
-      $status = "Wait";
-      $add_user = $db->prepare("INSERT INTO reserve_data (Reser_ID, Mem_ID, Room_ID, Title, Reser_Date, Reser_Startdate, Reser_Enddate, Reser_Satatus) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)");
-		  $add_user->bind_param("iisssss",$user_id,$roomid,$title,$date,$start,$end,$status);
-      if(!$add_user->execute()){
+      $wait = "Wait";
+      $complete = "Cmpt";
+      $check_room = $db->query("SELECT * FROM reserve_data WHERE Room_ID = '$roomid'
+        AND Reser_Startdate = '$start'
+        AND Day_time = '$time'
+        AND Reser_Satatus = '$complete'");
+      if($check_room->fetch_assoc()){
+        echo "ห้องมีการจองอยู่ในระบบแล้ว";
         return false;
       }else{
-        return true;
+        $add_user = $db->prepare("INSERT INTO reserve_data (Reser_ID, Mem_ID, Room_ID, Title, Reser_Date, Reser_Startdate, Reser_Enddate,	Day_time, Reser_Satatus) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)");
+  		  $add_user->bind_param("iissssss",$user_id,$roomid,$title,$date,$start,$end,$time,$wait);
+        if(!$add_user->execute()){
+          return false;
+        }else{
+          return true;
+        }
       }
     }
     public function get_membername($id){
@@ -58,16 +68,17 @@ class roomManager {
   		}
   	}
 
-    public function addRoom($roomname,$roomcapa,$roomtype){
+    public function addRoom($roomname,$roomcapa,$roomtype,$building,$floor){
       $connect = new connect();
       $db = $connect->connect();
+      $count = 0;
       $checkroom = $db->query("SELECT * FROM room WHERE Room_Name = '$roomname'");
       if ($get_room = $checkroom->fetch_assoc()){
         return false;
       }
       else {
-        $add_room = $db->prepare("INSERT INTO room (Room_ID, Room_Name, Type_id, Room_Capa) VALUES (NULL, ?, ?, ?)");
-        $add_room->bind_param("sii",$roomname, $roomtype, $roomcapa);
+        $add_room = $db->prepare("INSERT INTO room (Room_ID, Room_Name, Type_id, Building_id, Room_Capa , Floor , Count_chart) VALUES (NULL, ?, ?, ? ,? ,? ,?)");
+        $add_room->bind_param("siiiii",$roomname, $roomtype, $building, $roomcapa, $floor, $count);
         if(!$add_room->execute()){
           return false;
         }else{
@@ -117,18 +128,37 @@ class roomManager {
         $db = $connect->connect();
         $status = "Cmpt";
         $day = date("Y-m-d");
-        $allow_room = $db->prepare("UPDATE reserve_data SET Reser_Satatus = ? WHERE Reser_ID = ?");
-        $allow_room->bind_param("si",$status, $reser_id);
-        if(!$allow_room->execute()){
-          return false;
-        }else{
-          $add_cmpt = $db->prepare("INSERT INTO reserne_completed (ResCom_id, Reser_ID, Com_date) VALUES (NULL, ?, ?)");
-          $add_cmpt->bind_param("is",$reser_id,$day);
-          if(!$add_cmpt->execute()){
+        $checkroom = $db->query("SELECT * FROM reserve_data WHERE Reser_ID = '$reser_id'");
+        if ($get_room = $checkroom->fetch_assoc()){
+          $room = $get_room['Room_ID'];
+          $get_count = $db->query("SELECT * FROM room WHERE Room_ID = '$room'");
+          if ($get_count = $get_count->fetch_assoc()) {
+            $count = $get_count['Count_chart']+1;
+            $pulsCount = $db->prepare("UPDATE room SET Count_chart = ? WHERE Room_ID = ?");
+            $pulsCount->bind_param("ii",$count, $room );
+            if(!$pulsCount->execute()){
+               return false;
+             }else {
+               $allow_room = $db->prepare("UPDATE reserve_data SET Reser_Satatus = ? WHERE Reser_ID = ?");
+               $allow_room->bind_param("si",$status, $reser_id );
+               if(!$allow_room->execute()){
+                 return false;
+               }else{
+                 $add_cmpt = $db->prepare("INSERT INTO reserne_completed (ResCom_id, Reser_ID, Com_date) VALUES (NULL, ?, ?)");
+                 $add_cmpt->bind_param("is",$reser_id,$day);
+                 if(!$add_cmpt->execute()){
+                   return false;
+                 }else{
+                   return true;
+                 }
+                 }
+             }
+          }else {
             return false;
-          }else{
-            return true;
           }
+        }
+        else {
+        return false;
           }
         }
 
@@ -216,11 +246,11 @@ class roomManager {
           }
         }
 
-        public function editRoom($roomid,$roomname,$roomcapa,$roomtype){
+        public function editRoom($roomid,$roomname,$roomcapa,$roomtype,$Building,$floor){
           $connect = new connect();
           $db = $connect->connect();
-          $add_room = $db->prepare("UPDATE room SET Room_Name = ?, Type_id = ?, Room_Capa = ? WHERE Room_ID = ?");
-          $add_room->bind_param("siii",$roomname, $roomtype, $roomcapa,$roomid);
+          $add_room = $db->prepare("UPDATE room SET Room_Name = ?, Type_id = ?, Building_id = ?, Room_Capa = ?, Floor = ? WHERE Room_ID = ?");
+          $add_room->bind_param("siiiii",$roomname, $roomtype, $Building, $roomcapa, $floor, $roomid);
           if(!$add_room->execute()){
             return false;
           }else{
@@ -269,6 +299,21 @@ class roomManager {
       		return $result;
     		}
     	}
+
+      public function getFloor($buildingid){
+        $connect = new connect();
+        $db = $connect->connect();
+        $get_floor = $db->query("SELECT * FROM building WHERE Building_id = '$buildingid'");
+        while($floor = $get_floor->fetch_assoc()){
+            $result = $floor['Max_Floor'];
+        }
+        if(!empty($result)){
+          return $result;
+        }else {
+          $result = "empty";
+          return $result;
+        }
+      }
 
       public function selectRoomType($roomtype_id){
         $connect = new connect();

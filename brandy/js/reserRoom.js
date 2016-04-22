@@ -6,13 +6,15 @@ $(function() {
       roomtype: "required",
       dcmtitle: "required",
       dcmstart: "required",
-      dcmend: "required"
+      dcmend: "required",
+      myRadio: "required"
     },
     messages: {
       roomtype: "กรุณาเลือกห้องที่ต้องการจอง",
       dcmtitle: "กรุณากรอกจุดประสงค์การจองห้อง",
       dcmstart: "กรุณากรอกเวลาเริ่ม",
-      dcmend: "กรุณากรอบเวลาสิ้นสุด"
+      dcmend: "กรุณากรอบเวลาสิ้นสุด",
+      myRadio: "กรุณาเลือกช่วงเวลาที่ต้องการจอง"
     },
     submitHandler: submitForm
   });
@@ -26,6 +28,8 @@ $(function() {
     var txtdcmtitle = $('#dcmtitle').val();
     var txtdcmstart = $('#dcmstart').val();
     var txtdcmend = $('#dcmend').val();
+    var x = checkRadio();
+    alert(x)
     var reser = "reser"
     var date = new Date().toISOString().slice(0,10);
     $.ajax({
@@ -37,13 +41,25 @@ $(function() {
         dcmstart: txtdcmstart,
         dcmend: txtdcmend,
         date:date,
+        dayTime:x,
         reser: reser
       },
       success: function(response) {
         alert(response);
-         modal.style.display = "none";
+
+        modal.style.display = "none";
       }
     });
     return false;
   }
+
+  function checkRadio() {
+    var radios = document.getElementsByName('myRadio');
+    for (var i = 0, length = radios.length; i < length; i++) {
+      if (radios[i].checked) {
+          return(radios[i].value);
+          break;
+      }
+  }
+}
 });
