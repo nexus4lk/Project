@@ -26,6 +26,20 @@ class roomManager {
         }
       }
     }
+    public function getEdit($id){
+
+      $connect = new connect();
+  		$db = $connect->connect();
+      $getEdit = $db->query("SELECT * FROM reserve_data WHERE Reser_ID = $id");
+      while($get_reser= $getEdit->fetch_assoc()){
+        $result[] = $get_reser;
+  		}
+  		if(!empty($result)){
+
+  			return $result;
+  		}
+  	}
+
     public function get_membername($id){
 
       $connect = new connect();
@@ -185,7 +199,7 @@ class roomManager {
       public function removeRoom($roomid){
           $connect = new connect();
           $db = $connect->connect();
-          $status = array("Wait", "Wait" , "Wait");
+          $status = array("Wait", "Cmpt" , "Wait");
           // for ($status as $value) {
             // if ($value != "Wait") {
               $checkroom = $db->query("SELECT * FROM reserve_data WHERE Room_ID = '$roomid' AND Reser_Satatus LIKE 'Wait'");
@@ -243,6 +257,27 @@ class roomManager {
           return false;
         }else{
           return true;
+          }
+        }
+
+        public function editReser($reserId,$roomid,$title,$start,$end,$dayTime){
+          $connect = new connect();
+          $db = $connect->connect();
+          $checkStatus = $db->query("SELECT * FROM reserve_data WHERE Reser_ID = '$reserId' AND Reser_Satatus NOT LIKE 'Wait'");
+          if (!$checkStatus->fetch_assoc()) {
+            $edit_reser = $db->prepare("UPDATE reserve_data SET Title = ?,
+                                                Reser_Startdate = ?,
+                                                Reser_Enddate = ?,
+                                                Day_time = ?
+                                          WHERE Reser_ID = ?");
+            $edit_reser->bind_param("ssssi",$title, $start,$end,$dayTime,$reserId);
+            if(!$edit_reser->execute()){
+              return false;
+            }else{
+              return true;
+              }
+          }else{
+            return false;
           }
         }
 

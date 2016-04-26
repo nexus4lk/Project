@@ -8,7 +8,6 @@ if(!$member->is_loggedin())
 }else if($member->get_status($user_id) != "ADMIN"){
   $member->redirect('index.php');
 }
-
  ?>
 
 <!DOCTYPE html>
@@ -62,6 +61,7 @@ if(!$member->is_loggedin())
       <li><a href="#section8">Add Building</a></li>
       <li><a href="#section9">Edit Building</a></li>
       <li><a href="#section10">Remove Building</a></li>
+      <li><a href="#section11">Room Picture</a></li>
     </ul>
   </div>
 
@@ -484,6 +484,69 @@ if(!$member->is_loggedin())
     </div>
     </div>
 
+    <div id="section11">
+      <h2>Picture Upload</h2>
+      <div class="col-md-10">
+      <form class="contact-form" id="upload-form" method="post" enctype="multipart/form-data">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="single_contact_info">
+              <h3 class="form-heading" align="left">อัพโหลดรูปภาพ</h3>
+            </div>
+            <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomid11" id="roomid11">
+            <option value="">       </option>
+              <?php
+              $connect = new connect();
+              $db = $connect->connect();
+              $get_room = $db->query("SELECT * FROM room ORDER BY Room_id ASC");
+              while($room = $get_room->fetch_assoc()){
+              ?>
+                <option value="<?php echo $room["Room_ID"];?>"><?php echo $room["Room_Name"];?></option>
+                <?php
+              }
+              ?>
+            </select>
+            <br>
+            <br>
+            <div class="single_contact_info">
+              <input type="file" name="fileToUpload" id="fileToUpload">
+              <div id="preview"></div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <input type="submit" id="uploadImg" class="btn btn-primary cs-btn" value="Upload Image" name="uploadImg">
+          </div>
+        </div>
+      </form>
+
+      <!-- if(isset($_FILES['image'])){
+            $errors= array();
+            $file_name = $_FILES['image']['name'];
+            $file_size =$_FILES['image']['size'];
+            $file_tmp =$_FILES['image']['tmp_name'];
+            $file_type=$_FILES['image']['type'];
+            $file_ext=strtolower(end(explode('.',$_FILES['image']['name'])));
+
+            $expensions= array("jpeg","jpg","png");
+
+            if(in_array($file_ext,$expensions)=== false){
+               $errors[]="extension not allowed, please choose a JPEG or PNG file.";
+            }
+
+            if($file_size > 2097152){
+               $errors[]='File size must be excately 2 MB';
+            }
+
+            if(empty($errors)==true){
+               move_uploaded_file($file_tmp,"uploads/".$file_name);
+               echo "Success";
+            }else{
+               print_r($errors);
+            }
+         } -->
+    </div>
+    </div>
+
   </div>
 
   <!-- =========================
@@ -505,6 +568,7 @@ if(!$member->is_loggedin())
   <script type="text/javascript" src="js/editroomtype.js"></script>
   <script type="text/javascript" src="js/editBuilding.js"></script>
   <script type="text/javascript" src="js/removeRoom.js"></script>
+  <script type="text/javascript" src="js/AddImage.js"></script>
   <script type="text/javascript" src="js/validation.min.js"></script>
   <script>
     $('.container > div').hide();
@@ -775,6 +839,11 @@ table.table-style-three td {
   border-color: #000000;
   background-color: #ffffff;
 }
+#preview img {
+    max-height: 300px;
+    max-width: 300px;
+}
+
   </style>
 
 </body>

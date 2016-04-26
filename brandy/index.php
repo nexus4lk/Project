@@ -5,10 +5,10 @@ if(!$member->is_loggedin())
 {
  $member->redirect('login.php');
 }else {
-  $username = $member->get_username($_SESSION['user_session']);
+  $memid = $_SESSION['user_session'];
+  $username = $member->get_username($memid);
   $status = $member->get_status($_SESSION['user_session']);
 }
-
  ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -170,10 +170,66 @@ if(!$member->is_loggedin())
                           <br>
                           <font size="3" color="#ff4444" >*สามารถจองได้เฉพาะ 4 วันจากวันที่ปัจจุบันเพื่อเว้นระยะการดำเนินเรื่องจองห้อง</font>
                         <div class="wow fadeInLeft animated" id='calendar'></div>
-                        <!-- <br>
                         <br>
                         <br>
-                        <br> -->
+                        <br>
+                        <br>
+                        <?php
+                        // Check connection
+
+                        $connect = new connect();
+                        $db = $connect->connect();
+                        $get_reser = $db->query("SELECT * FROM reserve_data WHERE Mem_ID = '$memid'
+                          AND Reser_Satatus LIKE 'Wait' ORDER BY Reser_Date DESC");
+
+                        if ($get_reser->num_rows > 0) {
+                          echo "<table border='1' width='100%'   cellspacing=''  class='table-style-three' >
+                          <thead id='thead'>
+                          <tr>
+                          <th>วันที่จอง</th>
+                          <th>ชื่อ - นามสกุล</th>
+                          <th>ห้อง</th>
+                          <th>เรื่อง</th>
+                          <th>ช่วงเวลา</th>
+                          <th>วันที่เริ่ม</th>
+                          <th>วันที่สิ้นสุด</th>
+                          <th>สถานะการจอง</th>
+                          <th>แก้ไขข้อมูล</th>
+                          <th>ลบข้อมูล</th>
+                          </tr>
+                          </thead>";
+                             while($row = $get_reser->fetch_assoc()) {
+                               $mem = $row['Mem_ID'];
+                               $room = $row['Room_ID'];
+                               $get_member = $db->query("SELECT * FROM member WHERE Mem_ID = $mem  ");
+                               $get_room = $db->query("SELECT * FROM room WHERE Room_ID = $room  ");
+                               if ($memberName = $get_member->fetch_assoc() AND $roomName = $get_room->fetch_assoc()) {
+                                  $reser_id = $row["Reser_ID"];
+                                  $Reser_Startdate = $row["Reser_Startdate"];
+                                  $Reser_Enddate = $row["Reser_Enddate"];
+                                   echo "
+                                   <tbody id='tbody'>
+                                   <tr>
+                                   <td>" . $row["Reser_Date"]. "</td>
+                                   <td>" . $memberName["Mem_Fname"] ." ".$memberName["Mem_Lname"]. "</td>
+                                   <td>" . $roomName["Room_Name"]. "</td>
+                                   <td>" . $row["Title"]. "</td>
+                                   <td>" . $row["Day_time"]. "</td>
+                                   <td>" . $row["Reser_Startdate"]. "</td>
+                                   <td>" . $row["Reser_Enddate"]. "</td>
+                                   <td>" . $row["Reser_Satatus"]. "</td>
+                                   <td><input name='btnAdd' type='button' id='btnAdd' value='แก้ไข' onclick='userEdit($reser_id,$room)'></td>
+                                   <td><input name='btnAdd' type='button' id='btnAdd' value='ลบ' onclick='userDeny($reser_id,$room)'></td>
+                                  </tr>
+                                  </tbody>";
+                               }
+                             }
+                             echo "</table>";
+                        } else {
+                             echo "ยังไม่มีการจองสำหรับ user นี้";
+                        }
+                        $db->close();
+                        ?>
 
                     </div>
                 </div>
@@ -327,6 +383,63 @@ if(!$member->is_loggedin())
         <div class="modal-footer">
           <br>
           <button type="submit" id="submit" class="btn btn-primary" >บันทึกข้อมูล</button>
+        </div>
+      </form>
+
+
+    </div>
+    <!-- <div class="modal-footer">
+      <h3>Modal Footer</h3>
+    </div> -->
+  </div>
+
+</div>
+
+<div id="edit_Modal" class="modal ">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 id="editheadTitle"></h3>
+    </div>
+    <div class="modal-body">
+      <form id="edit_calendar">
+        <div class="form-group">
+          <label>ห้อง</label>
+          <br>
+          <select class="form-heading" name="editroom" id="editroom">
+          <option value="">Please Select Item</option>
+            <?php
+            $connect = new connect();
+            $db = $connect->connect();
+            $room = $db->query("SELECT * FROM room ORDER BY Room_id ASC");
+            while($get_room= $room->fetch_assoc()){
+            ?>
+            <option value="<?php echo $get_room["Room_ID"];?>"><?php echo $get_room["Room_Name"];?></option>
+            <?php
+            }
+            ?>
+            </select>
+            <br>
+        <label>เรื่อง</label>
+        <input type="text" class="form-control" name="edittitle" placeholder="" id="edittitle">
+        </div>
+        <label for="gender">ช่วงเวลาที่ต้องการจอง: </label><br>
+        <input type="radio" id="Morning" name="editmyRadio" value="Morning" >ช่วงเช้า</input><br>
+        <input type="radio" id="Afternoon" name="editmyRadio" value="Afternoon" >ช่วงบ่าย</input><br>
+        <input type="radio" id="Night" name="editmyRadio" value="Night" >ช่วงค่ำ</input>
+        <div class="form-group">
+        <label >วันที่เริมต้น</label>
+        <input type="text" class="form-control" name="editstart"  placeholder="" id="editstart">
+        </div>
+        <div class="form-group">
+        <label >วันที่สิ้นสุด</label>
+        <input type="text" class="form-control" name="editend"  placeholder="" id="editend">
+        </div>
+        <div class ="reser_error"></div>
+        <div class="modal-footer">
+          <br>
+          <button type="submit" id="editsubmit" value="" class="btn btn-primary" >แก้ไขข้อมูล</button>
         </div>
       </form>
 
@@ -616,6 +729,8 @@ if(!$member->is_loggedin())
   <script type="text/javascript" src="js/fullcalendar.js"></script>
   <script type="text/javascript" src="js/reserRoom.js"></script>
   <script type="text/javascript" src="js/validation.min.js"></script>
+  <script type="text/javascript" src="js/user.js"></script>
+  <script type="text/javascript" src="js/sendEdit.js"></script>
   <style>
   #calendar {
       width: 1000;

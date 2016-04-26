@@ -35,6 +35,37 @@ if(isset($_POST['getreser'])){
 	}
 }
 
+if(isset($_POST['get_edit'])){
+	$get_reser = $roomManager->getEdit($_POST['reser_id']);
+	if($get_reser != "empty"){
+		foreach($get_reser as $edit){
+			$json[] = array(
+				'Title'=>$edit['Title'],
+				'reserStart'=>$edit["Reser_Startdate"],
+				'reserEnd'=>$edit["Reser_Enddate"],
+				'Day_time'=>$edit["Day_time"]
+				// 'url'=>'javascript:get_modal('.$calendar['Calendar_id'].');',
+			);
+	}
+		//return JSON object
+		echo json_encode($json);
+	}
+	else {
+		echo "empty";
+	}
+}
+
+if(isset($_POST['editreser'])){
+	$reserRoom = $roomManager->editReser($_POST['reserId'],$_POST['roomid'],$_POST['title'],$_POST['start'],$_POST['end'],$_POST['dayTime']);
+	if($reserRoom){
+		echo " แก้ไข้เรียบร้อย ";
+	}
+	else {
+		echo "ไม่สามารถแก้ไขได้";
+	}
+}
+
+
 if(isset($_POST['reser'])){
 	$reserRoom = $roomManager->reserRoom($_SESSION['user_session'],$_POST['roomid'],$_POST['dcmtitle'],$_POST['date'],$_POST['dcmstart'],$_POST['dcmend'],$_POST['dayTime']);
 	if($reserRoom){
