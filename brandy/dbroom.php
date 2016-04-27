@@ -196,6 +196,24 @@ class roomManager {
             }
           }
 
+          public function userDeny($reserId){
+            $connect = new connect();
+            $db = $connect->connect();
+            $checkStatus = $db->query("SELECT * FROM reserve_data WHERE Reser_ID = '$reserId' AND Reser_Satatus NOT LIKE 'Wait'");
+            if (!$checkStatus->fetch_assoc()) {
+              $del_reser = $db->prepare("DELETE FROM reserve_data WHERE Reser_ID = ?");
+              $del_reser->bind_param("i",$reserId);
+              if(!$del_reser->execute()){
+                echo "เกิดข้อผิดพลาด";
+
+              }else{
+                return true;
+                }
+            }else{
+              echo "ห้องกำลังอยู่ในระหว่างการดำเนินเรื่อง";
+            }
+          }
+
       public function removeRoom($roomid){
           $connect = new connect();
           $db = $connect->connect();
@@ -414,6 +432,21 @@ class roomManager {
         $connect = new connect();
         $db = $connect->connect();
         $get_reserData = $db->query("SELECT * FROM reserve_data WHERE Reser_Satatus LIKE 'Wait' ORDER BY Reser_Date DESC");
+        while($row = $get_reserData->fetch_assoc()) {
+            $result[] = $row;
+        }
+        if(!empty($result)){
+          return $result;
+        }else {
+          $result = "empty";
+          return $result;
+        }
+      }
+
+      public function getUserreserData($memid){
+        $connect = new connect();
+        $db = $connect->connect();
+        $get_reserData = $db->query("SELECT * FROM reserve_data WHERE Mem_ID = '$memid' AND Reser_Satatus LIKE 'Wait' ORDER BY Reser_Date DESC");
         while($row = $get_reserData->fetch_assoc()) {
             $result[] = $row;
         }

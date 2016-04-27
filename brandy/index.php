@@ -77,7 +77,7 @@ if(!$member->is_loggedin())
 	                    <li><a href="#SERVICE">Services</a></li>
 	                    <li><a href="#ABOUT">About</a></li> -->
                       <li><a ><?php print($username); ?></a></li>
-	                    <li><button type="button" onclick="window.location.href='logout.php?logout=true'" class="btn btn-default navbar-btn">LOGOUT</button></li>
+	                    <li><button type="button" id="logout" value="" onclick="window.location.href='logout.php?logout=true'" class="btn btn-default navbar-btn">LOGOUT</button></li>
 	                  </ul>
 	                </div>
 	              </div>
@@ -197,7 +197,9 @@ if(!$member->is_loggedin())
                           <th>แก้ไขข้อมูล</th>
                           <th>ลบข้อมูล</th>
                           </tr>
-                          </thead>";
+                          </thead>
+                          <tbody id='tbody'>"
+                          ;
                              while($row = $get_reser->fetch_assoc()) {
                                $mem = $row['Mem_ID'];
                                $room = $row['Room_ID'];
@@ -208,7 +210,7 @@ if(!$member->is_loggedin())
                                   $Reser_Startdate = $row["Reser_Startdate"];
                                   $Reser_Enddate = $row["Reser_Enddate"];
                                    echo "
-                                   <tbody id='tbody'>
+
                                    <tr>
                                    <td>" . $row["Reser_Date"]. "</td>
                                    <td>" . $memberName["Mem_Fname"] ." ".$memberName["Mem_Lname"]. "</td>
@@ -218,13 +220,13 @@ if(!$member->is_loggedin())
                                    <td>" . $row["Reser_Startdate"]. "</td>
                                    <td>" . $row["Reser_Enddate"]. "</td>
                                    <td>" . $row["Reser_Satatus"]. "</td>
-                                   <td><input name='btnAdd' type='button' id='btnAdd' value='แก้ไข' onclick='userEdit($reser_id,$room)'></td>
-                                   <td><input name='btnAdd' type='button' id='btnAdd' value='ลบ' onclick='userDeny($reser_id,$room)'></td>
+                                   <td><input name='btnAdd' type='button' id='btnAdd' value='แก้ไข' onclick='userEdit($reser_id,$room,$mem)'></td>
+                                   <td><input name='btnAdd' type='button' id='btnAdd' value='ลบ' onclick='userDeny($reser_id,$room,$mem)'></td>
                                   </tr>
-                                  </tbody>";
+                                  ";
                                }
                              }
-                             echo "</table>";
+                             echo "</tbody></table>";
                         } else {
                              echo "ยังไม่มีการจองสำหรับ user นี้";
                         }

@@ -44,9 +44,9 @@ $(function() {
         editreser: editreser
       },
       success: function(response) {
-        alert(response);
-        var modal = document.getElementById('dayClick_Modal');
+        var modal = document.getElementById('edit_Modal');
         modal.style.display = "none";
+        getReser();
       }
     });
     return false;
@@ -60,5 +60,75 @@ $(function() {
           break;
       }
   }
+}
+
+function getReser(){
+  var memid = $('#logout').val();
+  var getUserreser = "getUserreser";
+  $.ajax({
+    type: 'POST',
+    url: 'room_manager.php',
+    data: {
+      memid:memid,
+      getUserreser: getUserreser
+    },
+    success: function(response) {
+      if (response != "empty") {
+        console.log("-------------------");
+        console.log(response);
+        $('#tbody').empty();
+        var json_obj = jQuery.parseJSON(response);
+        $.each(json_obj, function(key, value) {
+          var reserDate = value.reserDate;
+          var Name = value.Name;
+          var roomName = value.roomName;
+          var resertitle = value.resertitle;
+          var Day_time = value.Day_time;
+          var reserStart = value.reserStart;
+          var reserEnd = value.reserEnd;
+          var reserStatus = value.reserStatus;
+          var texttable = "<tr>"
+          "<td>"+reserDate+"</td>"
+          "<td>"+Name+"</td>"
+          "<td>"+roomName+"</td>"
+          "<td>"+resertitle+"</td>"
+          "<td>"+Day_time+"</td>"
+          "<td>"+reserStart+"</td>"
+          "<td>"+reserEnd+"</td>"
+          "<td>"+reserStatus+"</td>"
+          "<td><input name='btnAdd' type='button' id='btnAdd' value='แก้ไข' onclick='userEdit($reser_id,$room,$mem)'></td>"
+          "<td><input name='btnAdd' type='button' id='btnAdd' value='ลบ' onclick='userDeny($reser_id,$room,$mem)'></td>"
+          "</tr>";
+          $("#tbody").append("<tr>"
+          +"<td>"+reserDate+"</td>"
+          +"<td>"+Name+"</td>"
+          +"<td>"+roomName+"</td>"
+          +"<td>"+resertitle+"</td>"
+          +"<td>"+Day_time+"</td>"
+          +"<td>"+reserStart+"</td>"
+          +"<td>"+reserEnd+"</td>"
+          +"<td>"+reserStatus+"</td>"
+          +"<td><input name='btnAdd' type='button' id='btnAdd' value='แก้ไข' onclick='userEdit($reser_id,$room,$mem)'></td>"
+          +"<td><input name='btnAdd' type='button' id='btnAdd' value='ลบ' onclick='userDeny($reser_id,$room,$mem)'></td>"
+          +"</tr>");
+        });
+      }else {
+        $('#tbody').remove();
+        var texttable = "<tr>"
+        "<td>"+" "+"</td>"
+        "<td>"+" "+"</td>"
+        "<td>"+" "+"</td>"
+        "<td>"+" "+"</td>"
+        "<td>"+" "+"</td>"
+        "<td>"+" "+"</td>"
+        "<td>"+" "+"</td>"
+        "<td>"+" "+"</td>"
+        "<td>"+" "+"</td>"
+        "<td>"+" "+"</td>"
+        "</tr>";
+        $("#tbody").append(texttable);
+      }
+    }
+  });
 }
 });

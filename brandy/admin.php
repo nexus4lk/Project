@@ -86,6 +86,7 @@ if(!$member->is_loggedin())
         <th>เบอร์โทรศัพท์</th>
         <th>ห้อง</th>
         <th>เรื่อง</th>
+        <th>ช่วงเวลา</th>
         <th>วันที่เริ่ม</th>
         <th>วันที่สิ้นสุด</th>
         <th>สถานะการจอง</th>
@@ -109,11 +110,12 @@ if(!$member->is_loggedin())
                  <td>" . $memberName["Mem_Tel"]. "</td>
                  <td>" . $roomName["Room_Name"]. "</td>
                  <td>" . $row["Title"]. "</td>
+                 <td>" . $row["Day_time"]. "</td>
                  <td>" . $row["Reser_Startdate"]. "</td>
                  <td>" . $row["Reser_Enddate"]. "</td>
                  <td>" . $row["Reser_Satatus"]. "</td>
                  <td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='allowFunction($reser_id)'></td>
-                 <td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='denyFunction($reser_id)'></td>
+                 <td><input name='btnAdd' type='button' id='btnAdd' value='Remove' onclick='denyFunction($reser_id)'></td>
                 </tr>
                 </tbody>";
              }
@@ -638,6 +640,7 @@ if(!$member->is_loggedin())
             var Tel = value.tel;
             var roomName = value.roomName;
             var resertitle = value.resertitle;
+            var Day_time = value.Day_time;
             var reserStart = value.reserStart;
             var reserEnd = value.reserEnd;
             var reserStatus = value.reserStatus;
@@ -648,11 +651,12 @@ if(!$member->is_loggedin())
             "<td>"+Tel+"</td>"
             "<td>"+roomName+"</td>"
             "<td>"+resertitle+"</td>"
+            "<td>"+Day_time+"</td>"
             "<td>"+reserStart+"</td>"
             "<td>"+reserEnd+"</td>"
             "<td>"+reserStatus+"</td>"
             "<td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='allowFunction("+Id+")'></td>"
-            "<td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='denyFunction("+Id+")'></td>"
+            "<td><input name='btnAdd' type='button' id='btnAdd' value='Remove' onclick='denyFunction("+Id+")'></td>"
             "</tr>";
             $("#tbody").append(texttable);
           });
@@ -668,23 +672,14 @@ if(!$member->is_loggedin())
           "<td>"+" "+"</td>"
           "<td>"+" "+"</td>"
           "<td>"+" "+"</td>"
-          "<td><input name='btnAdd' type='button' id='btnAdd' value='Add' ></td>"
-          "<td><input name='btnAdd' type='button' id='btnAdd' value='Add' ></td>"
+          "<td>"+" "+"</td>"
+          "<td>"+" "+"</td>"
+          "<td>"+" "+"</td>"
           "</tr>";
           $("#tbody").append(texttable);
         }
       }
     });
-//     $(function() {
-//        $('#imageUpload').click(function(){
-//
-//               $("#viewImage").html('');
-//               $("#viewImage").html('<img rel="lightbox" src="loader.gif" alt="uploading......"/>');
-//               $("#formUpload").ajaxForm({target: '#viewImage'}).submit();
-//
-//
-//       });
-// });
   }
 </script>
 <!-- <script type="text/javascript">

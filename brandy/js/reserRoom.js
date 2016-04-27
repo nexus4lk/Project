@@ -46,7 +46,6 @@ $(function() {
       },
       success: function(response) {
         modal.style.display = "none";
-        location.reload();
       }
     });
     return false;

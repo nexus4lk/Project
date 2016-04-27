@@ -21,6 +21,35 @@ if(isset($_POST['getreser'])){
 				'tel'=>$get_memberTel,
 				'roomName'=>$get_roomname,
 				'resertitle'=>$room["Title"],
+				'Day_time'=>$room["Day_time"],
+				'reserStart'=>$room["Reser_Startdate"],
+				'reserEnd'=>$room["Reser_Enddate"],
+				'reserStatus'=>$room["Reser_Satatus"]
+				// 'url'=>'javascript:get_modal('.$calendar['Calendar_id'].');',
+			);
+	}
+		//return JSON object
+		echo json_encode($json);
+	}
+	else {
+		echo "empty";
+	}
+}
+
+if(isset($_POST['getUserreser'])){
+	$get_room = $roomManager->getUserreserData($_POST['memid']);
+	if($get_room != "empty"){
+		foreach($get_room as $room){
+		$get_roomname = $roomManager->get_roomname($room['Room_ID']);
+		$get_membername = $roomManager->get_membername($room['Mem_ID']);
+		$get_memberTel = $roomManager->get_memberTel($room['Mem_ID']);
+			$json[] = array(
+
+				'reserDate'=>$room['Reser_Date'],
+				'Name'=>$get_membername,
+				'roomName'=>$get_roomname,
+				'resertitle'=>$room["Title"],
+				'Day_time'=>$room["Day_time"],
 				'reserStart'=>$room["Reser_Startdate"],
 				'reserEnd'=>$room["Reser_Enddate"],
 				'reserStatus'=>$room["Reser_Satatus"]
@@ -82,7 +111,17 @@ if (isset($_POST['allow'])){
 		echo "allowed";
 	}
 	else {
-		echo "error";
+		echo $allowRoom;
+	}
+}
+
+if (isset($_POST['userdeny'])){
+	$userDeny = $roomManager->userDeny($_POST['reser_id']);
+	if($userDeny){
+		echo "removed";
+	}
+	else {
+		echo $userDeny;
 	}
 }
 
