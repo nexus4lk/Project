@@ -9,20 +9,28 @@ class roomManager {
       $db = $connect->connect();
       $wait = "Wait";
       $complete = "Cmpt";
-      $check_room = $db->query("SELECT * FROM reserve_data WHERE Room_ID = '$roomid'
+      $process = "Proc";
+      $check_roomCmpt = $db->query("SELECT * FROM reserve_data WHERE Room_ID = '$roomid'
         AND Reser_Startdate = '$start'
         AND Day_time = '$time'
         AND Reser_Satatus = '$complete'");
-      if($check_room->fetch_assoc()){
-        echo "ห้องมีการจองอยู่ในระบบแล้ว";
+      $check_roomProc = $db->query("SELECT * FROM reserve_data WHERE Room_ID = '$roomid'
+        AND Reser_Startdate = '$start'
+        AND Day_time = '$time'
+        AND Reser_Satatus = '$process'");
+      if($check_roomCmpt->fetch_assoc()){
         return false;
       }else{
-        $add_user = $db->prepare("INSERT INTO reserve_data (Reser_ID, Mem_ID, Room_ID, Title, Reser_Date, Reser_Startdate, Reser_Enddate,	Day_time, Reser_Satatus) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)");
-  		  $add_user->bind_param("iissssss",$user_id,$roomid,$title,$date,$start,$end,$time,$wait);
-        if(!$add_user->execute()){
+        if($check_roomProc->fetch_assoc()){
           return false;
-        }else{
-          return true;
+        }else {
+          $add_user = $db->prepare("INSERT INTO reserve_data (Reser_ID, Mem_ID, Room_ID, Title, Reser_Date, Reser_Startdate, Reser_Enddate,	Day_time, Reser_Satatus) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?)");
+    		  $add_user->bind_param("iissssss",$user_id,$roomid,$title,$date,$start,$end,$time,$wait);
+          if(!$add_user->execute()){
+            return false;
+          }else{
+            return true;
+          }
         }
       }
     }
@@ -176,6 +184,51 @@ class roomManager {
           }
         }
 
+        public function allowProcess($reser_id){
+          $connect = new connect();
+          $db = $connect->connect();
+          $process = "Proc";
+          $complete = "Cmpt";
+          $day = date("Y-m-d");
+          $checkroom = $db->query("SELECT * FROM reserve_data WHERE Reser_ID = '$reser_id'");
+          if($get_detail= $checkroom->fetch_assoc()){
+            $roomid = $get_detail['Room_ID'];
+            $start = $get_detail['Reser_Startdate'];
+            $time = $get_detail['Day_time'];
+            $check_roomProc = $db->query("SELECT * FROM reserve_data WHERE Room_ID = '$roomid'
+              AND Reser_Startdate = '$start'
+              AND Day_time = '$time'
+              AND Reser_Satatus = '$process'");
+              if (!$check_roomProc->fetch_assoc()) {
+                $check_roomCmpt = $db->query("SELECT * FROM reserve_data WHERE Room_ID = '$roomid'
+                  AND Reser_Startdate = '$start'
+                  AND Day_time = '$time'
+                  AND Reser_Satatus = '$complete'");
+                  if (!$check_roomCmpt->fetch_assoc()) {
+                    $allow_room = $db->prepare("UPDATE reserve_data SET Reser_Satatus = ? WHERE Reser_ID = ?");
+                    $allow_room->bind_param("si",$process, $reser_id );
+                    if(!$allow_room->execute()){
+                      echo "เกิดข้อผิดพลาด";
+                    }else {
+                      $add_proc = $db->prepare("INSERT INTO reserne_process (ResPro_id, Reser_ID, Pro_date) VALUES (NULL, ?, ?)");
+                      $add_proc->bind_param("is",$reser_id,$day);
+                      if(!$add_proc->execute()){
+                        echo "เกิดข้อผิดพลาด";
+                      }else{
+                        return true;
+                      }
+                    }
+                  }else {
+                    echo "การจองซ้ำอยู่ในระบบ";
+                  }
+              }else {
+                echo "การจองซ้ำอยู่ในระหว่างการดำเนินการจอง";
+              }
+          }else {
+          echo "เกิดข้อผิดพลาด";
+          }
+          }
+
         public function denyRoom($reser_id){
           $connect = new connect();
           $db = $connect->connect();
@@ -195,6 +248,32 @@ class roomManager {
             }
             }
           }
+
+          public function denyComplete($reser_id){
+            $connect = new connect();
+            $db = $connect->connect();
+            $status = "deny";
+            $day = date("Y-m-d");
+            $del_reser = $db->prepare("DELETE FROM reserne_process WHERE Reser_ID = ?");
+            $del_reser->bind_param("i",$reserId);
+            if(!$del_reser->execute()){
+              echo "เกิดข้อผิดพลาด";
+            }else{
+              $update_del = $db->prepare("UPDATE reserve_data SET Reser_Satatus = ? WHERE Reser_ID = ?");
+              $update_del->bind_param("si",$status, $reser_id);
+              if(!$update_del->execute()){
+                echo "เกิดข้อผิดพลาด";
+              }else{
+                $add_cmpt = $db->prepare("INSERT INTO reserne_deny (ResDeny_id, Reser_ID, Deny_date) VALUES (NULL, ?, ?)");
+                $add_cmpt->bind_param("is",$reser_id,$day);
+                if(!$add_cmpt->execute()){
+                  echo "เกิดข้อผิดพลาด";
+                }else{
+                  return true;
+                }
+                }
+              }
+            }
 
           public function userDeny($reserId){
             $connect = new connect();
@@ -368,6 +447,21 @@ class roomManager {
         }
       }
 
+      public function getTitle($reser_id){
+        $connect = new connect();
+        $db = $connect->connect();
+        $get_Title = $db->query("SELECT * FROM reserve_data WHERE Reser_ID = '$reser_id'");
+        while($Title = $get_Title->fetch_assoc()){
+            $result = $Title['Title'];
+        }
+        if(!empty($result)){
+          return $result;
+        }else {
+          $result = "empty";
+          return $result;
+        }
+      }
+
       public function selectRoomType($roomtype_id){
         $connect = new connect();
         $db = $connect->connect();
@@ -443,10 +537,58 @@ class roomManager {
         }
       }
 
+      public function getreserProcData(){
+        $connect = new connect();
+        $db = $connect->connect();
+        $get_reserData = $db->query("SELECT * FROM reserve_data WHERE Reser_Satatus LIKE 'Proc' ORDER BY Reser_Date DESC");
+        while($row = $get_reserData->fetch_assoc()) {
+            $result[] = $row;
+        }
+        if(!empty($result)){
+          return $result;
+        }else {
+          $result = "empty";
+          return $result;
+        }
+      }
+
+      public function getreserCmptData(){
+        $connect = new connect();
+        $db = $connect->connect();
+        $Current_date = date("Y-m-d");
+        $get_reserData = $db->query("SELECT * FROM reserve_data WHERE Reser_Startdate >= '$Current_date' AND Reser_Satatus LIKE 'Cmpt' ORDER BY Reser_Date ASC");
+        while($row = $get_reserData->fetch_assoc()) {
+            $result[] = $row;
+        }
+        if(!empty($result)){
+          return $result;
+        }else {
+          $result = "empty";
+          return $result;
+        }
+      }
+
+      public function getreserDenyData(){
+        $connect = new connect();
+        $db = $connect->connect();
+        $Current_date = date("Y-m-d");
+        $get_reserData = $db->query("SELECT * FROM reserve_data WHERE Reser_Startdate >= '$Current_date' AND Reser_Satatus LIKE 'deny' ORDER BY Reser_Date ASC");
+        while($row = $get_reserData->fetch_assoc()) {
+            $result[] = $row;
+        }
+        if(!empty($result)){
+          return $result;
+        }else {
+          $result = "empty";
+          return $result;
+        }
+      }
+
       public function getUserreserData($memid){
         $connect = new connect();
         $db = $connect->connect();
-        $get_reserData = $db->query("SELECT * FROM reserve_data WHERE Mem_ID = '$memid' AND Reser_Satatus LIKE 'Wait' ORDER BY Reser_Date DESC");
+        $get_reserData = $db->query("SELECT * FROM reserve_data WHERE Mem_ID = '$memid'
+AND Reser_Satatus LIKE 'Wait' ORDER BY Reser_Date DESC");
         while($row = $get_reserData->fetch_assoc()) {
             $result[] = $row;
         }

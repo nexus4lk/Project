@@ -71,7 +71,6 @@ if(!$member->is_loggedin())
       <h2>Reser Incomes</h2>
       <?php
       // Check connection
-
       $connect = new connect();
       $db = $connect->connect();
       $get_reser = $db->query("SELECT * FROM reserve_data WHERE Reser_Satatus LIKE 'Wait' ORDER BY Reser_Date DESC");
@@ -93,7 +92,8 @@ if(!$member->is_loggedin())
         <th>อนุมัติ</th>
         <th>ปฏิเสธ</th>
         </tr>
-        </thead>";
+        </thead>
+        <tbody id='tbody'>";
            while($row = $get_reser->fetch_assoc()) {
              $mem = $row['Mem_ID'];
              $room = $row['Room_ID'];
@@ -101,8 +101,33 @@ if(!$member->is_loggedin())
              $get_room = $db->query("SELECT * FROM room WHERE Room_ID = $room  ");
              if ($memberName = $get_member->fetch_assoc() AND $roomName = $get_room->fetch_assoc()) {
                 $reser_id = $row["Reser_ID"];
+                $reser_title = $row["Title"];
+                switch ($row["Reser_Satatus"]) {
+                case "Wait":
+                    $status = "รอตรวจสอบ";
+                    break;
+                case "Proc":
+                    $status = "อยู่ระหว่างดำเนินการ";
+                    break;
+                    case "Cmpt":
+                        $status = "เสร็จสิ้นการดำเนินการ";
+                        break;
+                    case "deny":
+                        $status = "ปฏิเสธ";
+                        break;
+                      }
+                  switch ($row["Day_time"]) {
+                    case "Morning":
+                        $day_time = "ช่วงเช้า";
+                        break;
+                    case "Afternoon":
+                        $day_time = "ช่วงบ่าย";
+                        break;
+                    case "Night":
+                        $day_time = "ช่วงค่ำ";
+                        break;
+                      }
                  echo "
-                 <tbody id='tbody'>
                  <tr>
                  <td>" . $row["Reser_ID"]. "</td>
                  <td>" . $row["Reser_Date"]. "</td>
@@ -110,23 +135,336 @@ if(!$member->is_loggedin())
                  <td>" . $memberName["Mem_Tel"]. "</td>
                  <td>" . $roomName["Room_Name"]. "</td>
                  <td>" . $row["Title"]. "</td>
-                 <td>" . $row["Day_time"]. "</td>
+                 <td>" . $day_time. "</td>
                  <td>" . $row["Reser_Startdate"]. "</td>
                  <td>" . $row["Reser_Enddate"]. "</td>
-                 <td>" . $row["Reser_Satatus"]. "</td>
-                 <td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='allowFunction($reser_id)'></td>
-                 <td><input name='btnAdd' type='button' id='btnAdd' value='Remove' onclick='denyFunction($reser_id)'></td>
+                 <td>" . $status. "</td>
+                 <td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='allowProcess($reser_id)'></td>
+                 <td><input name='btnAdd' type='button' id='btnAdd' value='Remove' onclick='denyProcess($reser_id)'></td>
                 </tr>
-                </tbody>";
+                ";
              }
            }
-           echo "</table>";
+           echo "</tbody></table>";
       } else {
-           echo "0 results";
+        echo "<table border='1' width='100%'   cellspacing=''  class='table-style-three' >
+        <thead id='thead'>
+        <tr>
+        <th>ID</th>
+        <th>วันที่จอง</th>
+        <th>ชื่อ - นามสกุล</th>
+        <th>เบอร์โทรศัพท์</th>
+        <th>ห้อง</th>
+        <th>เรื่อง</th>
+        <th>ช่วงเวลา</th>
+        <th>วันที่เริ่ม</th>
+        <th>วันที่สิ้นสุด</th>
+        <th>สถานะการจอง</th>
+        <th>อนุมัติ</th>
+        <th>ปฏิเสธ</th>
+        </tr>
+        </thead>
+        <tbody id='tbody'>
+        </tbody></table>";
       }
       $db->close();
       ?>
+      <br>
+      <br>
+      <h2>In Process</h2>
+      <?php
+      // Check connection
+      $connect = new connect();
+      $db = $connect->connect();
+      $get_reser = $db->query("SELECT * FROM reserve_data WHERE Reser_Satatus LIKE 'Proc' ORDER BY Reser_Date DESC");
 
+      if ($get_reser->num_rows > 0) {
+        echo "<table border='1' width='100%'   cellspacing=''  class='table-style-three' >
+        <thead id='thead'>
+        <tr>
+        <th>ID</th>
+        <th>วันที่จอง</th>
+        <th>ชื่อ - นามสกุล</th>
+        <th>เบอร์โทรศัพท์</th>
+        <th>ห้อง</th>
+        <th>เรื่อง</th>
+        <th>ช่วงเวลา</th>
+        <th>วันที่เริ่ม</th>
+        <th>วันที่สิ้นสุด</th>
+        <th>สถานะการจอง</th>
+        <th>อนุมัติ</th>
+        <th>ปฏิเสธ</th>
+        </tr>
+        </thead>
+        <tbody id='tbodyP'>";
+           while($row = $get_reser->fetch_assoc()) {
+             $mem = $row['Mem_ID'];
+             $room = $row['Room_ID'];
+             $get_member = $db->query("SELECT * FROM member WHERE Mem_ID = $mem  ");
+             $get_room = $db->query("SELECT * FROM room WHERE Room_ID = $room  ");
+             if ($memberName = $get_member->fetch_assoc() AND $roomName = $get_room->fetch_assoc()) {
+                $reser_id = $row["Reser_ID"];
+                switch ($row["Reser_Satatus"]) {
+                case "Wait":
+                    $status = "รอตรวจสอบ";
+                    break;
+                case "Proc":
+                    $status = "อยู่ระหว่างดำเนินการ";
+                    break;
+                    case "Cmpt":
+                        $status = "เสร็จสิ้นการดำเนินการ";
+                        break;
+                    case "deny":
+                        $status = "ปฏิเสธ";
+                        break;
+                      }
+                  switch ($row["Day_time"]) {
+                    case "Morning":
+                        $day_time = "ช่วงเช้า";
+                        break;
+                    case "Afternoon":
+                        $day_time = "ช่วงบ่าย";
+                        break;
+                    case "Night":
+                        $day_time = "ช่วงค่ำ";
+                        break;
+                      }
+                 echo "
+                 <tr>
+                 <td>" . $row["Reser_ID"]. "</td>
+                 <td>" . $row["Reser_Date"]. "</td>
+                 <td>" . $memberName["Mem_Fname"] ." ".$memberName["Mem_Lname"]. "</td>
+                 <td>" . $memberName["Mem_Tel"]. "</td>
+                 <td>" . $roomName["Room_Name"]. "</td>
+                 <td>" . $row["Title"]. "</td>
+                 <td>" . $day_time. "</td>
+                 <td>" . $row["Reser_Startdate"]. "</td>
+                 <td>" . $row["Reser_Enddate"]. "</td>
+                 <td>" . $status. "</td>
+                 <td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='allowComplete($reser_id)'></td>
+                 <td><input name='btnAdd' type='button' id='btnAdd' value='Remove' onclick='denyComplete($reser_id)'></td>
+                </tr>
+                ";
+             }
+           }
+           echo "</tbody></table>";
+      } else {
+        echo "<table border='1' width='100%'   cellspacing=''  class='table-style-three' >
+        <thead id='thead'>
+        <tr>
+        <th>ID</th>
+        <th>วันที่จอง</th>
+        <th>ชื่อ - นามสกุล</th>
+        <th>เบอร์โทรศัพท์</th>
+        <th>ห้อง</th>
+        <th>เรื่อง</th>
+        <th>ช่วงเวลา</th>
+        <th>วันที่เริ่ม</th>
+        <th>วันที่สิ้นสุด</th>
+        <th>สถานะการจอง</th>
+        <th>อนุมัติ</th>
+        <th>ปฏิเสธ</th>
+        </tr>
+        </thead>
+        <tbody id='tbodyP'>
+        </tbody></table>";
+      }
+      $db->close();
+      ?>
+      <br>
+      <br>
+      <h2>Complete</h2>
+      <?php
+      // Check connection
+      $connect = new connect();
+      $db = $connect->connect();
+      $Current_date = date("Y-m-d");
+      $get_reser = $db->query("SELECT * FROM reserve_data WHERE Reser_Startdate >= '$Current_date' AND Reser_Satatus LIKE 'Cmpt' ORDER BY Reser_Date DESC");
+
+      if ($get_reser->num_rows > 0) {
+        echo "<table border='1' width='100%'   cellspacing=''  class='table-style-three' >
+        <thead id='thead'>
+        <tr>
+        <th>ID</th>
+        <th>วันที่จอง</th>
+        <th>ชื่อ - นามสกุล</th>
+        <th>เบอร์โทรศัพท์</th>
+        <th>ห้อง</th>
+        <th>เรื่อง</th>
+        <th>ช่วงเวลา</th>
+        <th>วันที่เริ่ม</th>
+        <th>วันที่สิ้นสุด</th>
+        <th>สถานะการจอง</th>
+        </tr>
+        </thead>
+        <tbody id='tbodyC'>";
+           while($row = $get_reser->fetch_assoc()) {
+             $mem = $row['Mem_ID'];
+             $room = $row['Room_ID'];
+             $get_member = $db->query("SELECT * FROM member WHERE Mem_ID = $mem  ");
+             $get_room = $db->query("SELECT * FROM room WHERE Room_ID = $room  ");
+             if ($memberName = $get_member->fetch_assoc() AND $roomName = $get_room->fetch_assoc()) {
+                $reser_id = $row["Reser_ID"];
+                switch ($row["Reser_Satatus"]) {
+                case "Wait":
+                    $status = "รอตรวจสอบ";
+                    break;
+                case "Proc":
+                    $status = "อยู่ระหว่างดำเนินการ";
+                    break;
+                    case "Cmpt":
+                        $status = "เสร็จสิ้นการดำเนินการ";
+                        break;
+                    case "deny":
+                        $status = "ปฏิเสธ";
+                        break;
+                      }
+                  switch ($row["Day_time"]) {
+                    case "Morning":
+                        $day_time = "ช่วงเช้า";
+                        break;
+                    case "Afternoon":
+                        $day_time = "ช่วงบ่าย";
+                        break;
+                    case "Night":
+                        $day_time = "ช่วงค่ำ";
+                        break;
+                      }
+                 echo "
+                 <tr>
+                 <td>" . $row["Reser_ID"]. "</td>
+                 <td>" . $row["Reser_Date"]. "</td>
+                 <td>" . $memberName["Mem_Fname"] ." ".$memberName["Mem_Lname"]. "</td>
+                 <td>" . $memberName["Mem_Tel"]. "</td>
+                 <td>" . $roomName["Room_Name"]. "</td>
+                 <td>" . $row["Title"]. "</td>
+                 <td>" . $day_time. "</td>
+                 <td>" . $row["Reser_Startdate"]. "</td>
+                 <td>" . $row["Reser_Enddate"]. "</td>
+                 <td>" . $status. "</td>
+                </tr>
+                ";
+             }
+           }
+           echo "</tbody></table>";
+      } else {
+        echo "<table border='1' width='100%'   cellspacing=''  class='table-style-three' >
+        <thead id='thead'>
+        <tr>
+        <th>ID</th>
+        <th>วันที่จอง</th>
+        <th>ชื่อ - นามสกุล</th>
+        <th>เบอร์โทรศัพท์</th>
+        <th>ห้อง</th>
+        <th>เรื่อง</th>
+        <th>ช่วงเวลา</th>
+        <th>วันที่เริ่ม</th>
+        <th>วันที่สิ้นสุด</th>
+        <th>สถานะการจอง</th>
+        </tr>
+        </thead>
+        <tbody id='tbodyC'>
+        </tbody></table>";
+      }
+      $db->close();
+      ?>
+      <br>
+      <br>
+      <h2>Denined</h2>
+      <?php
+      // Check connection
+      $connect = new connect();
+      $db = $connect->connect();
+      $Current_date = date("Y-m-d");
+      $get_reser = $db->query("SELECT * FROM reserve_data WHERE Reser_Startdate >= '$Current_date' AND Reser_Satatus LIKE 'deny' ORDER BY Reser_Date DESC");
+      if ($get_reser->num_rows > 0) {
+        echo "<table border='1' width='100%'   cellspacing=''  class='table-style-three' >
+        <thead id='thead'>
+        <tr>
+        <th>ID</th>
+        <th>วันที่จอง</th>
+        <th>ชื่อ - นามสกุล</th>
+        <th>เบอร์โทรศัพท์</th>
+        <th>ห้อง</th>
+        <th>เรื่อง</th>
+        <th>ช่วงเวลา</th>
+        <th>วันที่เริ่ม</th>
+        <th>วันที่สิ้นสุด</th>
+        <th>สถานะการจอง</th>
+        </tr>
+        </thead>
+        <tbody id='tbodyD'>";
+           while($row = $get_reser->fetch_assoc()) {
+             $mem = $row['Mem_ID'];
+             $room = $row['Room_ID'];
+             $get_member = $db->query("SELECT * FROM member WHERE Mem_ID = $mem  ");
+             $get_room = $db->query("SELECT * FROM room WHERE Room_ID = $room  ");
+             if ($memberName = $get_member->fetch_assoc() AND $roomName = $get_room->fetch_assoc()) {
+                $reser_id = $row["Reser_ID"];
+                switch ($row["Reser_Satatus"]) {
+                case "Wait":
+                    $status = "รอตรวจสอบ";
+                    break;
+                case "Proc":
+                    $status = "อยู่ระหว่างดำเนินการ";
+                    break;
+                case "Cmpt":
+                    $status = "เสร็จสิ้นการดำเนินการ";
+                    break;
+                case "deny":
+                    $status = "ปฏิเสธ";
+                    break;
+                  }
+
+                  switch ($row["Day_time"]) {
+                    case "Morning":
+                        $day_time = "ช่วงเช้า";
+                        break;
+                    case "Afternoon":
+                        $day_time = "ช่วงบ่าย";
+                        break;
+                    case "Night":
+                        $day_time = "ช่วงค่ำ";
+                        break;
+                      }
+                 echo "
+                 <tr>
+                 <td>" . $row["Reser_ID"]. "</td>
+                 <td>" . $row["Reser_Date"]. "</td>
+                 <td>" . $memberName["Mem_Fname"] ." ".$memberName["Mem_Lname"]. "</td>
+                 <td>" . $memberName["Mem_Tel"]. "</td>
+                 <td>" . $roomName["Room_Name"]. "</td>
+                 <td>" . $row["Title"]. "</td>
+                 <td>" . $day_time. "</td>
+                 <td>" . $row["Reser_Startdate"]. "</td>
+                 <td>" . $row["Reser_Enddate"]. "</td>
+                 <td>" . $status. "</td>
+                </tr>
+                ";
+             }
+           }
+           echo "</tbody></table>";
+      } else {
+        echo "<table border='1' width='100%'   cellspacing=''  class='table-style-three' >
+        <thead id='thead'>
+        <tr>
+        <th>ID</th>
+        <th>วันที่จอง</th>
+        <th>ชื่อ - นามสกุล</th>
+        <th>เบอร์โทรศัพท์</th>
+        <th>ห้อง</th>
+        <th>เรื่อง</th>
+        <th>ช่วงเวลา</th>
+        <th>วันที่เริ่ม</th>
+        <th>วันที่สิ้นสุด</th>
+        <th>สถานะการจอง</th>
+        </tr>
+        </thead>
+        <tbody id='tbodyD'>
+        </tbody></table>";
+      }
+      $db->close();
+      ?>
 
   <div id="container" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
     </div>
@@ -572,6 +910,8 @@ if(!$member->is_loggedin())
   <script type="text/javascript" src="js/removeRoom.js"></script>
   <script type="text/javascript" src="js/AddImage.js"></script>
   <script type="text/javascript" src="js/validation.min.js"></script>
+  <script type="text/javascript" src="js/admin.js"></script>
+
   <script>
     $('.container > div').hide();
     $(".container #section1").show();
@@ -585,184 +925,7 @@ if(!$member->is_loggedin())
       $(this).addClass("active");
     });
 </script>
-<script>
-  function allowFunction(reser_id) {
-    var reser_id = reser_id;
-    var allow = "allow"
-    $.ajax({
-      type: 'POST',
-      url: 'room_manager.php',
-      data: {
-        reser_id: reser_id,
-        allow: allow
-      },
-      success: function(response) {
-        alert(response);
-        getReser();
-      }
-    });
-  }
 
-  function denyFunction(reser_id) {
-    var reser_id = reser_id;
-    var deny = "deny";
-    $.ajax({
-      type: 'POST',
-      url: 'room_manager.php',
-      data: {
-        reser_id: reser_id,
-        deny: deny
-      },
-      success: function(response) {
-        alert(response);
-        getReser();
-      }
-    });
-  }
-
-  function getReser(){
-    var getreser = "getreser";
-    $.ajax({
-      type: 'POST',
-      url: 'room_manager.php',
-      data: {
-        getreser: getreser
-      },
-      success: function(response) {
-        if (response != "empty") {
-          console.log(response);
-          $('#tbody').remove();
-          var json_obj = jQuery.parseJSON(response);
-          $.each(json_obj, function(key, value) {
-            var Id = value.reserId;
-            var reserDate = value.reserDate;
-            var Name = value.Name;
-            var Tel = value.tel;
-            var roomName = value.roomName;
-            var resertitle = value.resertitle;
-            var Day_time = value.Day_time;
-            var reserStart = value.reserStart;
-            var reserEnd = value.reserEnd;
-            var reserStatus = value.reserStatus;
-            var texttable = "<tr>"
-            "<td>"+Id+"</td>"
-            "<td>"+reserDate+"</td>"
-            "<td>"+Name+"</td>"
-            "<td>"+Tel+"</td>"
-            "<td>"+roomName+"</td>"
-            "<td>"+resertitle+"</td>"
-            "<td>"+Day_time+"</td>"
-            "<td>"+reserStart+"</td>"
-            "<td>"+reserEnd+"</td>"
-            "<td>"+reserStatus+"</td>"
-            "<td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='allowFunction("+Id+")'></td>"
-            "<td><input name='btnAdd' type='button' id='btnAdd' value='Remove' onclick='denyFunction("+Id+")'></td>"
-            "</tr>";
-            $("#tbody").append(texttable);
-          });
-        }else {
-          $('#tbody').remove();
-          var texttable = "<tr>"
-          "<td>"+" "+"</td>"
-          "<td>"+" "+"</td>"
-          "<td>"+" "+"</td>"
-          "<td>"+" "+"</td>"
-          "<td>"+" "+"</td>"
-          "<td>"+" "+"</td>"
-          "<td>"+" "+"</td>"
-          "<td>"+" "+"</td>"
-          "<td>"+" "+"</td>"
-          "<td>"+" "+"</td>"
-          "<td>"+" "+"</td>"
-          "<td>"+" "+"</td>"
-          "</tr>";
-          $("#tbody").append(texttable);
-        }
-      }
-    });
-  }
-</script>
-<!-- <script type="text/javascript">
- $(document).ready(function () {
- var options = {
- target: '#output', // target element(s) to be updated with server response
- beforeSubmit: beforeSubmit, // pre-submit callback
- success: afterSuccess, // post-submit callback
- resetForm: true // reset the form after successful submit
- };
-
- $('#add-form').submit(function () {
- $(this).ajaxSubmit(options);
- // always return false to prevent standard browser submit and page navigation
- return false;
- });
- });
-
- function afterSuccess()
- {
- $('#submit-btn').show(); //hide submit button
- $('#loading-img').hide(); //hide submit button
-
- }
-
- //function to check file size before uploading.
- function beforeSubmit() {
- //check whether browser fully supports all File API
- if (window.File && window.FileReader && window.FileList && window.Blob)
- {
-
- if (!$('#imageInput').val()) //check empty input filed
- {
- $("#output").html("Are you kidding me?");
- return false
- }
-
- var fsize = $('#imageInput')[0].files[0].size; //get file size
- var ftype = $('#imageInput')[0].files[0].type; // get file type
-
-
- //allow only valid image file types
- switch (ftype)
- {
- case 'image/png':
- case 'image/gif':
- case 'image/jpeg':
- case 'image/pjpeg':
- break;
- default:
- $("#output").html("<b>" + ftype + "</b> Unsupported file type!");
- return false
- }
-
- //Allowed file size is less than 1 MB (1048576)
- if (fsize > 1048576)
- {
- $("#output").html("<b>" + bytesToSize(fsize) + "</b> Too big Image file! <br />Please reduce the size of your photo using an image editor.");
- return false
- }
-
- $('#submit-btn').hide(); //hide submit button
- $('#loading-img').show(); //hide submit button
- $("#output").html("");
- }
- else
- {
- //Output error to older browsers that do not support HTML5 File API
- $("#output").html("Please upgrade your browser, because your current browser lacks some new features we need!");
- return false;
- }
- }
-
- //function to format bites bit.ly/19yoIPO
- function bytesToSize(bytes) {
- var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
- if (bytes == 0)
- return '0 Bytes';
- var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
- return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
- }
-
- </script> -->
   <style>
 table, th, td {
      border: 1px solid black;

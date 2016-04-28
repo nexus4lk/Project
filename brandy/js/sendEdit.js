@@ -79,6 +79,9 @@ function getReser(){
         $('#tbody').empty();
         var json_obj = jQuery.parseJSON(response);
         $.each(json_obj, function(key, value) {
+          var member_id=value.member_id;
+          var reserId=value.reserId;
+          var room_id=value.room_id;
           var reserDate = value.reserDate;
           var Name = value.Name;
           var roomName = value.roomName;
@@ -88,18 +91,6 @@ function getReser(){
           var reserEnd = value.reserEnd;
           var reserStatus = value.reserStatus;
           var texttable = "<tr>"
-          "<td>"+reserDate+"</td>"
-          "<td>"+Name+"</td>"
-          "<td>"+roomName+"</td>"
-          "<td>"+resertitle+"</td>"
-          "<td>"+Day_time+"</td>"
-          "<td>"+reserStart+"</td>"
-          "<td>"+reserEnd+"</td>"
-          "<td>"+reserStatus+"</td>"
-          "<td><input name='btnAdd' type='button' id='btnAdd' value='แก้ไข' onclick='userEdit($reser_id,$room,$mem)'></td>"
-          "<td><input name='btnAdd' type='button' id='btnAdd' value='ลบ' onclick='userDeny($reser_id,$room,$mem)'></td>"
-          "</tr>";
-          $("#tbody").append("<tr>"
           +"<td>"+reserDate+"</td>"
           +"<td>"+Name+"</td>"
           +"<td>"+roomName+"</td>"
@@ -108,9 +99,10 @@ function getReser(){
           +"<td>"+reserStart+"</td>"
           +"<td>"+reserEnd+"</td>"
           +"<td>"+reserStatus+"</td>"
-          +"<td><input name='btnAdd' type='button' id='btnAdd' value='แก้ไข' onclick='userEdit($reser_id,$room,$mem)'></td>"
-          +"<td><input name='btnAdd' type='button' id='btnAdd' value='ลบ' onclick='userDeny($reser_id,$room,$mem)'></td>"
-          +"</tr>");
+          +"<td><input name='btnAdd' type='button' id='btnAdd' value='แก้ไข' onclick='userEdit("+reserId+","+room_id+","+member_id+")'></td>"
+          +"<td><input name='btnAdd' type='button' id='btnAdd' value='ลบ' onclick='userDeny("+reserId+","+room_id+","+member_id+")'></td>"
+          +"</tr>";
+          $("#tbody").append(texttable);
         });
       }else {
         $('#tbody').remove();

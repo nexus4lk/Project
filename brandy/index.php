@@ -77,7 +77,7 @@ if(!$member->is_loggedin())
 	                    <li><a href="#SERVICE">Services</a></li>
 	                    <li><a href="#ABOUT">About</a></li> -->
                       <li><a ><?php print($username); ?></a></li>
-	                    <li><button type="button" id="logout" value="" onclick="window.location.href='logout.php?logout=true'" class="btn btn-default navbar-btn">LOGOUT</button></li>
+	                    <li><button type="button" id="logout" value='<?php print($memid); ?>' onclick="window.location.href='logout.php?logout=true'" class="btn btn-default navbar-btn">LOGOUT</button></li>
 	                  </ul>
 	                </div>
 	              </div>
@@ -210,7 +210,6 @@ if(!$member->is_loggedin())
                                   $Reser_Startdate = $row["Reser_Startdate"];
                                   $Reser_Enddate = $row["Reser_Enddate"];
                                    echo "
-
                                    <tr>
                                    <td>" . $row["Reser_Date"]. "</td>
                                    <td>" . $memberName["Mem_Fname"] ." ".$memberName["Mem_Lname"]. "</td>
@@ -228,12 +227,32 @@ if(!$member->is_loggedin())
                              }
                              echo "</tbody></table>";
                         } else {
-                             echo "ยังไม่มีการจองสำหรับ user นี้";
+                          echo "<table border='1' width='100%'   cellspacing=''  class='table-style-three' >
+                          <thead id='thead'>
+                          <tr>
+                          <th>วันที่จอง</th>
+                          <th>ชื่อ - นามสกุล</th>
+                          <th>ห้อง</th>
+                          <th>เรื่อง</th>
+                          <th>ช่วงเวลา</th>
+                          <th>วันที่เริ่ม</th>
+                          <th>วันที่สิ้นสุด</th>
+                          <th>สถานะการจอง</th>
+                          <th>แก้ไขข้อมูล</th>
+                          <th>ลบข้อมูล</th>
+                          </tr>
+                          </thead>
+                          <tbody id='tbody'>
+                          </tbody></table>"
+                          ;
                         }
                         $db->close();
                         ?>
 
                     </div>
+                    <br>
+                    <font size="3" color="#ff4444" >*กรุณารอการดำเนินเรื่อง 3 - 4 วัน</font>
+
                 </div>
             </div>
         </div>
@@ -336,7 +355,27 @@ if(!$member->is_loggedin())
   </div>
 
 </div>
+<!-- The eventClick Modal  ดูรายละเอียดอีเว้นนนนนนนนนนนนนนนนนนนนนน-->
+<div id="eventClick_Modal" class="modal ">
 
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+
+      <h2 id="ecmTitle"></h2>
+    </div>
+    <div class="modal-body">
+      <h4 id="ecmroom" class="modal-room"></h4>
+      <h4 id="ecmmem" class="modal-mem"></h4>
+      <p>Some text in the Modal Body</p>
+      <p>Some other text...</p>
+    </div>
+    <!-- <div class="modal-footer">
+      <h3>Modal Footer</h3>
+    </div> -->
+  </div>
+
+</div>
 
 
     <!-- The dayClick Modal กดจองห้องงงงงงงงงงงงงงงงงง -->

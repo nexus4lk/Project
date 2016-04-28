@@ -7,25 +7,51 @@ $roomManager= new roomManager();
 
 //check data for show fullcalendar
 
-if(isset($_POST['getreser'])){
-	$get_room = $roomManager->getreserData();
-	if($get_room != "empty"){
-		foreach($get_room as $room){
-		$get_roomname = $roomManager->get_roomname($room['Room_ID']);
-		$get_membername = $roomManager->get_membername($room['Mem_ID']);
-		$get_memberTel = $roomManager->get_memberTel($room['Mem_ID']);
+if(isset($_POST['getreser'])){//admin incomes
+	$get_reser = $roomManager->getreserData();
+	if($get_reser != "empty"){
+		foreach($get_reser as $reser){
+		$get_roomname = $roomManager->get_roomname($reser['Room_ID']);
+		$get_membername = $roomManager->get_membername($reser['Mem_ID']);
+		$get_memberTel = $roomManager->get_memberTel($reser['Mem_ID']);
+		switch ($reser["Reser_Satatus"]) {
+    case "Wait":
+        $status = "รอตรวจสอบ";
+        break;
+    case "Proc":
+        $status = "อยู่ระหว่างดำเนินการ";
+        break;
+				case "Cmpt":
+				    $status = "เสร็จสิ้นการดำเนินการ";
+				    break;
+				case "deny":
+				    $status = "ปฏิเสธ";
+				    break;
+				  }
+		switch ($reser["Day_time"]) {
+			case "Morning":
+					$day_time = "ช่วงเช้า";
+					break;
+			case "Afternoon":
+					$day_time = "ช่วงบ่าย";
+					break;
+			case "Night":
+					$day_time = "ช่วงค่ำ";
+					break;
+				}
 			$json[] = array(
-				'reserId'=>$room['Reser_ID'],
-				'reserDate'=>$room['Reser_Date'],
-				'name'=>$get_membername,
+				'member_id'=>$reser['Mem_ID'],
+				'reserId'=>$reser['Reser_ID'],
+				'room_id'=>$reser['Room_ID'],
+				'reserDate'=>$reser['Reser_Date'],
+				'Name'=>$get_membername,
 				'tel'=>$get_memberTel,
 				'roomName'=>$get_roomname,
-				'resertitle'=>$room["Title"],
-				'Day_time'=>$room["Day_time"],
-				'reserStart'=>$room["Reser_Startdate"],
-				'reserEnd'=>$room["Reser_Enddate"],
-				'reserStatus'=>$room["Reser_Satatus"]
-				// 'url'=>'javascript:get_modal('.$calendar['Calendar_id'].');',
+				'resertitle'=>$reser["Title"],
+				'Day_time'=>$day_time,
+				'reserStart'=>$reser["Reser_Startdate"],
+				'reserEnd'=>$reser["Reser_Enddate"],
+				'reserStatus'=>$status
 			);
 	}
 		//return JSON object
@@ -36,7 +62,172 @@ if(isset($_POST['getreser'])){
 	}
 }
 
-if(isset($_POST['getUserreser'])){
+if(isset($_POST['Proc'])){//Process
+	$get_reser = $roomManager->getreserProcData();
+	if($get_reser != "empty"){
+		foreach($get_reser as $reser){
+		$get_roomname = $roomManager->get_roomname($reser['Room_ID']);
+		$get_membername = $roomManager->get_membername($reser['Mem_ID']);
+		$get_memberTel = $roomManager->get_memberTel($reser['Mem_ID']);
+		switch ($reser["Reser_Satatus"]) {
+    case "Wait":
+        $status = "รอตรวจสอบ";
+        break;
+    case "Proc":
+        $status = "อยู่ระหว่างดำเนินการ";
+        break;
+				case "Cmpt":
+				    $status = "เสร็จสิ้นการดำเนินการ";
+				    break;
+				case "deny":
+				    $status = "ปฏิเสธ";
+				    break;
+				  }
+			switch ($reser["Day_time"]) {
+				case "Morning":
+						$day_time = "ช่วงเช้า";
+						break;
+				case "Afternoon":
+						$day_time = "ช่วงบ่าย";
+						break;
+				case "Night":
+						$day_time = "ช่วงค่ำ";
+						break;
+					}
+			$json[] = array(
+				'member_id'=>$reser['Mem_ID'],
+				'reserId'=>$reser['Reser_ID'],
+				'room_id'=>$reser['Room_ID'],
+				'reserDate'=>$reser['Reser_Date'],
+				'Name'=>$get_membername,
+				'tel'=>$get_memberTel,
+				'roomName'=>$get_roomname,
+				'resertitle'=>$reser["Title"],
+				'Day_time'=>$day_time,
+				'reserStart'=>$reser["Reser_Startdate"],
+				'reserEnd'=>$reser["Reser_Enddate"],
+				'reserStatus'=>$status
+			);
+	}
+		//return JSON object
+		echo json_encode($json);
+	}
+	else {
+		echo "empty";
+	}
+}
+
+if(isset($_POST['Cmpt'])){//Complete
+	$get_reser = $roomManager->getreserCmptData();
+	if($get_reser != "empty"){
+		foreach($get_reser as $reser){
+		$get_roomname = $roomManager->get_roomname($reser['Room_ID']);
+		$get_membername = $roomManager->get_membername($reser['Mem_ID']);
+		$get_memberTel = $roomManager->get_memberTel($reser['Mem_ID']);
+		switch ($reser["Reser_Satatus"]) {
+    case "Wait":
+        $status = "รอตรวจสอบ";
+        break;
+    case "Proc":
+        $status = "อยู่ระหว่างดำเนินการ";
+        break;
+				case "Cmpt":
+				    $status = "เสร็จสิ้นการดำเนินการ";
+				    break;
+				case "deny":
+				    $status = "ปฏิเสธ";
+				    break;
+				  }
+			switch ($reser["Day_time"]) {
+				case "Morning":
+						$day_time = "ช่วงเช้า";
+						break;
+				case "Afternoon":
+						$day_time = "ช่วงบ่าย";
+						break;
+				case "Night":
+						$day_time = "ช่วงค่ำ";
+						break;
+					}
+			$json[] = array(
+				'member_id'=>$reser['Mem_ID'],
+				'reserId'=>$reser['Reser_ID'],
+				'room_id'=>$reser['Room_ID'],
+				'reserDate'=>$reser['Reser_Date'],
+				'Name'=>$get_membername,
+				'tel'=>$get_memberTel,
+				'roomName'=>$get_roomname,
+				'resertitle'=>$reser["Title"],
+				'Day_time'=>$day_time,
+				'reserStart'=>$reser["Reser_Startdate"],
+				'reserEnd'=>$reser["Reser_Enddate"],
+				'reserStatus'=>$status
+			);
+	}
+		//return JSON object
+		echo json_encode($json);
+	}
+	else {
+		echo "empty";
+	}
+}
+
+if(isset($_POST['getReserdeny'])){//Deny
+	$get_reser = $roomManager->getreserDenyData();
+	if($get_reser != "empty"){
+		foreach($get_reser as $reser){
+		$get_roomname = $roomManager->get_roomname($reser['Room_ID']);
+		$get_membername = $roomManager->get_membername($reser['Mem_ID']);
+		$get_memberTel = $roomManager->get_memberTel($reser['Mem_ID']);
+		switch ($reser["Reser_Satatus"]) {
+    case "Wait":
+        $status = "รอตรวจสอบ";
+        break;
+    case "Proc":
+        $status = "อยู่ระหว่างดำเนินการ";
+        break;
+				case "Cmpt":
+				    $status = "เสร็จสิ้นการดำเนินการ";
+				    break;
+				case "deny":
+				    $status = "ปฏิเสธ";
+				    break;
+				  }
+			switch ($reser["Day_time"]) {
+				case "Morning":
+						$day_time = "ช่วงเช้า";
+						break;
+				case "Afternoon":
+						$day_time = "ช่วงบ่าย";
+						break;
+				case "Night":
+						$day_time = "ช่วงค่ำ";
+						break;
+					}
+			$json[] = array(
+				'member_id'=>$reser['Mem_ID'],
+				'reserId'=>$reser['Reser_ID'],
+				'room_id'=>$reser['Room_ID'],
+				'reserDate'=>$reser['Reser_Date'],
+				'Name'=>$get_membername,
+				'tel'=>$get_memberTel,
+				'roomName'=>$get_roomname,
+				'resertitle'=>$reser["Title"],
+				'Day_time'=>$day_time,
+				'reserStart'=>$reser["Reser_Startdate"],
+				'reserEnd'=>$reser["Reser_Enddate"],
+				'reserStatus'=>$status
+			);
+	}
+		//return JSON object
+		echo json_encode($json);
+	}
+	else {
+		echo "empty";
+	}
+}
+
+if(isset($_POST['getUserreser'])){//index
 	$get_room = $roomManager->getUserreserData($_POST['memid']);
 	if($get_room != "empty"){
 		foreach($get_room as $room){
@@ -44,7 +235,9 @@ if(isset($_POST['getUserreser'])){
 		$get_membername = $roomManager->get_membername($room['Mem_ID']);
 		$get_memberTel = $roomManager->get_memberTel($room['Mem_ID']);
 			$json[] = array(
-
+				'member_id'=>$room['Mem_ID'],
+				'reserId'=>$room['Reser_ID'],
+				'room_id'=>$room['Room_ID'],
 				'reserDate'=>$room['Reser_Date'],
 				'Name'=>$get_membername,
 				'roomName'=>$get_roomname,
@@ -53,7 +246,6 @@ if(isset($_POST['getUserreser'])){
 				'reserStart'=>$room["Reser_Startdate"],
 				'reserEnd'=>$room["Reser_Enddate"],
 				'reserStatus'=>$room["Reser_Satatus"]
-				// 'url'=>'javascript:get_modal('.$calendar['Calendar_id'].');',
 			);
 	}
 		//return JSON object
@@ -98,22 +290,34 @@ if(isset($_POST['editreser'])){
 if(isset($_POST['reser'])){
 	$reserRoom = $roomManager->reserRoom($_SESSION['user_session'],$_POST['roomid'],$_POST['dcmtitle'],$_POST['date'],$_POST['dcmstart'],$_POST['dcmend'],$_POST['dayTime']);
 	if($reserRoom){
-		echo " กรุณารอการดำเนินเรื่อง 3-4 วัน ".$reserRoom;
+		echo " กรุณารอการดำเนินเรื่อง 3-4 วัน ";
 	}
 	else {
-		echo "ไม่สามารถจองห้องได้".$reserRoom;
+		echo "ไม่สามารถจองห้องได้เนื่องจากห้องมีการจองอยู่ หรือ ห้งออยู่ระหว่างการดำเนินการ";
 	}
 }
 
-if (isset($_POST['allow'])){
+if (isset($_POST['allowComplete'])){
 	$allowRoom = $roomManager->allowRoom($_POST['reser_id']);
 	if($allowRoom){
-		echo "allowed";
+		echo "Complete Reservation";
 	}
 	else {
 		echo $allowRoom;
 	}
 }
+
+
+if (isset($_POST['allowProcess'])){
+	$allowProcess = $roomManager->allowProcess($_POST['reser_id']);
+	if($allowProcess){
+		echo "Allow to process";
+	}
+	else {
+		echo "ไม่สามารถจองได้เนื่องจาก".$allowProcess;
+	}
+}
+
 
 if (isset($_POST['userdeny'])){
 	$userDeny = $roomManager->userDeny($_POST['reser_id']);
@@ -128,7 +332,17 @@ if (isset($_POST['userdeny'])){
 if (isset($_POST['deny'])){
 	$allowRoom = $roomManager->denyRoom($_POST['reser_id']);
 	if($allowRoom){
-		echo "denied";
+		echo "Denied";
+	}
+	else {
+		echo "error";
+	}
+}
+
+if (isset($_POST['denyComplete'])){
+	$denyComplete = $roomManager->denyComplete($_POST['reser_id']);
+	if($denyComplete){
+		echo "Denied";
 	}
 	else {
 		echo "error";
@@ -236,6 +450,16 @@ if(isset($_POST['getfloor'])){
 	$get_floor = $roomManager->getFloor($_POST['building_id']);
 	if($get_floor != "empty"){
 			echo $get_floor;
+	}
+	else {
+		echo "empty";
+	}
+}
+
+if(isset($_POST['getroomName'])){
+$getTitle = $roomManager->getTitle($_POST['reser_id']);
+if($getTitle != "empty"){
+			echo $getTitle;
 	}
 	else {
 		echo "empty";

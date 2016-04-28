@@ -33,8 +33,6 @@ function userEdit(reser_id,room_id,memid) {
         document.getElementById("editend").value = reserEnd;
         document.getElementById("editsubmit").value = reser_id;
         document.getElementById("logout").value = memid;
-
-
         });
     }
   });
@@ -76,15 +74,16 @@ function userEdit(reser_id,room_id,memid) {
         },
         success: function(response) {
           if (response != "empty") {
-            console.log("-----------------------------------------------------------------------------------------");
+            console.log("-------------------");
             console.log(response);
-            $('#tbody').remove();
+            $('#tbody').empty();
             var json_obj = jQuery.parseJSON(response);
             $.each(json_obj, function(key, value) {
-              var Id = value.reserId;
+              var member_id=value.member_id;
+              var reserId=value.reserId;
+              var room_id=value.room_id;
               var reserDate = value.reserDate;
-              var Name = value.name;
-              var Tel = value.tel;
+              var Name = value.Name;
               var roomName = value.roomName;
               var resertitle = value.resertitle;
               var Day_time = value.Day_time;
@@ -92,17 +91,17 @@ function userEdit(reser_id,room_id,memid) {
               var reserEnd = value.reserEnd;
               var reserStatus = value.reserStatus;
               var texttable = "<tr>"
-              "<td>"+reserDate+"</td>"
-              "<td>"+Name+"</td>"
-              "<td>"+roomName+"</td>"
-              "<td>"+resertitle+"</td>"
-              "<td>"+Day_time+"</td>"
-              "<td>"+reserStart+"</td>"
-              "<td>"+reserEnd+"</td>"
-              "<td>"+reserStatus+"</td>"
-              "<td><input name='btnAdd' type='button' id='btnAdd' value='แก้ไข' onclick='userEdit($reser_id,$room,$mem)'></td>"
-              "<td><input name='btnAdd' type='button' id='btnAdd' value='ลบ' onclick='userDeny($reser_id,$room,$mem)'></td>"
-              "</tr>";
+              +"<td>"+reserDate+"</td>"
+              +"<td>"+Name+"</td>"
+              +"<td>"+roomName+"</td>"
+              +"<td>"+resertitle+"</td>"
+              +"<td>"+Day_time+"</td>"
+              +"<td>"+reserStart+"</td>"
+              +"<td>"+reserEnd+"</td>"
+              +"<td>"+reserStatus+"</td>"
+              +"<td><input name='btnAdd' type='button' id='btnAdd' value='แก้ไข' onclick='userEdit("+reserId+","+room_id+","+member_id+")'></td>"
+              +"<td><input name='btnAdd' type='button' id='btnAdd' value='ลบ' onclick='userDeny("+reserId+","+room_id+","+member_id+")'></td>"
+              +"</tr>";
               $("#tbody").append(texttable);
             });
           }else {

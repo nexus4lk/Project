@@ -83,7 +83,7 @@ $(document).ready(function() {
 
     },
     eventClick: function(calEvent, jsEvent, view) {
-      var modal = document.getElementById('dayClick_Modal');
+      var modal = document.getElementById('eventClick_Modal');
       modal.style.display = "block";
       $('#ecmTitle').html(calEvent.titleModal);
       $('#ecmroom').html(calEvent.room);
