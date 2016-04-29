@@ -62,6 +62,7 @@ if(!$member->is_loggedin())
       <li><a href="#section9">Edit Building</a></li>
       <li><a href="#section10">Remove Building</a></li>
       <li><a href="#section11">Room Picture</a></li>
+      <li><a href="#section12">Remove Picture</a></li>
     </ul>
   </div>
 
@@ -859,31 +860,43 @@ if(!$member->is_loggedin())
         </div>
       </form>
 
-      <!-- if(isset($_FILES['image'])){
-            $errors= array();
-            $file_name = $_FILES['image']['name'];
-            $file_size =$_FILES['image']['size'];
-            $file_tmp =$_FILES['image']['tmp_name'];
-            $file_type=$_FILES['image']['type'];
-            $file_ext=strtolower(end(explode('.',$_FILES['image']['name'])));
 
-            $expensions= array("jpeg","jpg","png");
+    </div>
+    </div>
 
-            if(in_array($file_ext,$expensions)=== false){
-               $errors[]="extension not allowed, please choose a JPEG or PNG file.";
-            }
+    <div id="section12">
+      <h2>Remove Picture</h2>
+      <div class="col-md-10">
+      <form class="contact-form" id="RemoveImg-form" method="post" enctype="multipart/form-data">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="single_contact_info">
+              <h3 class="form-heading" align="left">ลบรูปภาพ</h3>
+            </div>
+            <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="Imgid13" id="Imgid13">
+            <option value="">       </option>
+              <?php
+              $connect = new connect();
+              $db = $connect->connect();
+              $get_room = $db->query("SELECT * FROM images ORDER BY img_Id ASC");
+              while($room = $get_room->fetch_assoc()){
+              ?>
+                <option value="<?php echo $room["img_Id"];?>"><?php echo $room["img_name"];?></option>
+                <?php
+              }
+              ?>
+            </select>
+            <br>
+            <div id="removeImg"></div>
+              <br>
+          </div>
+          <div class="col-md-12">
+            <input type="submit" id="deleteImg" class="btn btn-primary cs-btn" value="Delete Image" name="deleteImg">
+          </div>
+        </div>
+      </form>
 
-            if($file_size > 2097152){
-               $errors[]='File size must be excately 2 MB';
-            }
 
-            if(empty($errors)==true){
-               move_uploaded_file($file_tmp,"uploads/".$file_name);
-               echo "Success";
-            }else{
-               print_r($errors);
-            }
-         } -->
     </div>
     </div>
 
@@ -911,6 +924,8 @@ if(!$member->is_loggedin())
   <script type="text/javascript" src="js/AddImage.js"></script>
   <script type="text/javascript" src="js/validation.min.js"></script>
   <script type="text/javascript" src="js/admin.js"></script>
+  <script type="text/javascript" src="js/removeImage.js"></script>
+
 
   <script>
     $('.container > div').hide();

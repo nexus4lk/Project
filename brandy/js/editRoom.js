@@ -1,7 +1,5 @@
 function loadroomOption(){
-  var option = '{list}<option value="{Id}">{Name}</option>{/list}';
   var loadroomOption = "loadroomOption";
-
     $.ajax({
         type: 'POST',
         url: 'room_manager.php',

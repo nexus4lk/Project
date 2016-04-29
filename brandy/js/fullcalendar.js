@@ -26,11 +26,13 @@ $(document).ready(function() {
         json: json
       },
       success: function(response) {
+          console.log(response);
         if (response == "empty") {
           $("#calendar").fullCalendar('removeEvents');
         } else {
           $("#calendar").fullCalendar('removeEvents');
           var response = JSON.parse(response);
+
           $("#calendar").fullCalendar('addEventSource', response);
         }
       }
@@ -66,9 +68,8 @@ $(document).ready(function() {
       myDate.setDate(myDate.getDate() + daysToAdd);
 
       if (date < myDate) {
-        alert("You cannot book on this day!");
+        alert("คุณควรเว้นการจองห้องหลังจากวันปัจุบัน 3 - 4 วัน");
       } else {
-        alert("Excellent choice! We can book today..");
         var modal = document.getElementById('dayClick_Modal');
         modal.style.display = "block";
         $('#dcmTitle').html(date.format('dddd - DD MMMM YYYY'));
@@ -84,10 +85,23 @@ $(document).ready(function() {
     },
     eventClick: function(calEvent, jsEvent, view) {
       var modal = document.getElementById('eventClick_Modal');
+      $('#ecmTitle').empty();
+      $('#ecm_roomname').empty();
+      $('#ecm_member').empty();
+      $('#ecm_start').empty();
+      $('#ecm_end').empty();
       modal.style.display = "block";
-      $('#ecmTitle').html(calEvent.titleModal);
-      $('#ecmroom').html(calEvent.room);
-      $('#ecmmem').html(calEvent.mem);
+      var ecmstart = calEvent.start;
+      var ecmend = calEvent.endday;
+      $('#ecmTitle').html('<h3>'+calEvent.titleModal+'</h3>');
+      $('#ecm_roomname').append('<font size="5" color="#000000" >ห้อง :&nbsp;&nbsp;</font>');
+      $('#ecm_roomname').append('<font size="5" color="#000000" >'+ calEvent.room +'</font>');
+      $('#ecm_member').append('<font size="5" color="#000000" >ผู้จอง :&nbsp;&nbsp;</font>');
+      $('#ecm_member').append('<font size="5" color="#000000" >'+ calEvent.mem +'</font>');
+      $('#ecm_start').append('<font size="5" color="#000000" >วันที่เริ่ม :&nbsp;&nbsp;</font>');
+      $('#ecm_start').append('<font size="5" color="#000000" >'+ ecmstart.format('YYYY-MM-DD')+'</font>');
+      $('#ecm_end').append('<font size="5" color="#000000" >วันที่สิ้นสุด :&nbsp;&nbsp;</font>');
+      $('#ecm_end').append('<font size="5" color="#000000" >'+ ecmend +'</font>');
       window.onclick = function(event) {
         if (event.target == modal) {
           modal.style.display = "none";

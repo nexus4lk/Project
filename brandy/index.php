@@ -167,6 +167,7 @@ if(!$member->is_loggedin())
                           </select>
                           <br>
                           <br>
+                          <a onclick='roomModal()'>กดเพื่อดูลายระเอียดห้อง</a>
                           <br>
                           <font size="3" color="#ff4444" >*สามารถจองได้เฉพาะ 4 วันจากวันที่ปัจจุบันเพื่อเว้นระยะการดำเนินเรื่องจองห้อง</font>
                         <div class="wow fadeInLeft animated" id='calendar'></div>
@@ -179,9 +180,8 @@ if(!$member->is_loggedin())
 
                         $connect = new connect();
                         $db = $connect->connect();
-                        $get_reser = $db->query("SELECT * FROM reserve_data WHERE Mem_ID = '$memid'
-                          AND Reser_Satatus LIKE 'Wait' ORDER BY Reser_Date DESC");
-
+                        $Current_date = date("Y-m-d");
+                        $get_reser = $db->query("SELECT * FROM reserve_data WHERE Reser_Startdate >= '$Current_date' AND Mem_ID = '$memid' ORDER BY Reser_Date DESC");
                         if ($get_reser->num_rows > 0) {
                           echo "<table border='1' width='100%'   cellspacing=''  class='table-style-three' >
                           <thead id='thead'>
@@ -209,16 +209,41 @@ if(!$member->is_loggedin())
                                   $reser_id = $row["Reser_ID"];
                                   $Reser_Startdate = $row["Reser_Startdate"];
                                   $Reser_Enddate = $row["Reser_Enddate"];
+                                  switch ($row["Reser_Satatus"]) {
+                                  case "Wait":
+                                      $status = "รอตรวจสอบ";
+                                      break;
+                                  case "Proc":
+                                      $status = "อยู่ระหว่างดำเนินการ";
+                                      break;
+                                      case "Cmpt":
+                                          $status = "เสร็จสิ้นการดำเนินการ";
+                                          break;
+                                      case "deny":
+                                          $status = "ปฏิเสธ";
+                                          break;
+                                        }
+                                    switch ($row["Day_time"]) {
+                                      case "Morning":
+                                          $day_time = "ช่วงเช้า";
+                                          break;
+                                      case "Afternoon":
+                                          $day_time = "ช่วงบ่าย";
+                                          break;
+                                      case "Night":
+                                          $day_time = "ช่วงค่ำ";
+                                          break;
+                                        }
                                    echo "
                                    <tr>
                                    <td>" . $row["Reser_Date"]. "</td>
                                    <td>" . $memberName["Mem_Fname"] ." ".$memberName["Mem_Lname"]. "</td>
                                    <td>" . $roomName["Room_Name"]. "</td>
                                    <td>" . $row["Title"]. "</td>
-                                   <td>" . $row["Day_time"]. "</td>
+                                   <td>" . $day_time. "</td>
                                    <td>" . $row["Reser_Startdate"]. "</td>
                                    <td>" . $row["Reser_Enddate"]. "</td>
-                                   <td>" . $row["Reser_Satatus"]. "</td>
+                                   <td>" . $status. "</td>
                                    <td><input name='btnAdd' type='button' id='btnAdd' value='แก้ไข' onclick='userEdit($reser_id,$room,$mem)'></td>
                                    <td><input name='btnAdd' type='button' id='btnAdd' value='ลบ' onclick='userDeny($reser_id,$room,$mem)'></td>
                                   </tr>
@@ -251,110 +276,17 @@ if(!$member->is_loggedin())
 
                     </div>
                     <br>
-                    <font size="3" color="#ff4444" >*กรุณารอการดำเนินเรื่อง 3 - 4 วัน</font>
+                    <font size="3" color="#ff4444" >*การดำเนินเรื่องจองห้องจะใช้เวลาประมาณ 3 - 4 วัน</font>
 
                 </div>
             </div>
         </div>
-                <!-- <div class="col-md-4  wow fadeInLeft animated">
-                    <div class="single_progress_bar">
-                        <h2>DESIGN - 90%</h2>
-                        <div class="progress">
-                          <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 90%;">
-                            <span class="sr-only">60% Complete</span>
-                          </div>
-                        </div>
-                    </div>
-                    <div class="single_progress_bar">
-                        <h2>DEVELOPMENT - 60%</h2>
-                        <div class="progress">
-                          <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
-                            <span class="sr-only">60% Complete</span>
-                          </div>
-                        </div>
-                    </div>
-                    <div class="single_progress_bar">
-                        <h2>MARKETING - 75%</h2>
-                        <div class="progress">
-                          <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
-                            <span class="sr-only">60% Complete</span>
-                          </div>
-                        </div>
-                    </div>
-                    <div class="single_progress_bar">
-                        <h2>SEO - 95%</h2>
-                        <div class="progress">
-                          <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 95%;">
-                            <span class="sr-only">60% Complete</span>
-                          </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4  wow fadeInRight animated">
-                    <p class="about_us_p">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Sed quia non numquam eius modi tempora.</p>
-                </div>
-                <div class="col-md-4  wow fadeInRight animated">
-                    <p class="about_us_p">Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.</p>
-                </div> -->
+
             </div>
         </div>
     </section>
 
-    <!-- Modal -->
-    <!-- <div class="modal fade" id="new_calendar_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">New Fullcalendar Modal With MySQL</h4>
-        </div>
-        <div class="modal-body">
-          <form id="new_calendar">
-            <div class="form-group">
-            <label >เรื่อง</label>
-            <input type="text" class="form-control" name="title" placeholder="">
-            </div>
-            <div class="form-group">
-            <label >วันที่เริมต้น</label>
-            <input type="text" class="form-control" name="start"  placeholder="">
-            </div>
-            <div class="form-group">
-            <label >วันที่สิ้นสุด</label>
-            <input type="text" class="form-control" name="end"  placeholder="">
-            </div>
-            <input type="hidden" name="new_calendar_form">
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" onclick="return new_calendar();">บันทึกข้อมูล</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
 
-        </div>
-      </div>
-      </div>
-    </div> -->
-
-    <!-- The eventClick Modal  ดูรายละเอียดอีเว้นนนนนนนนนนนนนนนนนนนนนน-->
-<div id="eventClick_Modal" class="modal ">
-
-  <!-- Modal content -->
-  <div class="modal-content">
-    <div class="modal-header">
-
-      <h2 id="ecmTitle"></h2>
-    </div>
-    <div class="modal-body">
-      <h4 id="ecmroom" class="modal-room"></h4>
-      <h4 id="ecmmem" class="modal-mem"></h4>
-      <p>Some text in the Modal Body</p>
-      <p>Some other text...</p>
-    </div>
-    <!-- <div class="modal-footer">
-      <h3>Modal Footer</h3>
-    </div> -->
-  </div>
-
-</div>
 <!-- The eventClick Modal  ดูรายละเอียดอีเว้นนนนนนนนนนนนนนนนนนนนนน-->
 <div id="eventClick_Modal" class="modal ">
 
@@ -365,10 +297,18 @@ if(!$member->is_loggedin())
       <h2 id="ecmTitle"></h2>
     </div>
     <div class="modal-body">
-      <h4 id="ecmroom" class="modal-room"></h4>
-      <h4 id="ecmmem" class="modal-mem"></h4>
-      <p>Some text in the Modal Body</p>
-      <p>Some other text...</p>
+
+      <div id="ecm_roomname">
+      </div>
+      <div id="ecm_member">
+      </div>
+      <div id="ecm_start">
+      </div>
+      <div id="ecm_end">
+      </div>
+      <div id="ecm_roomfloor">
+      </div>
+      </div>
     </div>
     <!-- <div class="modal-footer">
       <h3>Modal Footer</h3>
@@ -426,18 +366,11 @@ if(!$member->is_loggedin())
           <button type="submit" id="submit" class="btn btn-primary" >บันทึกข้อมูล</button>
         </div>
       </form>
-
-
     </div>
-    <!-- <div class="modal-footer">
-      <h3>Modal Footer</h3>
-    </div> -->
   </div>
-
 </div>
 
 <div id="edit_Modal" class="modal ">
-
   <!-- Modal content -->
   <div class="modal-content">
     <div class="modal-header">
@@ -483,14 +416,47 @@ if(!$member->is_loggedin())
           <button type="submit" id="editsubmit" value="" class="btn btn-primary" >แก้ไขข้อมูล</button>
         </div>
       </form>
-
-
     </div>
-    <!-- <div class="modal-footer">
-      <h3>Modal Footer</h3>
-    </div> -->
   </div>
+</div>
 
+<div id="room_Modal" class="modal ">
+  <!-- Modal content -->
+  <div class="roommodal-content">
+    <div class="modal-header">
+      <h3 id="roomModal_header"></h3>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+        <div id="Modal_roomname">
+        </div>
+        <div id="Modal_roomcapa">
+        </div>
+        <div id="Modal_roomtype">
+        </div>
+        <div id="Modal_building">
+        </div>
+        <div id="Modal_roomfloor">
+        </div>
+        <br>
+        <br>
+        <font size="5" color="#000000" >แผนผังภายในห้อง :</font>
+        <br>
+        <br>
+        <div id="Modal_roomImg">
+        </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<div id="myModal" class="modal">
+
+<!-- Modal Content (The Image) -->
+<img class="modal-content" id="img01">
+
+<!-- Modal Caption (Image Text) -->
+<div id="caption"></div>
 </div>
 
 
@@ -512,231 +478,8 @@ if(!$member->is_loggedin())
         </div>
     </section>
 
-
-    <!-- <div class="fun_facts">
-    	<section class="header parallax home-parallax page" id="fun_facts" style="background-position: 50% -150px;">
-	        <div class="section_overlay">
-	            <div class="container">
-	                <div class="row">
-	                    <div class="col-md-6 wow fadeInLeft animated">
-	                        <div class="row">
-	                            <div class="col-md-4">
-	                                <div class="single_count">
-	                                    <i class="icon-toolbox"></i>
-	                                    <h3>300</h3>
-	                                    <p>Project Done</p>
-	                                </div>
-	                            </div>
-	                            <div class="col-md-4">
-	                                <div class="single_count">
-	                                    <i class="icon-clock"></i>
-	                                    <h3>1700+</h3>
-	                                    <p>Hours Worked</p>
-	                                </div>
-	                            </div>
-	                            <div class="col-md-4">
-	                                <div class="single_count">
-	                                    <i class="icon-trophy"></i>
-	                                    <h3>37</h3>
-	                                    <p>Awards Won</p>
-	                                </div>
-	                            </div>
-	                        </div>
-	                    </div>
-	                    <div class="col-md-5 col-md-offset-1 wow fadeInRight animated">
-	                        <div class="imac">
-	                            <img src="images/imac.png" alt="">
-	                        </div>
-	                    </div>
-	                </div>
-	            </div>
-	        </div>
-	    </section>
-    </div> -->
-    <!-- <section class="work_area" id="WORK">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <div class="work_title  wow fadeInUp animated">
-                        <h1>Latest Works</h1>
-                        <img src="images/shape.png" alt="">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna <br> aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-4 no_padding">
-                    <div class="single_image">
-                        <img src="images/w1.jpg" alt="">
-                        <div class="image_overlay">
-                            <a href="">View Full Project</a>
-                            <h2>drawing</h2>
-                            <h4>with pencil colors</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 no_padding">
-                    <div class="single_image">
-                        <img src="images/w2.jpg" alt="">
-                        <div class="image_overlay">
-                            <a href="">View Full Project</a>
-                            <h2>drawing</h2>
-                            <h4>with pencil colors</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 no_padding">
-                    <div class="single_image">
-                        <img src="images/w3.jpg" alt="">
-                        <div class="image_overlay">
-                            <a href="">View Full Project</a>
-                            <h2>drawing</h2>
-                            <h4>with pencil colors</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row pad_top">
-                <div class="col-md-4 no_padding">
-                    <div class="single_image">
-                        <img src="images/w4.jpg" alt="">
-                        <div class="image_overlay">
-                            <a href="">View Full Project</a>
-                            <h2>drawing</h2>
-                            <h4>with pencil colors</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 no_padding">
-                    <div class="single_image">
-                        <img src="images/w5.jpg" alt="">
-                        <div class="image_overlay">
-                            <a href="">View Full Project</a>
-                            <h2>drawing</h2>
-                            <h4>with pencil colors</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 no_padding">
-                    <div class="single_image last_padding">
-                        <img src="images/w6.jpg" alt="">
-                        <div class="image_overlay">
-                            <a href="">View Full Project</a>
-                            <h2>drawing</h2>
-                            <h4>with pencil colors</h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-    <!-- <section class="call_to_action">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 wow fadeInLeft animated">
-                    <div class="left">
-                        <h2>LOOKING FOR EXCLUSIVE DIGITAL SERVICES?</h2>
-                        <p>Proin fringilla augue at maximus vestibulum. Nam pulvinar vitae neque et porttitor.
-                        Integer non dapibus diam, ac eleifend lectus.</p>
-                    </div>
-                </div>
-                <div class="col-md-3 col-md-offset-1 wow fadeInRight animated">
-                    <div class="baton">
-	                    <a href="#CONTACT">
-	                        <button type="button" class="btn btn-primary cs-btn">Let's Talk</button>
-	                    </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-    <!-- <section class="contact" id="CONTACT">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <div class="contact_title  wow fadeInUp animated">
-                        <h1>get in touch</h1>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna<br/> aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3  wow fadeInLeft animated">
-                    <div class="single_contact_info">
-                        <h2>Call Me</h2>
-                        <p>+88 00 123 456 01</p>
-                    </div>
-                    <div class="single_contact_info">
-                        <h2>Email Me</h2>
-                        <p>Hello@abdullahnoman.com</p>
-                    </div>
-                    <div class="single_contact_info">
-                        <h2>Address</h2>
-                        <p>216 Street Address, Barisal, BD</p>
-                    </div>
-                </div>
-                <div class="col-md-9  wow fadeInRight animated">
-                    <form class="contact-form" action="">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" id="name" placeholder="Name">
-                                <input type="email" class="form-control" id="email" placeholder="Email">
-                                <input type="text" class="form-control" id="subject" placeholder="Subject">
-                            </div>
-                            <div class="col-md-6">
-                                <textarea class="form-control" id="message" rows="25" cols="10" placeholder="  Message Texts..."></textarea>
-                                <button type="button" class="btn btn-default submit-btn form_submit">SEND MESSAGE</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <div class="work-with   wow fadeInUp animated">
-                        <h3>looking forward to hearing from you!</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-
-
-
 <footer>
     <div class="container">
-        <!-- <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <div class="footer_logo   wow fadeInUp animated">
-                        <img src="images/logo.png" alt="">
-                    </div>
-                </div>
-            </div>
-        </div> -->
-        <!-- <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center   wow fadeInUp animated">
-                    <div class="social">
-                        <h2>Follow Me on Here</h2>
-                        <ul class="icon_list">
-                            <li><a href="http://www.facebook.com/abdullah.noman99"target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="http://www.twitter.com/absconderm"target="_blank"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href=""><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href=""><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="http://www.dribbble.com/abdullahnoman"target="_blank"><i class="fa fa-dribbble"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center">
@@ -772,6 +515,7 @@ if(!$member->is_loggedin())
   <script type="text/javascript" src="js/validation.min.js"></script>
   <script type="text/javascript" src="js/user.js"></script>
   <script type="text/javascript" src="js/sendEdit.js"></script>
+  <script type="text/javascript" src="js/roomModal.js"></script>
   <style>
   #calendar {
       width: 1000;

@@ -52,7 +52,21 @@ class Fullcalendar {
 		}
 	}
 
-	
+	public function get_endday($id){
+
+    $connect = new connect();
+		$db = $connect->connect();
+		$get_membername = $db->query("SELECT * FROM reserve_data WHERE Reser_ID = '$id'");
+		while($membername = $get_membername->fetch_assoc()){
+      $result = $membername['Reser_Enddate'];
+		}
+		if(!empty($result)){
+
+			return $result;
+		}
+	}
+
+
 
 	//show data in modal
 	// public function get_fullcalendar_id($get_id){

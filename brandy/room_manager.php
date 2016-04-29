@@ -228,24 +228,49 @@ if(isset($_POST['getReserdeny'])){//Deny
 }
 
 if(isset($_POST['getUserreser'])){//index
-	$get_room = $roomManager->getUserreserData($_POST['memid']);
-	if($get_room != "empty"){
-		foreach($get_room as $room){
-		$get_roomname = $roomManager->get_roomname($room['Room_ID']);
-		$get_membername = $roomManager->get_membername($room['Mem_ID']);
-		$get_memberTel = $roomManager->get_memberTel($room['Mem_ID']);
+	$get_reser = $roomManager->getUserreserData($_POST['memid']);
+	if($get_reser != "empty"){
+		foreach($get_reser as $reser){
+		$get_roomname = $roomManager->get_roomname($reser['Room_ID']);
+		$get_membername = $roomManager->get_membername($reser['Mem_ID']);
+		$get_memberTel = $roomManager->get_memberTel($reser['Mem_ID']);
+		switch ($reser["Reser_Satatus"]) {
+    case "Wait":
+        $status = "รอตรวจสอบ";
+        break;
+    case "Proc":
+        $status = "อยู่ระหว่างดำเนินการ";
+        break;
+				case "Cmpt":
+				    $status = "เสร็จสิ้นการดำเนินการ";
+				    break;
+				case "deny":
+				    $status = "ปฏิเสธ";
+				    break;
+				  }
+			switch ($reser["Day_time"]) {
+				case "Morning":
+						$day_time = "ช่วงเช้า";
+						break;
+				case "Afternoon":
+						$day_time = "ช่วงบ่าย";
+						break;
+				case "Night":
+						$day_time = "ช่วงค่ำ";
+						break;
+					}
 			$json[] = array(
-				'member_id'=>$room['Mem_ID'],
-				'reserId'=>$room['Reser_ID'],
-				'room_id'=>$room['Room_ID'],
-				'reserDate'=>$room['Reser_Date'],
+				'member_id'=>$reser['Mem_ID'],
+				'reserId'=>$reser['Reser_ID'],
+				'room_id'=>$reser['Room_ID'],
+				'reserDate'=>$reser['Reser_Date'],
 				'Name'=>$get_membername,
 				'roomName'=>$get_roomname,
-				'resertitle'=>$room["Title"],
-				'Day_time'=>$room["Day_time"],
-				'reserStart'=>$room["Reser_Startdate"],
-				'reserEnd'=>$room["Reser_Enddate"],
-				'reserStatus'=>$room["Reser_Satatus"]
+				'resertitle'=>$reser["Title"],
+				'Day_time'=>$day_time,
+				'reserStart'=>$reser["Reser_Startdate"],
+				'reserEnd'=>$reser["Reser_Enddate"],
+				'reserStatus'=>$status
 			);
 	}
 		//return JSON object
@@ -265,7 +290,28 @@ if(isset($_POST['get_edit'])){
 				'reserStart'=>$edit["Reser_Startdate"],
 				'reserEnd'=>$edit["Reser_Enddate"],
 				'Day_time'=>$edit["Day_time"]
-				// 'url'=>'javascript:get_modal('.$calendar['Calendar_id'].');',
+			);
+	}
+		//return JSON object
+		echo json_encode($json);
+	}
+	else {
+		echo "empty";
+	}
+}
+
+if(isset($_POST['get_roomDetail'])){
+	$get_roomDetail = $roomManager->getroomDetail($_POST['roomid']);
+	if($get_roomDetail != "empty"){
+		foreach($get_roomDetail as $detail){
+			$get_roomType = $roomManager->selectRoomType($detail['Type_id']);
+			$get_buildingName = $roomManager->get_buildingName($detail['Building_id']);
+			$json[] = array(
+				'roomName'=> $detail['Room_Name'],
+				'roomCapa'=> $detail["Room_Capa"],
+				'floor'=> $detail["Floor"],
+				'roomType' => $get_roomType,
+				'buildingName' => $get_buildingName
 			);
 	}
 		//return JSON object
@@ -446,6 +492,39 @@ if(isset($_POST['selectbuilding'])){
 	}
 }
 
+if(isset($_POST['geteditImg'])){
+	$get_img = $roomManager->geteditImg($_POST['Img_id']);
+	if($get_img != "empty"){
+		foreach($get_img as $Img){
+			$json[] = array(
+				'Img'=>$Img['img_name'],
+				'roomId'=>$Img['Room_ID']
+			);
+		}
+		//return JSON object
+		echo json_encode($json);
+	}
+	else {
+		echo "empty";
+	}
+}
+
+if(isset($_POST['get_Img'])){
+	$get_img = $roomManager->getImg($_POST['roomid']);
+	if($get_img != "empty"){
+		foreach($get_img as $Img){
+			$json[] = array(
+				'Image'=>$Img['img_name'],
+			);
+		}
+		//return JSON object
+		echo json_encode($json);
+	}
+	else {
+		echo "empty";
+	}
+}
+
 if(isset($_POST['getfloor'])){
 	$get_floor = $roomManager->getFloor($_POST['building_id']);
 	if($get_floor != "empty"){
@@ -453,6 +532,26 @@ if(isset($_POST['getfloor'])){
 	}
 	else {
 		echo "empty";
+	}
+}
+
+if(isset($_POST['getRemoveImg'])){
+	$getRemoveImg = $roomManager->getRemoveImg($_POST['Img_id']);
+	if($getRemoveImg != "empty"){
+			echo $getRemoveImg;
+	}
+	else {
+		echo "empty";
+	}
+}
+
+if(isset($_POST['RemoveImg'])){
+	$RemoveImg = $roomManager->RemoveImg($_POST['Img_id']);
+	if($RemoveImg != "empty"){
+			echo $RemoveImg;
+	}
+	else {
+		echo $RemoveImg;
 	}
 }
 

@@ -48,6 +48,19 @@ class roomManager {
   		}
   	}
 
+    public function getroomDetail($id){
+      $connect = new connect();
+  		$db = $connect->connect();
+      $getDetail = $db->query("SELECT * FROM room WHERE Room_ID = $id");
+      while($Detail= $getDetail->fetch_assoc()){
+        $result[] = $Detail;
+  		}
+  		if(!empty($result)){
+
+  			return $result;
+  		}
+  	}
+
     public function get_membername($id){
 
       $connect = new connect();
@@ -432,12 +445,12 @@ class roomManager {
     		}
     	}
 
-      public function getFloor($buildingid){
+      public function geteditImg($Img_id){
         $connect = new connect();
         $db = $connect->connect();
-        $get_floor = $db->query("SELECT * FROM building WHERE Building_id = '$buildingid'");
-        while($floor = $get_floor->fetch_assoc()){
-            $result = $floor['Max_Floor'];
+        $get_img = $db->query("SELECT * FROM images WHERE img_Id = '$Img_id'");
+        while($Img= $get_img->fetch_assoc()){
+            $result[] = $Img;
         }
         if(!empty($result)){
           return $result;
@@ -446,6 +459,60 @@ class roomManager {
           return $result;
         }
       }
+
+      public function getImg($roomid){
+        $connect = new connect();
+        $db = $connect->connect();
+        $get_img = $db->query("SELECT * FROM images WHERE Room_ID = '$roomid'");
+        while($Img= $get_img->fetch_assoc()){
+            $result[] = $Img;
+        }
+        if(!empty($result)){
+          return $result;
+        }else {
+          $result = "empty";
+          return $result;
+        }
+      }
+
+      public function getRemoveImg($Imgid){
+        $connect = new connect();
+        $db = $connect->connect();
+        $get_Img = $db->query("SELECT * FROM images WHERE img_Id = '$Imgid'");
+        while($Img = $get_Img->fetch_assoc()){
+            $result = $Img['img_name'];
+        }
+        if(!empty($result)){
+          return $result;
+        }else {
+          $result = "empty";
+          return $result;
+        }
+      }
+
+      public function RemoveImg($Imgid){
+        $connect = new connect();
+        $db = $connect->connect();
+        $get_Img = $db->query("SELECT * FROM images WHERE img_Id = '$Imgid'");
+        if ($Img = $get_Img->fetch_assoc()) {
+          $result = $Img['img_name'];
+          $newResult = "uploads/".$result;
+          if (!unlink($newResult)){
+            echo "เกิดข้อผิดพลาด";
+          }else {
+            $del_Img = $db->prepare("DELETE FROM images WHERE img_Id = ?");
+            $del_Img->bind_param("i",$Imgid);
+            if(!$del_Img->execute()){
+            echo "เกิดข้อผิดพลาด";
+            }else{
+              return true;
+            }
+          }
+        }else {
+          echo "เกิดข้อผิดพลาด";
+        }
+      }
+
 
       public function getTitle($reser_id){
         $connect = new connect();
@@ -468,6 +535,21 @@ class roomManager {
         $get_roomType = $db->query("SELECT * FROM roomtype WHERE Type_id = '$roomtype_id'");
         while($roomType= $get_roomType->fetch_assoc()){
             $result = $roomType['Type_name'];
+        }
+        if(!empty($result)){
+          return $result;
+        }else {
+          $result = "empty";
+          return $result;
+        }
+      }
+
+      public function get_buildingName($Building_id){
+        $connect = new connect();
+        $db = $connect->connect();
+        $get_buildingName = $db->query("SELECT * FROM building WHERE Building_id = '$Building_id'");
+        while($buildingName= $get_buildingName->fetch_assoc()){
+            $result = $buildingName['Building_name'];
         }
         if(!empty($result)){
           return $result;
@@ -587,8 +669,7 @@ class roomManager {
       public function getUserreserData($memid){
         $connect = new connect();
         $db = $connect->connect();
-        $get_reserData = $db->query("SELECT * FROM reserve_data WHERE Mem_ID = '$memid'
-AND Reser_Satatus LIKE 'Wait' ORDER BY Reser_Date DESC");
+        $get_reserData = $db->query("SELECT * FROM reserve_data WHERE Mem_ID = '$memid' ORDER BY Reser_Date DESC");
         while($row = $get_reserData->fetch_assoc()) {
             $result[] = $row;
         }

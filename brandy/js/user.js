@@ -39,9 +39,19 @@ function userEdit(reser_id,room_id,memid) {
 
 
   }
-
-  function userDeny(reser_id,room_id,memid) {
+  function userDeny(reser_id) {
     var reser_id = reser_id;
+    var getroomName = "getroomName"
+    $.ajax({
+      type: 'POST',
+      url: 'room_manager.php',
+      data: {
+        reser_id: reser_id,
+        getroomName: getroomName
+      },
+      success: function(response) {
+        var r = confirm("คุณแน่ใจที่จะลบ "+response+" ใช่หรือไม่");
+        if (r == true) {
     var userdeny = "userdeny";
     $.ajax({
       type: 'POST',
@@ -59,9 +69,11 @@ function userEdit(reser_id,room_id,memid) {
         getReser();
       }
     });
+  }
+}
+});
+}
 
-
-    }
     function getReser(){
       var memid = $('#logout').val();
       var getUserreser = "getUserreser";
@@ -73,6 +85,7 @@ function userEdit(reser_id,room_id,memid) {
           getUserreser: getUserreser
         },
         success: function(response) {
+          alert(response);
           if (response != "empty") {
             console.log("-------------------");
             console.log(response);

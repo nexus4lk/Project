@@ -13,16 +13,18 @@ if(isset($_POST['json'])){
 		foreach($get_calendar as $calendar){
 			$get_roomname = $fullcalendar->get_roomname($calendar['Room_ID']);
 			$get_membername = $fullcalendar->get_membername($calendar['Mem_ID']);
+			$get_end = $fullcalendar->get_endday($calendar['Reser_ID']);
 			$json[] = array(
 				'id'=>$calendar['Reser_ID'],
 				'title'=>$calendar['Title']." - ".$get_roomname,
 				'start'=>$calendar['Reser_Startdate'],
 				'end'=>$calendar['Reser_Enddate'],
+				'Rdate'=>$calendar['Reser_Date'],
 				'titleModal'=>$calendar['Title'],
 				'className'=>$calendar['Day_time'],
 				'room'=>$get_roomname,
-				'mem'=>$get_membername
-				// 'url'=>'javascript:get_modal('.$calendar['Calendar_id'].');',
+				'mem'=>$get_membername,
+				'endday' =>$get_end
 			);
 		}
 		//return JSON object
