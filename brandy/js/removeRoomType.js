@@ -1,12 +1,12 @@
 // JavaScript Document
 $(function() {
   /* validation */
-  $("#remove-form").validate({
+  $("#removeRT-form").validate({
     rules: {
-      roomid2: "required"
+      roomtype7: "required"
     },
     messages: {
-      roomid2: "กรุณาเลือกห้อง"
+      roomtype7: "กรุณาเลือกห้อง"
     },
     submitHandler: submitForm
   });
@@ -14,27 +14,25 @@ $(function() {
 
   /* form submit */
   function submitForm() {
-
-    var roomid = $('#roomid4').val();
-    var getroomNameremove = "getroomNameremove"
+    var roomTypeid = $('#roomtype7').val();
+    var getroomTypeName = "getroomTypeName"
     $.ajax({
       type: 'POST',
       url: 'room_manager.php',
       data: {
-        roomid: roomid,
-        getroomNameremove: getroomNameremove
+        roomTypeid: roomTypeid,
+        getroomTypeName: getroomTypeName
       },
       success: function(response) {
-        var r = confirm("คุณแน่ใจที่จะลบ "+response+" ใช่หรือไม่");
+        var r = confirm("คุณแน่ใจที่จะอนุมัติ "+response+" เพื่อดำเนินการจองใช่หรือไม่");
         if (r == true) {
-          var removeroom = "removeroom"
-
+          var removeroomType = "removeroomType"
               $.ajax({
                 type: 'POST',
                 url: 'room_manager.php',
                 data: {
-                  roomid: roomid,
-                  removeroom: removeroom
+                  roomTypeid: roomTypeid,
+                  removeroomType: removeroomType
                 },
                 success: function(response) {
                   if (response) {
@@ -43,7 +41,6 @@ $(function() {
                     loadroomtypeOption();
                   alert(response);
                   } else  {
-                  alert(response);
                   alert('ไม่สามารถลบห้องนี้ได้');
                   }
                 }

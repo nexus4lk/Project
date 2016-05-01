@@ -63,6 +63,7 @@ if(!$member->is_loggedin())
       <li><a href="#section10">Remove Building</a></li>
       <li><a href="#section11">Room Picture</a></li>
       <li><a href="#section12">Remove Picture</a></li>
+      <li><a href="#section13">The Chart</a></li>
     </ul>
   </div>
 
@@ -195,6 +196,7 @@ if(!$member->is_loggedin())
         <th>สถานะการจอง</th>
         <th>อนุมัติ</th>
         <th>ปฏิเสธ</th>
+        <th>PDF</th>
         </tr>
         </thead>
         <tbody id='tbodyP'>";
@@ -244,6 +246,7 @@ if(!$member->is_loggedin())
                  <td>" . $status. "</td>
                  <td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='allowComplete($reser_id)'></td>
                  <td><input name='btnAdd' type='button' id='btnAdd' value='Remove' onclick='denyComplete($reser_id)'></td>
+                 <td><a onclick='reportePDF($reser_id)' >พิมพ์เอกสาร PDF</a></td>
                 </tr>
                 ";
              }
@@ -265,6 +268,7 @@ if(!$member->is_loggedin())
         <th>สถานะการจอง</th>
         <th>อนุมัติ</th>
         <th>ปฏิเสธ</th>
+        <th>PDF</th>
         </tr>
         </thead>
         <tbody id='tbodyP'>
@@ -698,29 +702,29 @@ if(!$member->is_loggedin())
     </div>
 
     <div id="section7">
-      <h2>Remove Room Type ยังไม่ได้ทำ</h2>
+      <h2>Remove Room Type</h2>
       <div class="col-md-10">
-      <form class="contact-form" id="remove-form" method="post" >
+      <form class="contact-form" id="removeRT-form" method="post" >
         <div class="row">
           <div class="col-md-10">
             <div class="single_contact_info">
-              <h3 class="form-heading" align="left">โปรดเลือกห้องที่ต้องการ</h3>
+              <h3 class="form-heading" align="left">โปรดเลือกประเภทห้องที่ต้องการ</h3>
             </div>
             <div class="single_contact_info">
-              <h4 class="form-heading" align="left">Room</h4>
-              <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomid4" id="roomid4">
+              <h4 class="form-heading" align="left">Room Type</h4>
+              <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomtype7" id="roomtype7">
               <option value="">       </option>
                 <?php
                 $connect = new connect();
                 $db = $connect->connect();
-                $get_room = $db->query("SELECT * FROM room ORDER BY Room_id ASC");
-                while($room = $get_room->fetch_assoc()){
+                $get_type = $db->query("SELECT * FROM roomtype ORDER BY Type_id ASC");
+                while($room = $get_type->fetch_assoc()){
                 ?>
-                  <option value="<?php echo $room["Room_ID"];?>"><?php echo $room["Room_Name"];?></option>
+                  <option value="<?php echo $room["Type_id"];?>"><?php echo $room["Type_name"];?></option>
                   <?php
                 }
                 ?>
-              </select>
+                </select>
             </div>
           </div>
           <div class="col-md-12">
@@ -792,17 +796,17 @@ if(!$member->is_loggedin())
     </div>
 
     <div id="section10">
-      <h2>Remove Building ยังไม่ได้ทำ</h2>
+      <h2>Remove Building</h2>
       <div class="col-md-10">
-      <form class="contact-form" id="remove-form" method="post" >
+      <form class="contact-form" id="removeBuilding-form" method="post" >
         <div class="row">
           <div class="col-md-10">
             <div class="single_contact_info">
-              <h3 class="form-heading" align="left">โปรดเลือกห้องที่ต้องการ</h3>
+              <h3 class="form-heading" align="left">โปรดเลือกอาคารที่ต้องการ</h3>
             </div>
             <div class="single_contact_info">
               <h4 class="form-heading" align="left">Room</h4>
-              <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomid4" id="roomid4">
+              <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="Building10" id="Building10">
               <option value="">       </option>
                 <?php
                 $connect = new connect();
@@ -900,6 +904,14 @@ if(!$member->is_loggedin())
     </div>
     </div>
 
+    <div id="section13">
+      <h2>สถิติการเข้าใช้ห้อง</h2>
+      <div class="col-md-10">
+        <div id="chartsContainer" style="min-width: 1200px; height: 550px; margin: 0 auto"></div>
+
+    </div>
+    </div>
+
   </div>
 
   <!-- =========================
@@ -925,8 +937,56 @@ if(!$member->is_loggedin())
   <script type="text/javascript" src="js/validation.min.js"></script>
   <script type="text/javascript" src="js/admin.js"></script>
   <script type="text/javascript" src="js/removeImage.js"></script>
+  <script type="text/javascript" src="js/removeRoomType.js"></script>
+  <script type="text/javascript" src="js/removeBuilding.js"></script>
+  <script type="text/javascript" src="js/reportePDF.js"></script>
 
+  <script>
 
+		$(function () {
+
+			$.getJSON("data.php",function(data){
+
+				seriesData = data;
+
+					$('#chartsContainer').highcharts({
+							chart: {
+								plotBackgroundColor: null,
+								plotBorderWidth: null,
+								plotShadow: false,
+								type: 'pie'
+							},
+							title: {
+								text: 'จำนวนคั้งในการจองของแต่ละห้อง'
+							},
+							tooltip: {
+								pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+							},
+							plotOptions: {
+								pie: {
+									allowPointSelect: true,
+									cursor: 'pointer',
+									dataLabels: {
+										enabled: true,
+										//format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+										format: '<b>{point.name}</b>: {point.y} ครั้ง',
+										style: {
+											color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+										}
+									}
+								}
+							},
+							series: [{
+								name: 'จำนวน',
+								colorByPoint: true,
+								data: seriesData
+
+							}]
+						});
+			});
+
+		});
+	</script>
   <script>
     $('.container > div').hide();
     $(".container #section1").show();

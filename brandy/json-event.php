@@ -12,6 +12,8 @@ if(isset($_POST['json'])){
 	if($get_calendar != "empty"){
 		foreach($get_calendar as $calendar){
 			$get_roomname = $fullcalendar->get_roomname($calendar['Room_ID']);
+			$get_floor= $fullcalendar->get_floor($calendar['Room_ID']);
+			$get_building= $fullcalendar->get_building($calendar['Room_ID']);
 			$get_membername = $fullcalendar->get_membername($calendar['Mem_ID']);
 			$get_end = $fullcalendar->get_endday($calendar['Reser_ID']);
 			$json[] = array(
@@ -24,7 +26,10 @@ if(isset($_POST['json'])){
 				'className'=>$calendar['Day_time'],
 				'room'=>$get_roomname,
 				'mem'=>$get_membername,
-				'endday' =>$get_end
+				'endday' =>$get_end,
+				'Day_time'=>$calendar['Day_time'],
+				'building' => $get_building,
+				'floor' => $get_floor
 			);
 		}
 		//return JSON object

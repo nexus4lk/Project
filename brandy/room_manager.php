@@ -565,6 +565,39 @@ if($getTitle != "empty"){
 	}
 }
 
+
+if(isset($_POST['getroomTypeName'])){
+$getRTname = $roomManager->selectRoomType($_POST['roomTypeid']);
+if($getRTname != "empty"){
+			echo $getRTname;
+	}
+	else {
+		echo "empty";
+	}
+}
+
+if(isset($_POST['getbuildingName'])){
+$getBuildingname = $roomManager->getbuildingName($_POST['buildingid']);
+if($getBuildingname != "empty"){
+			echo $getBuildingname;
+	}
+	else {
+		echo "empty";
+	}
+}
+
+if(isset($_POST['getroomNameremove'])){
+$getRname = $roomManager->RNameRemove($_POST['roomid']);
+if($getRname != "empty"){
+			echo $getRname;
+	}
+	else {
+		echo "empty";
+	}
+}
+
+
+
 if(isset($_POST['selecttype'])){
 	$get_roomType = $roomManager->selectRoomType($_POST['roomtype_id']);
 	if($get_roomType != "empty"){
@@ -580,10 +613,30 @@ if(isset($_POST['selecttype'])){
 if (isset($_POST['removeroom'])){
 	$removeRoom = $roomManager->removeRoom($_POST['roomid']);
 	if($removeRoom){
-		echo $removeRoom;
+		echo "ลบห้องเสร็จสิ้น";
 	}
 	else {
 		echo $removeRoom;
+	}
+}
+
+if (isset($_POST['removeroomType'])){
+	$removeRoom = $roomManager->removeRoomType($_POST['roomTypeid']);
+	if($removeRoom){
+		echo "ลบประเถทห้องเสร็จสิ้น";
+	}
+	else {
+		echo $removeRoom;
+	}
+}
+
+if (isset($_POST['removeBuilding'])){
+	$removeBuilding = $roomManager->removeBuilding($_POST['buildingid']);
+	if($removeBuilding){
+		echo "ลบอาคารเสร็จสิ้น";
+	}
+	else {
+		echo $removeBuilding;
 	}
 }
 

@@ -11,14 +11,14 @@ function loadBuildingOption(){
         success: function(response) {
           $('#Building2 option[value!="0"]').remove();
           $('#Building9 option[value!="0"]').remove();
-          // $('#Building10 option[value!="0"]').remove();
+          $('#Building10 option[value!="0"]').remove();
           var json_obj = jQuery.parseJSON(response);
           $.each(json_obj, function(key, value) {
             var BId = value.BId;
             var BName = value.BName;
             $("#Building2").append("<option value="+BId+">"+BName+"</option>");
             $("#Building9").append("<option value="+BId+">"+BName+"</option>");
-            // $("#Building10").append("<option value="+BId+">"+BName+"</option>");
+            $("#Building10").append("<option value="+BId+">"+BName+"</option>");
           });// each
 
         } //function

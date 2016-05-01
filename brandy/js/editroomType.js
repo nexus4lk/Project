@@ -12,6 +12,7 @@ function loadroomtypeOption(){
           $('#roomtype2 option[value!="0"]').remove();
           $('#roomtype3 option[value!="0"]').remove();
           $('#roomtype6 option[value!="0"]').remove();
+          $('#roomtype7 option[value!="0"]').remove();
           var json_obj = jQuery.parseJSON(response);
           $.each(json_obj, function(key, value) {
             var RTId = value.RTId;
@@ -19,7 +20,8 @@ function loadroomtypeOption(){
             $("#roomtype2").append("<option value="+RTId+">"+RTName+"</option>");
             $("#roomtype3").append("<option value="+RTId+">"+RTName+"</option>");
             $("#roomtype6").append("<option value="+RTId+">"+RTName+"</option>");
-            // $('#roomid3').html('{list}<option value="{Id}">{Name}</option>{/list}');
+            $("#roomtype7").append("<option value="+RTId+">"+RTName+"</option>");
+
           });// each
 
         } //function

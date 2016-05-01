@@ -90,18 +90,40 @@ $(document).ready(function() {
       $('#ecm_member').empty();
       $('#ecm_start').empty();
       $('#ecm_end').empty();
+      $('#ecm_time').empty();
       modal.style.display = "block";
       var ecmstart = calEvent.start;
       var ecmend = calEvent.endday;
+      var day_time = calEvent.Day_time;
+      var text;
+      switch(day_time) {
+      case "Morning":
+          text = "ช่วงเช้า : 8.30 - 12.00น.";
+          break;
+      case "Afternoon":
+          text = "ช่วงบ่าย : 12.00 - 16.30น.";
+          break;
+      case "Night":
+          text = "ช่วงค่ำ : 16.30 - 22.00น.";
+          break;
+      default:
+          text = "Error";
+      }
       $('#ecmTitle').html('<h3>'+calEvent.titleModal+'</h3>');
       $('#ecm_roomname').append('<font size="5" color="#000000" >ห้อง :&nbsp;&nbsp;</font>');
       $('#ecm_roomname').append('<font size="5" color="#000000" >'+ calEvent.room +'</font>');
+      $('#ecm_roomname').append('<font size="5" color="#000000" >&nbsp;&nbsp;อาคาร :&nbsp;&nbsp;</font>');
+      $('#ecm_roomname').append('<font size="5" color="#000000" >'+ calEvent.building +'</font>');
+      $('#ecm_roomname').append('<font size="5" color="#000000" >&nbsp;&nbsp;ชั้น :&nbsp;&nbsp;</font>');
+      $('#ecm_roomname').append('<font size="5" color="#000000" >'+ calEvent.floor +'</font>');
       $('#ecm_member').append('<font size="5" color="#000000" >ผู้จอง :&nbsp;&nbsp;</font>');
       $('#ecm_member').append('<font size="5" color="#000000" >'+ calEvent.mem +'</font>');
       $('#ecm_start').append('<font size="5" color="#000000" >วันที่เริ่ม :&nbsp;&nbsp;</font>');
       $('#ecm_start').append('<font size="5" color="#000000" >'+ ecmstart.format('YYYY-MM-DD')+'</font>');
       $('#ecm_end').append('<font size="5" color="#000000" >วันที่สิ้นสุด :&nbsp;&nbsp;</font>');
       $('#ecm_end').append('<font size="5" color="#000000" >'+ ecmend +'</font>');
+      $('#ecm_time').append('<font size="5" color="#000000" >ช่วงเวลา :&nbsp;&nbsp;</font>');
+      $('#ecm_time').append('<font size="5" color="#000000" >'+ text +'</font>');
       window.onclick = function(event) {
         if (event.target == modal) {
           modal.style.display = "none";

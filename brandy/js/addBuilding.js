@@ -30,6 +30,7 @@ $(function() {
       },
       success: function(response) {
         if (response == "success") {
+        loadBuildingOption();
         alert('เพิ่มอาคาร '+  txtbuildingName + ' เรียบร้อยแล้ว');
         } else  {
         alert('อาคาร ' + txtbuildingName + ' มีอยู่ในระบบแล้ว');

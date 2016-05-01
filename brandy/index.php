@@ -308,6 +308,8 @@ if(!$member->is_loggedin())
       </div>
       <div id="ecm_roomfloor">
       </div>
+      <div id="ecm_time">
+      </div>
       </div>
     </div>
     <!-- <div class="modal-footer">
@@ -349,9 +351,9 @@ if(!$member->is_loggedin())
         <input type="text" class="form-control" name="dcmtitle" placeholder="" id="dcmtitle">
         </div>
         <label for="gender">ช่วงเวลาที่ต้องการจอง: </label><br>
-        <input type="radio" id="myRadio" name="myRadio" value="Morning" >ช่วงเช้า</input><br>
-        <input type="radio" id="myRadio" name="myRadio" value="Afternoon" >ช่วงบ่าย</input><br>
-        <input type="radio" id="myRadio" name="myRadio" value="Night" >ช่วงค่ำ</input>
+        <input type="radio" id="myRadio" name="myRadio" value="Morning" >ช่วงเช้า : 8.30 - 12.00น.</input><br>
+        <input type="radio" id="myRadio" name="myRadio" value="Afternoon" >ช่วงบ่าย : 12.00 - 16.30น.</input><br>
+        <input type="radio" id="myRadio" name="myRadio" value="Night" >ช่วงค่ำ : 16.30 - 22.00น.</input>
         <div class="form-group">
         <label >วันที่เริมต้น</label>
         <input type="text" class="form-control" name="dcmstart"  placeholder="" id="dcmstart">
@@ -448,15 +450,6 @@ if(!$member->is_loggedin())
         </div>
     </div>
   </div>
-</div>
-
-<div id="myModal" class="modal">
-
-<!-- Modal Content (The Image) -->
-<img class="modal-content" id="img01">
-
-<!-- Modal Caption (Image Text) -->
-<div id="caption"></div>
 </div>
 
 

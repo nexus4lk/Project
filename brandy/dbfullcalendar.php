@@ -37,6 +37,40 @@ class Fullcalendar {
 		}
 	}
 
+	public function get_floor($id){
+
+		$connect = new connect();
+		$db = $connect->connect();
+		$get_floor = $db->query("SELECT * FROM room WHERE Room_ID = '$id'");
+		while($floor = $get_floor->fetch_assoc()){
+			$result = $floor['Floor'];
+		}
+		if(!empty($result)){
+
+			return $result;
+		}
+	}
+
+
+		public function get_building($id){
+
+			$connect = new connect();
+			$db = $connect->connect();
+			$get_building = $db->query("SELECT * FROM room WHERE Room_ID = '$id'");
+			if($building = $get_building->fetch_assoc()){
+				$Bid= $building['Building_id'];
+				$get_BName = $db->query("SELECT * FROM building WHERE Building_id = '$Bid'");
+				if($BName = $get_BName->fetch_assoc()){
+					$result = $BName['Building_name'];
+			}
+			if(!empty($result)){
+						return $result;
+					}
+				}
+		}
+
+
+
   //get room name
   public function get_membername($id){
 
