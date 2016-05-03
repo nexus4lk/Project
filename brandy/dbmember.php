@@ -13,28 +13,58 @@ class member {
           while($get_password = $checkpass->fetch_assoc()){
             $_SESSION['user_session'] = $get_username['Mem_ID'];
             // $_SESSION['status_session'] = $get_username['Status'];
+            // $db->close();
             return true;
           }return false;
       }return false;
+      $db->close();
     }
-public function register($username,$password,$fname,$lname,$email,$tel){
+
+    public function forgetPassword($usernameoremail){
+        $usernameoremail = trim($usernameoremail);
+        $connect = new connect();
+        $db = $connect->connect();
+        $checkuser = $db->query("SELECT * FROM `member` WHERE `Mem_Email` = '$usernameoremail' OR `Username` = '$usernameoremail'");
+        if($result = $checkuser->fetch_assoc()){
+          $strTo = $result["Mem_Email"];
+          $strSubject = "Your Account information username and password.";
+          $strHeader = "Content-type: text/html; charset=windows-874\n"; // or UTF-8 //
+          $strHeader .= "From: webmaster@thaicreate.com\nReply-To: webmaster@thaicreate.com";
+          $strMessage = "";
+          $strMessage .= "Welcome : ".$result["Mem_Design"].$result["Mem_Fname"].$result["Mem_Lname"]."<br>";
+          $strMessage .= "Username : ".$result["Username"]."<br>";
+          $strMessage .= "Password : ".$result["Password"]."<br>";
+          $strMessage .= "=================================<br>";
+          $strMessage .= "ThaiCreate.Com<br>";
+          $flgSend = mail($strTo,$strSubject,$strMessage,$strHeader);
+          echo "Your password send successful.<br>Send to mail : ".$result["Mem_Email"];
+
+        }else{
+          return false;
+        }
+        $db->close();
+      }
+
+public function register($username,$password,$fname,$lname,$email,$tel,$design,$faculty,$branch){
 
     $connect = new connect();
     $db = $connect->connect();
     $status = "USER";
     $checkuser = $db->query("SELECT * FROM member WHERE Username = '$username'");
-    if ($get_username = $checkuser->fetch_assoc()){
+    if ($checkuser->fetch_assoc()){
       return false;
+
     }
     else {
-      $add_user = $db->prepare("INSERT INTO member (Mem_ID, Mem_Fname, Mem_Lname, Mem_Tel, Mem_Email, Username , Password, Status) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)");
-      $add_user->bind_param("sssssss",$fname, $lname, $tel, $email, $username , $password, $status);
+      $add_user = $db->prepare("INSERT INTO member (Mem_ID, Mem_Design, Mem_Fname, Mem_Lname, Mem_Tel, Mem_Email, Mem_Faculty, Mem_Branch, Username , Password, Status) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+      $add_user->bind_param("ssssssssss", $design,$fname, $lname, $tel, $email, $faculty, $branch, $username, $password, $status);
       if(!$add_user->execute()){
         return false;
       }else{
         return true;
       }
     }
+    $db->close();
 }
 
     //check login
@@ -58,6 +88,7 @@ public function is_loggedin(){
 
    			return $result;
    		}
+      $db->close();
    	}
     public function get_username($user_session)
      {
@@ -72,6 +103,7 @@ public function is_loggedin(){
 
    			return $result;
    		}
+      $db->close();
    	}
 
     public function redirect($url)

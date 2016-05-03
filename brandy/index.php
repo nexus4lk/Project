@@ -153,7 +153,7 @@ if(!$member->is_loggedin())
                         <br>
                         <p>"เลือกห้องเพื่อดูปฏิทิน"</p>
                         <select class="btn btn-default dropdown-toggle" name="roomid" id="roomid">
-                        <option value="">Please Select Room</option>
+                        <option value="">กรุณาเลือกห้อง</option>
                           <?php
                           $connect = new connect();
                           $db = $connect->connect();
@@ -169,7 +169,8 @@ if(!$member->is_loggedin())
                           <br>
                           <a onclick='roomModal()'>กดเพื่อดูลายระเอียดห้อง</a>
                           <br>
-                          <font size="3" color="#ff4444" >*สามารถจองได้เฉพาะ 4 วันจากวันที่ปัจจุบันเพื่อเว้นระยะการดำเนินเรื่องจองห้อง</font>
+                            <br>
+                          <font size="5"  color="#ff4444" >*ห้องควรจองถัดจากวันปัจจุบัน 3 - 4 วันเพื่อเว้นระยะการดำเนินเรื่อง</font>
                         <div class="wow fadeInLeft animated" id='calendar'></div>
                         <br>
                         <br>
@@ -210,18 +211,18 @@ if(!$member->is_loggedin())
                                   $Reser_Startdate = $row["Reser_Startdate"];
                                   $Reser_Enddate = $row["Reser_Enddate"];
                                   switch ($row["Reser_Satatus"]) {
-                                  case "Wait":
-                                      $status = "รอตรวจสอบ";
-                                      break;
-                                  case "Proc":
-                                      $status = "อยู่ระหว่างดำเนินการ";
-                                      break;
-                                      case "Cmpt":
-                                          $status = "เสร็จสิ้นการดำเนินการ";
-                                          break;
-                                      case "deny":
-                                          $status = "ปฏิเสธ";
-                                          break;
+                                    case "Wait":
+                                        $status = "<b>รอตรวจสอบ</b>";
+                                        break;
+                                    case "Proc":
+                                        $status = "<font    color='3754A3' ><b>อยู่ระหว่างดำเนินการ 3 - 4 วัน</b></font>";
+                                        break;
+                                    case "Cmpt":
+                                        $status = "<font    color='37A339' ><b>เสร็จสิ้นการดำเนินการ</b></font>";
+                                        break;
+                                    case "deny":
+                                        $status = "<font    color='B20000' ><b>ปฏิเสธ</b></font>";
+                                        break;
                                         }
                                     switch ($row["Day_time"]) {
                                       case "Morning":
@@ -276,7 +277,7 @@ if(!$member->is_loggedin())
 
                     </div>
                     <br>
-                    <font size="3" color="#ff4444" >*การดำเนินเรื่องจองห้องจะใช้เวลาประมาณ 3 - 4 วัน</font>
+                      <font size="5"  color="#ff4444" >*การดำเนินเรื่องจองห้องจะใช้เวลาประมาณ 3 - 4 วัน</font>
 
                 </div>
             </div>
@@ -331,10 +332,9 @@ if(!$member->is_loggedin())
     <div class="modal-body">
       <form id="new_calendar">
         <div class="form-group">
-          <label>ห้อง</label>
-          <br>
-          <select class="form-heading" name="roomtype" id="roomtype">
-          <option value="">Please Select Item</option>
+
+          <label>ห้อง&nbsp;&nbsp;</label>  <select class="btn btn-default dropdown-toggle" name="roomtype" id="roomtype">
+          <option value="">กรุณาเลือกห้อง</option>
             <?php
             $connect = new connect();
             $db = $connect->connect();
@@ -347,9 +347,18 @@ if(!$member->is_loggedin())
             ?>
             </select>
             <br>
-        <label>เรื่อง</label>
-        <input type="text" class="form-control" name="dcmtitle" placeholder="" id="dcmtitle">
         </div>
+        <label>กิจกรรม :</label>
+        <input type="text" class="form-control" name="dcmtitle" placeholder="" id="dcmtitle">
+        <br>
+        <label>เรียน </label>
+        <select class="btn btn-default dropdown-toggle" name="dcmforwhom" id="dcmforwhom">
+          <option value="">กรุณาเลือกผู้รับ</option>
+          <option value="หัวหน้าสาขา">หัวหน้าสาขา</option>
+          <option value="ผู้อำนวยการ">ผู้อำนวยการ</option>
+        </select>
+        <br>
+
         <label for="gender">ช่วงเวลาที่ต้องการจอง: </label><br>
         <input type="radio" id="myRadio" name="myRadio" value="Morning" >ช่วงเช้า : 8.30 - 12.00น.</input><br>
         <input type="radio" id="myRadio" name="myRadio" value="Afternoon" >ช่วงบ่าย : 12.00 - 16.30น.</input><br>
@@ -381,9 +390,7 @@ if(!$member->is_loggedin())
     <div class="modal-body">
       <form id="edit_calendar">
         <div class="form-group">
-          <label>ห้อง</label>
-          <br>
-          <select class="form-heading" name="editroom" id="editroom">
+          <label>ห้อง&nbsp;&nbsp;</label>  <select class="btn btn-default dropdown-toggle" name="editroom" id="editroom">
           <option value="">Please Select Item</option>
             <?php
             $connect = new connect();
@@ -397,9 +404,16 @@ if(!$member->is_loggedin())
             ?>
             </select>
             <br>
-        <label>เรื่อง</label>
+        <label>กิจกรรม :</label>
         <input type="text" class="form-control" name="edittitle" placeholder="" id="edittitle">
-        </div>
+        <br>
+        <label>เรียน </label>
+        <select class="btn btn-default dropdown-toggle" name="editforwhom" id="editforwhom">
+          <option value="">กรุณาเลือกผู้รับ</option>
+          <option value="หัวหน้าสาขา">หัวหน้าสาขา</option>
+          <option value="ผู้อำนวยการ">ผู้อำนวยการ</option>
+        </select>
+        <br>
         <label for="gender">ช่วงเวลาที่ต้องการจอง: </label><br>
         <input type="radio" id="Morning" name="editmyRadio" value="Morning" >ช่วงเช้า</input><br>
         <input type="radio" id="Afternoon" name="editmyRadio" value="Afternoon" >ช่วงบ่าย</input><br>
@@ -421,7 +435,7 @@ if(!$member->is_loggedin())
     </div>
   </div>
 </div>
-
+</div>
 <div id="room_Modal" class="modal ">
   <!-- Modal content -->
   <div class="roommodal-content">
@@ -516,23 +530,26 @@ if(!$member->is_loggedin())
     .Morning,
     .Morning div,
     .Morning span {
-      background-color: green; /* background color */
-      border-color: green;     /* border color */
-      color: white;           /* text color */
+      background-color: #FFE700; /* background color */
+      border-color: #FFE700;     /* border color */
+      color: black;
+      font-size: 20px;          /* text color */
     }
     .Afternoon,
     .Afternoon div,
     .Afternoon span {
-      background-color: red; /* background color */
-      border-color: red;     /* border color */
-      color: white;           /* text color */
+      background-color: #2CDAFF; /* background color */
+      border-color: #2CDAFF;     /* border color */
+      color: black;
+      font-size: 20px;       /* text color */
     }
     .Night,
     .Night div,
     .Night span {
-      background-color: black; /* background color */
-      border-color: black;     /* border color */
-      color: white;           /* text color */
+      background-color: #041519; /* background color */
+      border-color: #041519;     /* border color */
+      color: white;
+      font-size: 20px;        /* text color */
     }
   </style>
 

@@ -92,7 +92,7 @@ if(!$member->is_loggedin())
         <th>วันที่สิ้นสุด</th>
         <th>สถานะการจอง</th>
         <th>อนุมัติ</th>
-        <th>ปฏิเสธ</th>
+        <th><b>ปฏิเสธ</b></th>
         </tr>
         </thead>
         <tbody id='tbody'>";
@@ -105,18 +105,18 @@ if(!$member->is_loggedin())
                 $reser_id = $row["Reser_ID"];
                 $reser_title = $row["Title"];
                 switch ($row["Reser_Satatus"]) {
-                case "Wait":
-                    $status = "รอตรวจสอบ";
-                    break;
-                case "Proc":
-                    $status = "อยู่ระหว่างดำเนินการ";
-                    break;
-                    case "Cmpt":
-                        $status = "เสร็จสิ้นการดำเนินการ";
-                        break;
-                    case "deny":
-                        $status = "ปฏิเสธ";
-                        break;
+                  case "Wait":
+                      $status = "<b>รอตรวจสอบ</b>";
+                      break;
+                  case "Proc":
+                      $status = "<font    color='3754A3' ><b>อยู่ระหว่างดำเนินการ 3 - 4 วัน</b></font>";
+                      break;
+              		case "Cmpt":
+              				$status = "<font    color='37A339' ><b>เสร็จสิ้นการดำเนินการ</b></font>";
+              			  break;
+              		case "deny":
+              				$status = "<font    color='B20000' ><b>ปฏิเสธ</b></font>";
+              				break;
                       }
                   switch ($row["Day_time"]) {
                     case "Morning":
@@ -163,7 +163,7 @@ if(!$member->is_loggedin())
         <th>วันที่สิ้นสุด</th>
         <th>สถานะการจอง</th>
         <th>อนุมัติ</th>
-        <th>ปฏิเสธ</th>
+        <th><b>ปฏิเสธ</b></th>
         </tr>
         </thead>
         <tbody id='tbody'>
@@ -195,7 +195,7 @@ if(!$member->is_loggedin())
         <th>วันที่สิ้นสุด</th>
         <th>สถานะการจอง</th>
         <th>อนุมัติ</th>
-        <th>ปฏิเสธ</th>
+        <th><b>ปฏิเสธ</b></th>
         <th>PDF</th>
         </tr>
         </thead>
@@ -208,18 +208,18 @@ if(!$member->is_loggedin())
              if ($memberName = $get_member->fetch_assoc() AND $roomName = $get_room->fetch_assoc()) {
                 $reser_id = $row["Reser_ID"];
                 switch ($row["Reser_Satatus"]) {
-                case "Wait":
-                    $status = "รอตรวจสอบ";
-                    break;
-                case "Proc":
-                    $status = "อยู่ระหว่างดำเนินการ";
-                    break;
-                    case "Cmpt":
-                        $status = "เสร็จสิ้นการดำเนินการ";
-                        break;
-                    case "deny":
-                        $status = "ปฏิเสธ";
-                        break;
+                  case "Wait":
+                      $status = "<b>รอตรวจสอบ</b>";
+                      break;
+                  case "Proc":
+                      $status = "<font     color='3754A3' ><b>อยู่ระหว่างดำเนินการ 3 - 4 วัน</b></font>";
+                      break;
+              		case "Cmpt":
+              				$status = "<font     color='37A339' ><b>เสร็จสิ้นการดำเนินการ</b></font>";
+              			  break;
+              		case "deny":
+              				$status = "<font     color='B20000' ><b>ปฏิเสธ</b></font>";
+              				break;
                       }
                   switch ($row["Day_time"]) {
                     case "Morning":
@@ -267,7 +267,7 @@ if(!$member->is_loggedin())
         <th>วันที่สิ้นสุด</th>
         <th>สถานะการจอง</th>
         <th>อนุมัติ</th>
-        <th>ปฏิเสธ</th>
+        <th><b>ปฏิเสธ</b></th>
         <th>PDF</th>
         </tr>
         </thead>
@@ -311,18 +311,18 @@ if(!$member->is_loggedin())
              if ($memberName = $get_member->fetch_assoc() AND $roomName = $get_room->fetch_assoc()) {
                 $reser_id = $row["Reser_ID"];
                 switch ($row["Reser_Satatus"]) {
-                case "Wait":
-                    $status = "รอตรวจสอบ";
-                    break;
-                case "Proc":
-                    $status = "อยู่ระหว่างดำเนินการ";
-                    break;
-                    case "Cmpt":
-                        $status = "เสร็จสิ้นการดำเนินการ";
-                        break;
-                    case "deny":
-                        $status = "ปฏิเสธ";
-                        break;
+                  case "Wait":
+                      $status = "<b>รอตรวจสอบ</b>";
+                      break;
+                  case "Proc":
+                      $status = "<font    color='3754A3' ><b>อยู่ระหว่างดำเนินการ 3 - 4 วัน</b></font>";
+                      break;
+              		case "Cmpt":
+              				$status = "<font    color='37A339' ><b>เสร็จสิ้นการดำเนินการ</b></font>";
+              			  break;
+              		case "deny":
+              				$status = "<font    color='B20000' ><b>ปฏิเสธ</b></font>";
+              				break;
                       }
                   switch ($row["Day_time"]) {
                     case "Morning":
@@ -407,18 +407,18 @@ if(!$member->is_loggedin())
              if ($memberName = $get_member->fetch_assoc() AND $roomName = $get_room->fetch_assoc()) {
                 $reser_id = $row["Reser_ID"];
                 switch ($row["Reser_Satatus"]) {
-                case "Wait":
-                    $status = "รอตรวจสอบ";
-                    break;
-                case "Proc":
-                    $status = "อยู่ระหว่างดำเนินการ";
-                    break;
-                case "Cmpt":
-                    $status = "เสร็จสิ้นการดำเนินการ";
-                    break;
-                case "deny":
-                    $status = "ปฏิเสธ";
-                    break;
+                  case "Wait":
+                      $status = "<b>รอตรวจสอบ</b>";
+                      break;
+                  case "Proc":
+                      $status = "<font    color='3754A3' ><b>อยู่ระหว่างดำเนินการ 3 - 4 วัน</b></font>";
+                      break;
+              		case "Cmpt":
+              				$status = "<font    color='37A339' ><b>เสร็จสิ้นการดำเนินการ</b></font>";
+              			  break;
+              		case "deny":
+              				$status = "<font    color='B20000' ><b>ปฏิเสธ</b></font>";
+              				break;
                   }
 
                   switch ($row["Day_time"]) {
@@ -912,6 +912,34 @@ if(!$member->is_loggedin())
     </div>
     </div>
 
+
+
+  </div>
+  <div id="PDF_Modal" class="modal ">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="PDFTitle">เอกสาร</h3>
+      </div>
+      <div class="modal-body">
+        <form id="PDF-form">
+          <div class="form-group">
+          </div>
+          <label>ส่วนราชการ :</label>
+          <input type="text" class="form-control" name="txt1" placeholder="" id="txt1">
+          <br>
+          <label>ที่ :</label>
+          <input type="text" class="form-control" name="txt2" placeholder="" id="txt2">
+          <br>
+          <div class ="reser_error"></div>
+          <div class="modal-footer">
+            <br>
+            <button type="submit" id="submit" class="btn btn-primary" >พิมพ์ PDF</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 
   <!-- =========================
@@ -957,7 +985,7 @@ if(!$member->is_loggedin())
 								type: 'pie'
 							},
 							title: {
-								text: 'จำนวนคั้งในการจองของแต่ละห้อง'
+								text: 'จำนวนครั้งในการจองของแต่ละห้อง'
 							},
 							tooltip: {
 								pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

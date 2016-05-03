@@ -15,19 +15,19 @@ if(isset($_POST['getreser'])){//admin incomes
 		$get_membername = $roomManager->get_membername($reser['Mem_ID']);
 		$get_memberTel = $roomManager->get_memberTel($reser['Mem_ID']);
 		switch ($reser["Reser_Satatus"]) {
-    case "Wait":
-        $status = "รอตรวจสอบ";
-        break;
-    case "Proc":
-        $status = "อยู่ระหว่างดำเนินการ";
-        break;
-				case "Cmpt":
-				    $status = "เสร็จสิ้นการดำเนินการ";
-				    break;
-				case "deny":
-				    $status = "ปฏิเสธ";
-				    break;
-				  }
+			case "Wait":
+					$status = "<b>รอตรวจสอบ</b>";
+					break;
+			case "Proc":
+					$status = "<font    color='3754A3' ><b>อยู่ระหว่างดำเนินการ 3 - 4 วัน</b></font>";
+					break;
+			case "Cmpt":
+					$status = "<font    color='37A339' ><b>เสร็จสิ้นการดำเนินการ</b></font>";
+					break;
+			case "deny":
+					$status = "<font    color='B20000' ><b>ปฏิเสธ</b></font>";
+					break;
+					}
 		switch ($reser["Day_time"]) {
 			case "Morning":
 					$day_time = "ช่วงเช้า";
@@ -70,19 +70,19 @@ if(isset($_POST['Proc'])){//Process
 		$get_membername = $roomManager->get_membername($reser['Mem_ID']);
 		$get_memberTel = $roomManager->get_memberTel($reser['Mem_ID']);
 		switch ($reser["Reser_Satatus"]) {
-    case "Wait":
-        $status = "รอตรวจสอบ";
-        break;
-    case "Proc":
-        $status = "อยู่ระหว่างดำเนินการ";
-        break;
-				case "Cmpt":
-				    $status = "เสร็จสิ้นการดำเนินการ";
-				    break;
-				case "deny":
-				    $status = "ปฏิเสธ";
-				    break;
-				  }
+			case "Wait":
+					$status = "<b>รอตรวจสอบ</b>";
+					break;
+			case "Proc":
+					$status = "<font    color='3754A3' ><b>อยู่ระหว่างดำเนินการ 3 - 4 วัน</b></font>";
+					break;
+			case "Cmpt":
+					$status = "<font    color='37A339' ><b>เสร็จสิ้นการดำเนินการ</b></font>";
+					break;
+			case "deny":
+					$status = "<font    color='B20000' ><b>ปฏิเสธ</b></font>";
+					break;
+					}
 			switch ($reser["Day_time"]) {
 				case "Morning":
 						$day_time = "ช่วงเช้า";
@@ -125,18 +125,18 @@ if(isset($_POST['Cmpt'])){//Complete
 		$get_membername = $roomManager->get_membername($reser['Mem_ID']);
 		$get_memberTel = $roomManager->get_memberTel($reser['Mem_ID']);
 		switch ($reser["Reser_Satatus"]) {
-    case "Wait":
-        $status = "รอตรวจสอบ";
-        break;
-    case "Proc":
-        $status = "อยู่ระหว่างดำเนินการ";
-        break;
-				case "Cmpt":
-				    $status = "เสร็จสิ้นการดำเนินการ";
-				    break;
-				case "deny":
-				    $status = "ปฏิเสธ";
-				    break;
+			case "Wait":
+					$status = "<b>รอตรวจสอบ</b>";
+					break;
+			case "Proc":
+					$status = "<font    color='3754A3' ><b>อยู่ระหว่างดำเนินการ 3 - 4 วัน</b></font>";
+					break;
+			case "Cmpt":
+					$status = "<font    color='37A339' ><b>เสร็จสิ้นการดำเนินการ</b></font>";
+					break;
+			case "deny":
+					$status = "<font    color='B20000' ><b>ปฏิเสธ</b></font>";
+					break;
 				  }
 			switch ($reser["Day_time"]) {
 				case "Morning":
@@ -180,19 +180,19 @@ if(isset($_POST['getReserdeny'])){//Deny
 		$get_membername = $roomManager->get_membername($reser['Mem_ID']);
 		$get_memberTel = $roomManager->get_memberTel($reser['Mem_ID']);
 		switch ($reser["Reser_Satatus"]) {
-    case "Wait":
-        $status = "รอตรวจสอบ";
-        break;
-    case "Proc":
-        $status = "อยู่ระหว่างดำเนินการ";
-        break;
-				case "Cmpt":
-				    $status = "เสร็จสิ้นการดำเนินการ";
-				    break;
-				case "deny":
-				    $status = "ปฏิเสธ";
-				    break;
-				  }
+			case "Wait":
+					$status = "<b>รอตรวจสอบ</b>";
+					break;
+			case "Proc":
+					$status = "<font    color='3754A3' ><b>อยู่ระหว่างดำเนินการ 3 - 4 วัน</b></font>";
+					break;
+			case "Cmpt":
+					$status = "<font    color='37A339' ><b>เสร็จสิ้นการดำเนินการ</b></font>";
+					break;
+			case "deny":
+					$status = "<font    color='B20000' ><b>ปฏิเสธ</b></font>";
+					break;
+					}
 			switch ($reser["Day_time"]) {
 				case "Morning":
 						$day_time = "ช่วงเช้า";
@@ -235,18 +235,18 @@ if(isset($_POST['getUserreser'])){//index
 		$get_membername = $roomManager->get_membername($reser['Mem_ID']);
 		$get_memberTel = $roomManager->get_memberTel($reser['Mem_ID']);
 		switch ($reser["Reser_Satatus"]) {
-    case "Wait":
-        $status = "รอตรวจสอบ";
-        break;
-    case "Proc":
-        $status = "อยู่ระหว่างดำเนินการ";
-        break;
-				case "Cmpt":
-				    $status = "เสร็จสิ้นการดำเนินการ";
-				    break;
-				case "deny":
-				    $status = "ปฏิเสธ";
-				    break;
+			case "Wait":
+					$status = "<b>รอตรวจสอบ</b>";
+					break;
+			case "Proc":
+					$status = "<font    color='3754A3' ><b>อยู่ระหว่างดำเนินการ 3 - 4 วัน</b></font>";
+					break;
+			case "Cmpt":
+					$status = "<font    color='37A339' ><b>เสร็จสิ้นการดำเนินการ</b></font>";
+					break;
+			case "deny":
+					$status = "<font    color='B20000' ><b>ปฏิเสธ</b></font>";
+					break;
 				  }
 			switch ($reser["Day_time"]) {
 				case "Morning":
@@ -289,7 +289,8 @@ if(isset($_POST['get_edit'])){
 				'Title'=>$edit['Title'],
 				'reserStart'=>$edit["Reser_Startdate"],
 				'reserEnd'=>$edit["Reser_Enddate"],
-				'Day_time'=>$edit["Day_time"]
+				'Day_time'=>$edit["Day_time"],
+				'forwhom'=>$edit["forwhom"]
 			);
 	}
 		//return JSON object
@@ -323,23 +324,45 @@ if(isset($_POST['get_roomDetail'])){
 }
 
 if(isset($_POST['editreser'])){
-	$reserRoom = $roomManager->editReser($_POST['reserId'],$_POST['roomid'],$_POST['title'],$_POST['start'],$_POST['end'],$_POST['dayTime']);
-	if($reserRoom){
+	$reserRoom = $roomManager->editReser($_POST['reserId'],$_POST['roomid'],$_POST['title'],$_POST['start'],$_POST['end'],$_POST['dayTime'],$_POST['editforwhom']);
+	if($reserRoom === true){
 		echo " แก้ไข้เรียบร้อย ";
 	}
-	else {
-		echo "ไม่สามารถแก้ไขได้";
+	else if($reserRoom === false){
+		echo "error";
+	}else {
+		switch ($reserRoom) {
+			case "Proc":
+					$reserRoom = "รายการอยู่ในระหว่างการดำเนินการจอง";
+					break;
+			case "Cmpt":
+					$reserRoom = "การจองเสร็จสิ้นแล้ว";
+					break;
+			case "deny":
+					$reserRoom = "การจองถูกปฏิเสธ";
+					break;
+					}
+	echo "ไม่สามารถแก้ไขรายละเอียดได้เนื่องจาก".$reserRoom;
 	}
 }
 
-
-if(isset($_POST['reser'])){
-	$reserRoom = $roomManager->reserRoom($_SESSION['user_session'],$_POST['roomid'],$_POST['dcmtitle'],$_POST['date'],$_POST['dcmstart'],$_POST['dcmend'],$_POST['dayTime']);
-	if($reserRoom){
-		echo " กรุณารอการดำเนินเรื่อง 3-4 วัน ";
+if(isset($_POST['getresername'])){
+	$title = $roomManager->reserTitle($_POST['reser_id']);
+	if(!empty($title)){
+		echo $title;
 	}
 	else {
-		echo "ไม่สามารถจองห้องได้เนื่องจากห้องมีการจองอยู่ หรือ ห้งออยู่ระหว่างการดำเนินการ";
+		echo "error";
+	}
+}
+
+if(isset($_POST['reser'])){
+	$reserRoom = $roomManager->reserRoom($_SESSION['user_session'],$_POST['roomid'],$_POST['dcmtitle'],$_POST['dcmstart'],$_POST['dcmend'],$_POST['dayTime'],$_POST['dcmfw']);
+	if($reserRoom){
+		echo "กรุณารอการดำเนินเรื่อง 3-4 วัน ";
+	}
+	else {
+		echo "ไม่สามารถจองห้องได้เนื่องจากห้องมีการจองอยู่ หรือ ห้องอยู่ระหว่างการดำเนินการจอง";
 	}
 }
 
@@ -360,7 +383,7 @@ if (isset($_POST['allowProcess'])){
 		echo "Allow to process";
 	}
 	else {
-		echo "ไม่สามารถจองได้เนื่องจาก".$allowProcess;
+		echo $allowProcess;
 	}
 }
 
@@ -384,6 +407,18 @@ if (isset($_POST['deny'])){
 		echo "error";
 	}
 }
+
+
+if (isset($_POST['checkstatus'])){
+	$check = $roomManager->checkstatus($_POST['reserId']);
+	if(!empty($check)){
+		echo $check;
+	}
+	else {
+		echo "error";
+	}
+}
+
 
 if (isset($_POST['denyComplete'])){
 	$denyComplete = $roomManager->denyComplete($_POST['reser_id']);

@@ -24,7 +24,9 @@ function userEdit(reser_id,room_id,memid) {
         var Title = value.Title;
         var reserStart = value.reserStart;
         var reserEnd = value.reserStart;
-        var Day_time = value.Day_time;editsubmit
+        var Day_time = value.Day_time;
+        var forwhom = value.forwhom;
+
         $('#editheadTitle').html(Title);
         document.getElementById(Day_time).checked = true;
         document.getElementById("editroom").value = room_id;
@@ -33,6 +35,7 @@ function userEdit(reser_id,room_id,memid) {
         document.getElementById("editend").value = reserEnd;
         document.getElementById("editsubmit").value = reser_id;
         document.getElementById("logout").value = memid;
+        document.getElementById("editforwhom").value = forwhom;
         });
     }
   });
@@ -85,7 +88,6 @@ function userEdit(reser_id,room_id,memid) {
           getUserreser: getUserreser
         },
         success: function(response) {
-          alert(response);
           if (response != "empty") {
             console.log("-------------------");
             console.log(response);

@@ -36,17 +36,17 @@ $(function() {
     $('#txtUsername').focus();
     var txtUsername = $('#username').val();
     var txtPassword = $('#password').val();
-    var type = "login"
+    var login = "login"
     $.ajax({
       type: 'POST',
       url: 'member_manager.php',
       data: {
         username: txtUsername,
         password: txtPassword,
-        type: type
+        login: login
       },
       success: function(response) {
-        
+
         switch (response) {
           case "ADMIN":
             window.location = "admin.php";

@@ -7,14 +7,18 @@ $(function() {
       dcmtitle: "required",
       dcmstart: "required",
       dcmend: "required",
-      myRadio: "required"
+      myRadio: "required",
+      dcmforwhom: "required"
+
     },
     messages: {
       roomtype: "กรุณาเลือกห้องที่ต้องการจอง",
       dcmtitle: "กรุณากรอกจุดประสงค์การจองห้อง",
       dcmstart: "กรุณากรอกเวลาเริ่ม",
       dcmend: "กรุณากรอบเวลาสิ้นสุด",
-      myRadio: "กรุณาเลือกช่วงเวลาที่ต้องการจอง"
+      myRadio: "กรุณาเลือกช่วงเวลาที่ต้องการจอง",
+      dcmforwhom: "กรุณาเลือกผู้รับหมาย"
+
     },
     submitHandler: submitForm
   });
@@ -28,9 +32,9 @@ $(function() {
     var txtdcmtitle = $('#dcmtitle').val();
     var txtdcmstart = $('#dcmstart').val();
     var txtdcmend = $('#dcmend').val();
+    var txtdcmfw = $('#dcmforwhom').val();
     var x = checkRadio();
     var reser = "reser"
-    var date = new Date().toISOString().slice(0,10);
     $.ajax({
       type: 'POST',
       url: 'room_manager.php',
@@ -39,7 +43,8 @@ $(function() {
         dcmtitle: txtdcmtitle,
         dcmstart: txtdcmstart,
         dcmend: txtdcmend,
-        date:date,
+        dcmfw: txtdcmfw,
+        // date:date,
         dayTime:x,
         reser: reser
       },

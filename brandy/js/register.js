@@ -5,6 +5,9 @@ $(function() {
     rules: {
       txtfname: "required",
       txtlname: "required",
+      txtdesign: "required",
+      txtfaculty: "required",
+      txtbranch: "required",
       username: {
         required: true,
         minlength: 5,
@@ -32,6 +35,9 @@ $(function() {
     messages: {
       txtfname: "กรุณากรอกชื่อ",
       txtlname: "กรุณากรอกนามสกุล",
+      txtdesign: "กรุณากรอกคำนำหน้าชื่อ",
+      txtfaculty: "กรุณากรอกคณะที่สังกัด",
+      txtbranch: "กรุณากรอกภาควิชาที่สังกัด",
       username: {
         required: "กรุณากรอก username",
         minlength: "username ควรมีความยาวตั้งแต่ 5 ตัวอักษรขึ้นไป",
@@ -67,8 +73,11 @@ $(function() {
     var txtfname = $('#txtfname').val();
     var txtlname = $('#txtlname').val();
     var txtemail = $('#txtemail').val();
+    var txtdesign = $('#txtdesign').val();
+    var txtfaculty = $('#txtfaculty').val();
+    var txtbranch = $('#txtbranch').val();
     var txttel = $('#txttel').val();
-    var type = "register";
+    var register = "register";
     $.ajax({
       type: 'POST',
       url: 'member_manager.php',
@@ -79,11 +88,19 @@ $(function() {
         refname: txtfname,
         relname: txtlname,
         reemail: txtemail,
+        design:txtdesign,
+        faculty:txtfaculty,
+        branch:txtbranch,
         retel: txttel,
-        type: type
+        register: register
       },
       success: function(response) {
-        window.location = "login.php";
+        if (response == "success") {
+          alert(response);
+          // window.location = "login.php";
+        }else {
+          alert(response);
+        }
       }
     });
   return false;

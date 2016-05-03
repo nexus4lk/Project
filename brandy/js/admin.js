@@ -225,12 +225,14 @@ function denyComplete(reser_id) {
             +"<td>"+reserStatus+"</td>"
             +"<td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='allowComplete("+Id+")'></td>"
             +"<td><input name='btnAdd' type='button' id='btnAdd' value='Remove' onclick='denyComplete("+Id+")'></td>"
+            +"<td><a onclick='reportePDF("+Id+")' >พิมพ์เอกสาร PDF</a></td>"
             +"</tr>";
             $("#tbodyP").append(texttable);
           });
         }else {
           $('#tbodyP').remove();
           var texttable = "<tr>"
+          "<td>"+" "+"</td>"
           "<td>"+" "+"</td>"
           "<td>"+" "+"</td>"
           "<td>"+" "+"</td>"

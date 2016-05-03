@@ -60,8 +60,19 @@
                         <div class="single_contact_info">
                           <h4 class="form-heading" align="left">กรอกข้อมูลส่วนตัว</h4>
                         </div>
-                        <input type="text" class="form-control" name="txtfname" id="txtfname" placeholder="First Name*" size="20">
-                        <input type="text" class="form-control" name="txtlname" id="txtlname" placeholder="Last Name*" size="20">
+                        <!-- <select class="btn btn-default dropdown-toggle" name="design" id="design" >
+                        <option value="อาจารย์">อาจารย์</option>
+                        <option value="ผู้ช่วยศาสตราจารย์">ผู้ช่วยศาสตราจารย์</option>
+                        <option value="รองศาสตราจารย์">รองศาสตราจารย์</option>
+                        <option value="ศาสตราจารย์">ศาสตราจารย์</option>
+                          </select> -->
+                        <!-- <br>
+                        <br> -->
+                        <input type="text" class="form-control" name="txtdesign" id="txtdesign" placeholder="คำนำหน้าชื่อ" size="20">
+                        <input type="text" class="form-control" name="txtfname" id="txtfname" placeholder="ชื่อต้น" size="20">
+                        <input type="text" class="form-control" name="txtlname" id="txtlname" placeholder="นามสกุล" size="20">
+                        <input type="text" class="form-control" name="txtfaculty" id="txtfaculty" placeholder="คณะ" size="20">
+                        <input type="text" class="form-control" name="txtbranch" id="txtbranch" placeholder="สาขาวิชา/ภาควิชา" size="20">
                         <input type="email" class="form-control" name="txtemail" id="txtemail" placeholder="Email*" size="20">
                         <input type="text" class="form-control" name="txttel" id="txttel" placeholder="Tel*" maxlength="10">
                       </div>

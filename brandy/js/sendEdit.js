@@ -4,6 +4,7 @@ $(function() {
   $("#edit_calendar").validate({
     rules: {
       editroom: "required",
+      editforwhom: "required",
       edittitle: "required",
       editstart: "required",
       editend: "required"
@@ -11,6 +12,7 @@ $(function() {
     },
     messages: {
       editroom: "กรุณาเลือกห้องที่ต้องการจอง",
+      editforwhom: "กรุณาเลือกผู้รับหมาย",
       edittitle: "กรุณากรอกจุดประสงค์การจองห้อง",
       editstart: "กรุณากรอกเวลาเริ่ม",
       editend: "กรุณากรอบเวลาสิ้นสุด",
@@ -24,29 +26,36 @@ $(function() {
   function submitForm(){
     var reserId = $('#editsubmit').val();
     var txtroomid = $('#editroom').val();
-    var txtdcmtitle = $('#edittitle').val();
-    var txtdcmstart = $('#editstart').val();
-    var txtdcmend = $('#editend').val();
+    var txttitle = $('#edittitle').val();
+    var txtstart = $('#editstart').val();
+    var txtend = $('#editend').val();
+    var txteditforwhom = $('#editforwhom').val();
     var x = checkRadio();
     var editreser = "editreser"
-    var date = new Date().toISOString().slice(0,10);
     $.ajax({
       type: 'POST',
       url: 'room_manager.php',
       data: {
         reserId:reserId,
         roomid: txtroomid,
-        title: txtdcmtitle,
-        start: txtdcmstart,
-        end: txtdcmend,
-        date:date,
+        title: txttitle,
+        start: txtstart,
+        end: txtend,
         dayTime:x,
+        editforwhom:txteditforwhom,
         editreser: editreser
-      },
+    },
       success: function(response) {
-        var modal = document.getElementById('edit_Modal');
-        modal.style.display = "none";
-        getReser();
+      if (response) {
+          alert(response);
+          var modal = document.getElementById('edit_Modal');
+          modal.style.display = "none";
+          getReser();
+        }else if(!response){
+          alert("เกิดข้อผิดพลาด");
+          }else {
+          alert(response);
+        }
       }
     });
     return false;

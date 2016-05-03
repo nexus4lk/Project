@@ -32,7 +32,6 @@ $(document).ready(function() {
         } else {
           $("#calendar").fullCalendar('removeEvents');
           var response = JSON.parse(response);
-
           $("#calendar").fullCalendar('addEventSource', response);
         }
       }
