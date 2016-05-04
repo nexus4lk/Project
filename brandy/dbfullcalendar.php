@@ -95,9 +95,9 @@ class Fullcalendar {
 
     $connect = new connect();
 		$db = $connect->connect();
-		$get_membername = $db->query("SELECT * FROM reserve_data WHERE Reser_ID = '$id'");
-		while($membername = $get_membername->fetch_assoc()){
-      $result = $membername['Reser_Enddate'];
+		$get_endday= $db->query("SELECT * FROM reserve_data WHERE Reser_ID = '$id'");
+		while($endday = $get_endday->fetch_assoc()){
+      $result = $endday['Reser_Enddate'];
 		}
 		if(!empty($result)){
 

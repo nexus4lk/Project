@@ -64,11 +64,13 @@ function userEdit(reser_id,room_id,memid) {
         userdeny: userdeny
       },
       success: function(response) {
-        if (response != "removed") {
-          alert("ไม่สามารถลบได้เนื่องจาก"+response);
-        }else {
-          alert("ลบการจองห้องเรียบร้อย");
-        }
+        if (response) {
+          alert(response);
+          }else if(!response){
+            alert(response);
+          }else{
+            alert(response);
+          }
         getReser();
       }
     });

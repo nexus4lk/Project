@@ -352,14 +352,16 @@ class roomManager {
               $del_reser = $db->prepare("DELETE FROM reserve_data WHERE Reser_ID = ?");
               $del_reser->bind_param("i",$reserId);
               if(!$del_reser->execute()){
-                echo "เกิดข้อผิดพลาด";
-
+                return false;
               }else{
                 return true;
                 }
             }else{
-              echo "ห้องกำลังอยู่ในระหว่างการดำเนินเรื่อง";
-            }
+              $checkStatus = $db->query("SELECT * FROM reserve_data WHERE Reser_ID = '$reserId'");
+              if($status = $checkStatus->fetch_assoc()){
+                $result = $status['Reser_Satatus'];
+                return $result;
+              }            }
             $db->close();
           }
 

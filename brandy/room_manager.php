@@ -329,11 +329,11 @@ if(isset($_POST['editreser'])){
 		echo " แก้ไข้เรียบร้อย ";
 	}
 	else if($reserRoom === false){
-		echo "error";
+		echo "เกิดข้อผิดพลาด";
 	}else {
 		switch ($reserRoom) {
 			case "Proc":
-					$reserRoom = "รายการอยู่ในระหว่างการดำเนินการจอง";
+					$reserRoom = "อยู่ในระหว่างการดำเนินการจอง";
 					break;
 			case "Cmpt":
 					$reserRoom = "การจองเสร็จสิ้นแล้ว";
@@ -380,8 +380,7 @@ if (isset($_POST['allowComplete'])){
 if (isset($_POST['allowProcess'])){
 	$allowProcess = $roomManager->allowProcess($_POST['reser_id']);
 	if($allowProcess){
-		echo "Allow to process";
-	}
+		echo "อนุมัติการจอง";	}
 	else {
 		echo $allowProcess;
 	}
@@ -390,11 +389,24 @@ if (isset($_POST['allowProcess'])){
 
 if (isset($_POST['userdeny'])){
 	$userDeny = $roomManager->userDeny($_POST['reser_id']);
-	if($userDeny){
-		echo "removed";
+	if($userDeny  === true){
+		echo "ลบการจองเรียบร้อย";
 	}
-	else {
-		echo $userDeny;
+	else if($userDeny === false){
+		echo "เกิดข้อผิดพลาด";
+	}else {
+		switch ($userDeny) {
+			case "Proc":
+					$userDeny = "อยู่ในระหว่างการดำเนินการจอง";
+					break;
+			case "Cmpt":
+					$userDeny = "การจองเสร็จสิ้นแล้ว";
+					break;
+			case "deny":
+					$userDeny = "การจองถูกปฏิเสธ";
+					break;
+					}
+	echo "ไม่สามารถลบการจองได้เนื่องจาก".$userDeny;
 	}
 }
 

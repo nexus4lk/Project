@@ -4,10 +4,7 @@ require "dbfullcalendar.php";
 //new object
 $fullcalendar = new Fullcalendar();
 
-//check data for show fullcalendar
 if(isset($_POST['json'])){
-
-	//call method get_fullcalendar
 	$get_calendar = $fullcalendar->get_fullcalendar($_POST['roomid']);
 	if($get_calendar != "empty"){
 		foreach($get_calendar as $calendar){
@@ -32,7 +29,6 @@ if(isset($_POST['json'])){
 				'floor' => $get_floor
 			);
 		}
-		//return JSON object
 		echo json_encode($json);
 	}
 	else {

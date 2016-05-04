@@ -76,7 +76,15 @@ if(!$member->is_loggedin())
 	                    <!-- <li><a href="#HOME">Home</a></li>
 	                    <li><a href="#SERVICE">Services</a></li>
 	                    <li><a href="#ABOUT">About</a></li> -->
-                      <li><a ><?php print($username); ?></a></li>
+                      <li>
+                      <a
+                      <?php
+                      if($status == "ADMIN"){
+                        print('href="admin.php"');
+                      }
+                      ?>
+                      >
+                      <?php print($username); ?></a></li>
 	                    <li><button type="button" id="logout" value='<?php print($memid); ?>' onclick="window.location.href='logout.php?logout=true'" class="btn btn-default navbar-btn">LOGOUT</button></li>
 	                  </ul>
 	                </div>
@@ -354,8 +362,8 @@ if(!$member->is_loggedin())
         <label>เรียน </label>
         <select class="btn btn-default dropdown-toggle" name="dcmforwhom" id="dcmforwhom">
           <option value="">กรุณาเลือกผู้รับ</option>
-          <option value="หัวหน้าสาขา">หัวหน้าสาขา</option>
-          <option value="ผู้อำนวยการ">ผู้อำนวยการ</option>
+          <option value="หัวหน้าสาขาวิชา/หัวหน้าภาควิชา">หัวหน้าสาขาวิชา/หัวหน้าภาควิชา</option>
+          <option value="คณบดี">คณบดีคณะวิศวกรรมศาสตร์</option>
         </select>
         <br>
 
@@ -410,8 +418,8 @@ if(!$member->is_loggedin())
         <label>เรียน </label>
         <select class="btn btn-default dropdown-toggle" name="editforwhom" id="editforwhom">
           <option value="">กรุณาเลือกผู้รับ</option>
-          <option value="หัวหน้าสาขา">หัวหน้าสาขา</option>
-          <option value="ผู้อำนวยการ">ผู้อำนวยการ</option>
+          <option value="หัวหน้าสาขาวิชา/หัวหน้าภาควิชา">หัวหน้าสาขาวิชา/หัวหน้าภาควิชา</option>
+          <option value="คณบดี">คณบดีคณะวิศวกรรมศาสตร์</option>
         </select>
         <br>
         <label for="gender">ช่วงเวลาที่ต้องการจอง: </label><br>

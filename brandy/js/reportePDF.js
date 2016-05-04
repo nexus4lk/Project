@@ -1,16 +1,18 @@
 function reportePDF(reser_id) {
-  var reser_id = reser_id;
+  var rid = reser_id;
+  alert(rid);
   var getresername = "getresername"
   $('#PDFTitle').empty();
   $.ajax({
     type: 'POST',
     url: 'room_manager.php',
     data: {
-      reser_id: reser_id,
+      reser_id: rid,
       getresername:getresername
     },
     success: function(response) {
       $('#PDFTitle').append('<font size="5" color="#000000" >'+response+'</font>');
+      document.getElementById("PDF-submit").value = rid;
     }
   });
   var modal = document.getElementById('PDF_Modal');
@@ -31,30 +33,14 @@ function reportePDF(reser_id) {
       submitHandler: submitForm
     });
     /* validation */
-
     /* form submit */
     function submitForm() {
+      var reser_id = $('#PDF-submit').val();
       var txt1 = $('#txt1').val();
       var txt2 = $('#txt2').val();
       window.open('PDF.php?reser_id='+reser_id+'&txt1='+txt1+'&txt2='+txt2);
       modal.style.display = "none";
-
       return false;
     }
-
-  // window.open('PDF.php?reser_id='+reser_id);
-  // var getroomName = "getroomName"
-  // $.ajax({
-  //   type: 'POST',
-  //   url: 'room_manager.php',
-  //   data: {
-  //     reser_id: reser_id,
-  //     getroomName: getroomName
-  //   },
-  //   success: function(response) {
-  //     // alert(response);
-  //     // window.open('PDF.php?reser_id='+reser_id);
-  //   }
-  //   });
-      }
+  }
 }

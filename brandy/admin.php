@@ -50,7 +50,7 @@ if(!$member->is_loggedin())
 <body>
   <div id="navbar">
     <ul class="nav" id="nav">
-
+      <li><a onclick="window.location.href='index.php'">Home</a></li>
       <li><a class="active" href="#section1">Dash Board</a></li>
       <li><a href="#section2">Add Room</a></li>
       <li><a href="#section3">Edit Room</a></li>
@@ -68,7 +68,6 @@ if(!$member->is_loggedin())
   </div>
 
   <div style="margin-left:25%;" class="container">
-    <li><a href="index.php">Home</a></li>
     <div id="section1">
       <h2>Reser Incomes</h2>
       <?php
@@ -246,7 +245,7 @@ if(!$member->is_loggedin())
                  <td>" . $status. "</td>
                  <td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='allowComplete($reser_id)'></td>
                  <td><input name='btnAdd' type='button' id='btnAdd' value='Remove' onclick='denyComplete($reser_id)'></td>
-                 <td><a onclick='reportePDF($reser_id)' >พิมพ์เอกสาร PDF</a></td>
+                 <td><a  onclick='reportePDF(".$reser_id.")' >พิมพ์เอกสาร PDF</a></td>
                 </tr>
                 ";
              }
@@ -935,7 +934,7 @@ if(!$member->is_loggedin())
           <div class ="reser_error"></div>
           <div class="modal-footer">
             <br>
-            <button type="submit" id="submit" class="btn btn-primary" >พิมพ์ PDF</button>
+            <button type="submit" id= "PDF-submit" class="btn btn-primary" >พิมพ์ PDF</button>
           </div>
         </form>
       </div>
