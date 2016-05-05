@@ -62,8 +62,9 @@ if(!$member->is_loggedin())
       <li><a href="#section9">Edit Building</a></li>
       <li><a href="#section10">Remove Building</a></li>
       <li><a href="#section11">Room Picture</a></li>
-      <li><a href="#section12">Remove Picture</a></li>
-      <li><a href="#section13">The Chart</a></li>
+      <li><a href="#section12">Edit Picture</a></li>
+      <li><a href="#section13">Remove Picture</a></li>
+      <li><a href="#section14">The Chart</a></li>
     </ul>
   </div>
 
@@ -140,7 +141,7 @@ if(!$member->is_loggedin())
                  <td>" . $row["Reser_Startdate"]. "</td>
                  <td>" . $row["Reser_Enddate"]. "</td>
                  <td>" . $status. "</td>
-                 <td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='allowProcess($reser_id)'></td>
+                 <td><input name='btnAdd' type='button' id='btnAdd' value='Allow' onclick='allowProcess($reser_id)'></td>
                  <td><input name='btnAdd' type='button' id='btnAdd' value='Remove' onclick='denyProcess($reser_id)'></td>
                 </tr>
                 ";
@@ -243,7 +244,7 @@ if(!$member->is_loggedin())
                  <td>" . $row["Reser_Startdate"]. "</td>
                  <td>" . $row["Reser_Enddate"]. "</td>
                  <td>" . $status. "</td>
-                 <td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='allowComplete($reser_id)'></td>
+                 <td><input name='btnAdd' type='button' id='btnAdd' value='Complete' onclick='allowComplete($reser_id)'></td>
                  <td><input name='btnAdd' type='button' id='btnAdd' value='Remove' onclick='denyComplete($reser_id)'></td>
                  <td><a  onclick='reportePDF(".$reser_id.")' >พิมพ์เอกสาร PDF</a></td>
                 </tr>
@@ -804,7 +805,7 @@ if(!$member->is_loggedin())
               <h3 class="form-heading" align="left">โปรดเลือกอาคารที่ต้องการ</h3>
             </div>
             <div class="single_contact_info">
-              <h4 class="form-heading" align="left">Room</h4>
+              <h4 class="form-heading" align="left">ฺBuilding</h4>
               <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="Building10" id="Building10">
               <option value="">       </option>
                 <?php
@@ -866,8 +867,59 @@ if(!$member->is_loggedin())
 
     </div>
     </div>
-
     <div id="section12">
+      <h2>Edit Picture</h2>
+      <div class="col-md-10">
+      <form class="contact-form" id="editImg-form" method="post" enctype="multipart/form-data">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="single_contact_info">
+              <h3 class="form-heading" align="left">แก้ไขรูปภาพ</h3>
+            </div>
+            <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="Imgid12" id="Imgid12">
+            <option value="">       </option>
+              <?php
+              $connect = new connect();
+              $db = $connect->connect();
+              $get_room = $db->query("SELECT * FROM images ORDER BY img_Id ASC");
+              while($room = $get_room->fetch_assoc()){
+              ?>
+                <option value="<?php echo $room["img_Id"];?>"><?php echo $room["img_name"];?></option>
+                <?php
+              }
+              ?>
+            </select>
+            <br>
+            <br>
+            <div class="single_contact_info">
+              <div id="editPreview"></div>
+            </div>
+            <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomid12" id="roomid12">
+            <option value="">       </option>
+              <?php
+              $connect = new connect();
+              $db = $connect->connect();
+              $get_room = $db->query("SELECT * FROM room ORDER BY Room_id ASC");
+              while($room = $get_room->fetch_assoc()){
+              ?>
+                <option value="<?php echo $room["Room_ID"];?>"><?php echo $room["Room_Name"];?></option>
+                <?php
+              }
+              ?>
+              </select>
+              <br>
+              <br>
+          </div>
+          <div class="col-md-12">
+            <input type="submit" id="uploadImg" class="btn btn-primary cs-btn" value="Edit Picture" name="uploadImg">
+          </div>
+        </div>
+      </form>
+
+
+    </div>
+    </div>
+    <div id="section13">
       <h2>Remove Picture</h2>
       <div class="col-md-10">
       <form class="contact-form" id="RemoveImg-form" method="post" enctype="multipart/form-data">
@@ -903,7 +955,7 @@ if(!$member->is_loggedin())
     </div>
     </div>
 
-    <div id="section13">
+    <div id="section14">
       <h2>สถิติการเข้าใช้ห้อง</h2>
       <div class="col-md-10">
         <div id="chartsContainer" style="min-width: 1200px; height: 550px; margin: 0 auto"></div>
@@ -959,6 +1011,7 @@ if(!$member->is_loggedin())
   <script type="text/javascript" src="js/editroom.js"></script>
   <script type="text/javascript" src="js/editroomtype.js"></script>
   <script type="text/javascript" src="js/editBuilding.js"></script>
+  <script type="text/javascript" src="js/editImage.js"></script>
   <script type="text/javascript" src="js/removeRoom.js"></script>
   <script type="text/javascript" src="js/AddImage.js"></script>
   <script type="text/javascript" src="js/validation.min.js"></script>

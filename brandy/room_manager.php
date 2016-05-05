@@ -369,7 +369,7 @@ if(isset($_POST['reser'])){
 if (isset($_POST['allowComplete'])){
 	$allowRoom = $roomManager->allowRoom($_POST['reser_id']);
 	if($allowRoom){
-		echo "Complete Reservation";
+		echo "เสร็จสิ้นการจอง";
 	}
 	else {
 		echo $allowRoom;
@@ -411,9 +411,9 @@ if (isset($_POST['userdeny'])){
 }
 
 if (isset($_POST['deny'])){
-	$allowRoom = $roomManager->denyRoom($_POST['reser_id']);
-	if($allowRoom){
-		echo "Denied";
+	$denyreser = $roomManager->denyReser($_POST['reser_id']);
+	if($denyreser){
+		echo "ทำการปฏิเสธ";
 	}
 	else {
 		echo "error";
@@ -435,7 +435,7 @@ if (isset($_POST['checkstatus'])){
 if (isset($_POST['denyComplete'])){
 	$denyComplete = $roomManager->denyComplete($_POST['reser_id']);
 	if($denyComplete){
-		echo "Denied";
+		echo "ปฏิเสธการจอง";
 	}
 	else {
 		echo "error";
@@ -493,7 +493,7 @@ if (isset($_POST['editroom'])){
 }
 
 if (isset($_POST['editroomType'])){
-	$editRoomType = $roomManager->editroomTyperoom($_POST['roomTypeid'],$_POST['roomtypeName']);
+	$editRoomType = $roomManager->editTyperoom($_POST['roomTypeid'],$_POST['roomtypeName']);
 	if($editRoomType){
 		echo "success";
 	}
@@ -582,6 +582,16 @@ if(isset($_POST['getfloor'])){
 	}
 }
 
+if(isset($_POST['editImg'])){
+	$editImg = $roomManager->editImg($_POST['Img_id'],$_POST['roomid']);
+	if($editImg){
+			echo $editImg;
+	}
+	else {
+		echo "error";
+	}
+}
+
 if(isset($_POST['getRemoveImg'])){
 	$getRemoveImg = $roomManager->getRemoveImg($_POST['Img_id']);
 	if($getRemoveImg != "empty"){
@@ -629,7 +639,7 @@ if($getBuildingname != "empty"){
 			echo $getBuildingname;
 	}
 	else {
-		echo "empty";
+		echo "error";
 	}
 }
 

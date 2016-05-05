@@ -10,12 +10,17 @@ function loadroomOption(){
           console.log(response);
           $('#roomid3 option[value!="0"]').remove();
           $('#roomid4 option[value!="0"]').remove();
+          $('#roomid11 option[value!="0"]').remove();
+          $('#roomid12 option[value!="0"]').remove();
+
           var json_obj = jQuery.parseJSON(response);
           $.each(json_obj, function(key, value) {
             var Id = value.Id;
             var Name = value.Name;
             $("#roomid3").append("<option value="+Id+">"+Name+"</option>");
             $("#roomid4").append("<option value="+Id+">"+Name+"</option>");
+            $("#roomid11").append("<option value="+Id+">"+Name+"</option>");
+            $("#roomid12").append("<option value="+Id+">"+Name+"</option>");
             // $('#roomid3').html('{list}<option value="{Id}">{Name}</option>{/list}');
           });// each
 

@@ -206,9 +206,6 @@ class roomManager {
         $checkroom = $db->query("SELECT * FROM reserve_data WHERE Reser_ID = '$reser_id'");
         if ($get_detail = $checkroom->fetch_assoc()){
           $room = $get_detail['Room_ID'];
-          // $start = $get_detail['Reser_Startdate'];
-          // $end = $get_detail['Reser_Enddate'];
-          // $time = $get_detail['Day_time'];
           $get_count = $db->query("SELECT * FROM room WHERE Room_ID = '$room'");
           if ($get_count = $get_count->fetch_assoc()) {
             $count = $get_count['Count_chart']+1;
@@ -270,13 +267,6 @@ class roomManager {
                       exit();
                     }else {
                       return true;
-                      // $add_proc = $db->prepare("INSERT INTO reserne_process (ResPro_id, Reser_ID, Pro_date) VALUES (NULL, ?, ?)");
-                      // $add_proc->bind_param("is",$reser_id,$day);
-                      // if(!$add_proc->execute()){
-                      //   echo "เกิดข้อผิดพลาด";
-                      // }else{
-                      //
-                      // }
                     }
                   }else {
                     echo "มีการจองซ้ำอยู่ในระบบ";
@@ -293,38 +283,40 @@ class roomManager {
           $db->close();
           }
 
-        public function denyRoom($reser_id){
+        public function denyReser($reser_id){
           $connect = new connect();
           $db = $connect->connect();
           $status = "deny";
           $day = date("Y-m-d");
-          $allow_room = $db->prepare("UPDATE reserve_data SET Reser_Satatus = ? WHERE Reser_ID = ?");
-          $allow_room->bind_param("si",$status, $reser_id);
-          if(!$allow_room->execute()){
+          $deny_reser = $db->prepare("UPDATE reserve_data SET Reser_Satatus = ? WHERE Reser_ID = ?");
+          $deny_reser->bind_param("si",$status, $reser_id);
+          if(!$deny_reser->execute()){
             return false;
           }else{
             return true;
-            // $add_cmpt = $db->prepare("INSERT INTO reserne_deny (ResDeny_id, Reser_ID, Deny_date) VALUES (NULL, ?, ?)");
-            // $add_cmpt->bind_param("is",$reser_id,$day);
-            // if(!$add_cmpt->execute()){
-            //   return false;
-            // }else{
-            //   return true;
-            // }
             }
             $db->close();
           }
+
+          public function editImg($Img_id,$roomid){
+            $connect = new connect();
+            $db = $connect->connect();
+            $edit_img = $db->prepare("UPDATE images SET Room_ID = ? WHERE img_Id = ?");
+            $edit_img->bind_param("ii",$roomid, $Img_id);
+            if(!$edit_img->execute()){
+              return false;
+            }else{
+              return true;
+              }
+              $db->close();
+            }
 
           public function denyComplete($reser_id){
             $connect = new connect();
             $db = $connect->connect();
             $status = "deny";
             $day = date("Y-m-d");
-            // $del_reser = $db->prepare("DELETE FROM reserne_process WHERE Reser_ID = ?");
-            // $del_reser->bind_param("i",$reserId);
-            // if(!$del_reser->execute()){
-            //   echo "เกิดข้อผิดพลาด";
-            // }else{
+
               $update_del = $db->prepare("UPDATE reserve_data SET Reser_Satatus = ? WHERE Reser_ID = ?");
               $update_del->bind_param("si",$status, $reser_id);
               if(!$update_del->execute()){
@@ -332,15 +324,7 @@ class roomManager {
                 exit();
               }else{
                 return true;
-                // $add_cmpt = $db->prepare("INSERT INTO reserne_deny (ResDeny_id, Reser_ID, Deny_date) VALUES (NULL, ?, ?)");
-                // $add_cmpt->bind_param("is",$reser_id,$day);
-                // if(!$add_cmpt->execute()){
-                //   echo "เกิดข้อผิดพลาด";
-                // }else{
-                //   return true;
-                // }
                 }
-              // }
               $db->close();
             }
 
@@ -443,6 +427,21 @@ class roomManager {
                          }
                     }
                 }
+                 $del_room = $db->prepare("DELETE FROM images WHERE Room_ID = ?");
+                 $del_room->bind_param("i",$roomid);
+                  if(!$del_room->execute()){
+                     echo "ไม่สามารถลบห้องได้";
+                     exit();
+                   }else{
+                      $del_room = $db->prepare("DELETE FROM room WHERE Room_ID = ?");
+                      $del_room->bind_param("i",$roomid);
+                     if(!$del_room->execute()){
+                        echo "ไม่สามารถลบห้องได้";
+                        exit();
+                      }else{
+                        return true;
+                      }
+                   }
           }else {
             $del_room = $db->prepare("DELETE FROM room WHERE Room_ID = ?");
             $del_room->bind_param("i",$roomid);
@@ -518,7 +517,7 @@ class roomManager {
                              echo "ไม่สามารถลบประเภทห้องนี้ได้";
                              exit();
                            }else{
-                             $del_room = $db->prepare("DELETE FROM room WHERE Room_ID = ?");
+                               $del_room = $db->prepare("DELETE FROM room WHERE Room_ID = ?");
                               $del_room->bind_param("i",$roomid);
                              if(!$del_room->execute()){
                                 echo "ไม่สามารถลบประเภทห้องนี้ได้";
@@ -536,6 +535,28 @@ class roomManager {
                            }
                           }
                 }
+                 $del_room = $db->prepare("DELETE FROM images WHERE Room_ID = ?");
+                 $del_room->bind_param("i",$roomid);
+                  if(!$del_room->execute()){
+                     echo "ไม่สามารถลบประเภทห้องนี้ได้";
+                     exit();
+                   }else{
+                       $del_room = $db->prepare("DELETE FROM room WHERE Room_ID = ?");
+                      $del_room->bind_param("i",$roomid);
+                     if(!$del_room->execute()){
+                        echo "ไม่สามารถลบประเภทห้องนี้ได้";
+                        exit();
+                      }else{
+                        $del_roomType = $db->prepare("DELETE FROM roomtype WHERE Type_id = ?");
+                         $del_roomType->bind_param("i",$roomTypeid);
+                        if(!$del_roomType->execute()){
+                           echo "ไม่สามารถลบประเภทห้องนี้ได้";
+                           exit();
+                         }else{
+                           return true;
+                         }
+                      }
+                   }
             }else {
               $del_roomType = $db->prepare("DELETE FROM roomtype WHERE Type_id = ?");
                $del_roomType->bind_param("i",$roomTypeid);
@@ -627,6 +648,28 @@ class roomManager {
                            }
                           }
                 }
+                $del_room = $db->prepare("DELETE FROM images WHERE Room_ID = ?");
+                $del_room->bind_param("i",$roomid);
+                 if(!$del_room->execute()){
+                    echo "ไม่สามารถลบอาคารนี้ได้";
+                    exit();
+                  }else{
+                    $del_room = $db->prepare("DELETE FROM room WHERE Room_ID = ?");
+                     $del_room->bind_param("i",$roomid);
+                    if(!$del_room->execute()){
+                       echo "ไม่สามารถลบอาคารนี้ได้";
+                       exit();
+                     }else{
+                       $del_Building = $db->prepare("DELETE FROM building WHERE Building_id = ?");
+                        $del_Building->bind_param("i",$buildingid);
+                       if(!$del_Building->execute()){
+                          echo "ไม่สามารถลบอาคารนี้ได้";
+                          exit();
+                        }else{
+                          return true;
+                        }
+                     }
+                  }
             }else{
               $del_Building = $db->prepare("DELETE FROM building WHERE Building_id = ?");
                $del_Building->bind_param("i",$buildingid);
@@ -644,6 +687,11 @@ class roomManager {
       public function editBuilding($buildingid,$buildingname,$Buildingfloor){
         $connect = new connect();
         $db = $connect->connect();
+        $checkBuilding = $db->query("SELECT * FROM building WHERE Building_name = '$buildingname'");
+        if ($checkBuilding->fetch_assoc()){
+          return false;
+        }
+        else {
         $add_Building = $db->prepare("UPDATE building SET Building_name = ?, Max_Floor = ? WHERE Building_id = ?");
         $add_Building->bind_param("sii",$buildingname, $Buildingfloor,$buildingid);
         if(!$add_Building->execute()){
@@ -653,6 +701,7 @@ class roomManager {
           }
           $db->close();
         }
+      }
 
         public function editReser($reserId,$roomid,$title,$start,$end,$dayTime,$fw){
           $connect = new connect();
@@ -694,16 +743,21 @@ class roomManager {
             $db->close();
           }
 
-        public function editroomTyperoom($roomTypeid,$roomtypeName){
+        public function editTyperoom($roomTypeid,$roomtypeName){
           $connect = new connect();
           $db = $connect->connect();
-          $add_roomType = $db->prepare("UPDATE roomtype SET Type_name = ? WHERE Type_id = ?");
-          $add_roomType->bind_param("si",$roomtypeName, $roomTypeid);
-          if(!$add_roomType->execute()){
+          $checkroom = $db->query("SELECT * FROM roomtype WHERE Type_name = '$roomtypeName'");
+          if ($get_room = $checkroom->fetch_assoc()){
             return false;
-          }else{
-            return true;
-            }
+          }else {
+            $add_roomType = $db->prepare("UPDATE roomtype SET Type_name = ? WHERE Type_id = ?");
+            $add_roomType->bind_param("si",$roomtypeName, $roomTypeid);
+            if(!$add_roomType->execute()){
+              return false;
+            }else{
+              return true;
+              }
+          }
             $db->close();
           }
 

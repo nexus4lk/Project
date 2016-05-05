@@ -10,43 +10,44 @@ $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 if(isset($_POST["uploadImg"])) {
     $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if($check !== false) {
-        echo "File is an image - " . $check["mime"] . ".";
+        echo "ไฟล์นี้เป็นรูปภาพ - " . $check["mime"] . ".";
         $uploadOk = 1;
+
     } else {
-        echo "File is not an image.\n";
+        echo "ไฟล์นี้ไม่ใช่รูปภาพ\n";
         $uploadOk = 0;
-        exit;
+        exit();
     }
 }elseif(isset($_POST["uploadImg"]) && !isset($_FILES['fileToUpload'])) {
-    print "Form was submitted but file wasn't send";
-    exit;
+    print "ฟร์อมถูกส่งแล้ว แต่ไฟล์ไม่ถูกส่งมา";
+    exit();
 }else {
-    print "Form wasn't submitted!";
-    exit;
+    print "ฟร์อมไม่ได้ถูกส่ง";
+    exit();
 }
 // Check if file already exists
 if (file_exists($target_file)) {
-    echo "Sorry, file already exists.\n";
+    echo "ไฟล์ชื่อนี้มีอยู่ในระบบแล้ว\n";
     $uploadOk = 0;
-    exit;
+    exit();
 }
 // Check file size
 if ($_FILES["fileToUpload"]["size"] > 500000) {
-    echo "Sorry, your file is too large.\n";
+    echo "ไฟล์มีขนาดใหญ่เกิน 5Mb\n";
     $uploadOk = 0;
-    exit;
+    exit();
 }
 // Allow certain file formats
 if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
 && $imageFileType != "gif" ) {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.\n";
+    echo "รับเฉพาะไฟล์ที่เป็นนามสกุล JPG, JPEG, PNG และ GIF เท่านั้น\n";
     $uploadOk = 0;
-    exit;
+    exit();
 }
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
-    echo "Sorry, your file was not uploaded.\n";
-    exit;
+    echo "ไฟล์ของคุณไม่ถูกอัพโหลด\n";
+    exit();
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
@@ -55,15 +56,15 @@ if ($uploadOk == 0) {
       $upload_img = $db->prepare("INSERT INTO images (img_Id, img_name, Room_ID) VALUES (NULL, ?, ?)");
       $upload_img->bind_param("si",$_FILES["fileToUpload"]["name"], $_POST['roomid11']);
       if(!$upload_img->execute()){
-          echo "Sorry, there was an error uploading your file.\n";
-          exit;
+          echo "เกิดข้อผิดพลาดขนะอัพโหลด\n";
+          exit();
       }else{
-        echo "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.\n";
+        echo "ไฟล์ ". basename( $_FILES["fileToUpload"]["name"]). " ถูกอัพโหลดแล้ว\n";
       }
 
     } else {
-        echo "Sorry, there was an error uploading your file.\n";
-        exit;
+        echo "เกิดข้อผิดพลาดขนะอัพโหลด\n";
+        exit();
     }
 }
 }
