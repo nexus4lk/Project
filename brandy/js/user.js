@@ -35,7 +35,6 @@ function userEdit(reser_id,room_id,memid) {
         document.getElementById("editend").value = reserEnd;
         document.getElementById("editsubmit").value = reser_id;
         document.getElementById("logout").value = memid;
-        document.getElementById("editforwhom").value = forwhom;
         });
     }
   });

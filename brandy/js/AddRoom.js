@@ -7,6 +7,7 @@ $(function() {
       roomcapa2: "required",
       roomtype2: "required",
       Building2: "required",
+      addforwhom: "required",
       floor2: "required"
     },
     messages: {
@@ -14,6 +15,7 @@ $(function() {
       roomcapa2: "กรุณากรอกความจุของห้อง",
       roomtype2: "กรุณาเลือกประเภทห้อง",
       Building2: "กรุณาเลือกอาคาร",
+      addforwhom: "กรุณาเลือกผู้รับผิดชอบห้อง",
       floor2: "กรุณาเลือกชั้นของห้อง"
     },
     submitHandler: submitForm
@@ -24,6 +26,7 @@ $(function() {
   function submitForm() {
     $('#roomname').focus();
     var txtRoomname = $('#roomname2').val();
+    var txtforwhom = $('#addforwhom').val();
     var txtRoomcapa = $('#roomcapa2').val();
     var txtRoomtype = $('#roomtype2').val();
     var txtBuilding = $('#Building2').val();
@@ -37,6 +40,7 @@ $(function() {
         roomcapa: txtRoomcapa,
         roomtype: txtRoomtype,
         building:txtBuilding,
+        forwhom:txtforwhom,
         floor:txtFloor,
         addroom: addroom
       },

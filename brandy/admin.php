@@ -487,9 +487,22 @@ if(!$member->is_loggedin())
             <input type="text" class="form-control" name="roomname2" id="roomname2" placeholder="Roomname*" size="50">
             <input type="number" class="form-control" name="roomcapa2" id="roomcapa2" placeholder="Room Capacity* ตัวอย่าง 30 ที่นั่ง" size="3">
             <div class="single_contact_info">
+              <h4 class="form-heading" align="left">ผู้รับผิดชอบห้อง</h4>
+              <select class="btn btn-default dropdown-toggle" name="addforwhom" id="addforwhom">
+                <option value="">กรุณาเลือกผู้รับ</option>
+                <option value="หัวหน้าภาควิชาวิศวกรรมไฟฟ้า">หัวหน้าภาควิชาวิศวกรรมไฟฟ้า</option>
+                <option value="หัวหน้าภาควิชาวิศวกรรมเครื่องกล">หัวหน้าภาควิชาวิศวกรรมเครื่องกล</option>
+                <option value="หัวหน้าภาควิชาวิศวกรรมเคมี">หัวหน้าภาควิชาวิศวกรรมเคมี</option>
+                <option value="หัวหน้าภาควิชาวิศวกรรมโยธา">หัวหน้าภาควิชาวิศวกรรมโยธา</option>
+                <option value="หัวหน้าภาควิชาวิศวกรรมอุตสาหการ">หัวหน้าภาควิชาวิศวกรรมอุตสาหการ</option>
+                <option value="หัวหน้าสาขาวิชาวิศวกรรมชีวการแพทย์">หัวหน้าสาขาวิชาวิศวกรรมชีวการแพทย์</option>
+                <option value="หัวหน้าสาขาวิชาวิศวกรรมคอมพิวเตอร์">หัวหน้าสาขาวิชาวิศวกรรมคอมพิวเตอร์</option>
+                <option value="หัวหน้าสาขาวิชาวิศวกรรมโลจิสติกส์">หัวหน้าสาขาวิชาวิศวกรรมโลจิสติกส์</option>
+              </select>
+              <br>
             <h4 class="form-heading" align="left">ประเภทห้อง</h4>
             <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomtype2" id="roomtype2" >
-            <option value="">       </option>
+            <option value="">กรุณาเลือกประเภทห้อง</option>
               <?php
               $connect = new connect();
               $db = $connect->connect();
@@ -504,7 +517,7 @@ if(!$member->is_loggedin())
 
             <h4 class="form-heading" align="left">อาคาร</h4>
             <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="Building2" id="Building2">
-            <option value="">       </option>
+            <option value="">กรุณาเลือกอาคาร</option>
               <?php
               $connect = new connect();
               $db = $connect->connect();
@@ -518,7 +531,7 @@ if(!$member->is_loggedin())
               </select>
               <h4 class="form-heading" align="left">ชั้น</h4>
               <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="floor2" id="floor2">
-              <option value="">       </option>
+              <option value="">กรุณาเลือกชั้น</option>
 
                 </select>
             </div>
@@ -566,6 +579,18 @@ if(!$member->is_loggedin())
             <input type="text" class="form-control" name="roomname3" id="roomname3" placeholder="Roomname*" size="50">
             <div class="single_contact_info">
               <input type="text" class="form-control" name="roomcapa3" id="roomcapa3" placeholder="Room Capacity* ตัวอย่าง 30 ที่นั่ง" size="3">
+              <h4 class="form-heading" align="left">ผู้รับผิดชอบห้อง</h4>
+              <select class="btn btn-default dropdown-toggle" name="editforwhom" id="editforwhom">
+                <option value="">กรุณาเลือกผู้รับ</option>
+                <option value="หัวหน้าภาควิชาวิศวกรรมไฟฟ้า">หัวหน้าภาควิชาวิศวกรรมไฟฟ้า</option>
+                <option value="หัวหน้าภาควิชาวิศวกรรมเครื่องกล">หัวหน้าภาควิชาวิศวกรรมเครื่องกล</option>
+                <option value="หัวหน้าภาควิชาวิศวกรรมเคมี">หัวหน้าภาควิชาวิศวกรรมเคมี</option>
+                <option value="หัวหน้าภาควิชาวิศวกรรมโยธา">หัวหน้าภาควิชาวิศวกรรมโยธา</option>
+                <option value="หัวหน้าภาควิชาวิศวกรรมอุตสาหการ">หัวหน้าภาควิชาวิศวกรรมอุตสาหการ</option>
+                <option value="หัวหน้าสาขาวิชาวิศวกรรมชีวการแพทย์">หัวหน้าสาขาวิชาวิศวกรรมชีวการแพทย์</option>
+                <option value="หัวหน้าสาขาวิชาวิศวกรรมคอมพิวเตอร์">หัวหน้าสาขาวิชาวิศวกรรมคอมพิวเตอร์</option>
+                <option value="หัวหน้าสาขาวิชาวิศวกรรมโลจิสติกส์">หัวหน้าสาขาวิชาวิศวกรรมโลจิสติกส์</option>
+              </select>
               <h4 class="form-heading" align="left">ประเภทห้อง</h4>
               <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomtype3" id="roomtype3">
               <option value="">       </option>
@@ -1028,6 +1053,7 @@ if(!$member->is_loggedin())
 			$.getJSON("data.php",function(data){
 
 				seriesData = data;
+        console.log(data);
 
 					$('#chartsContainer').highcharts({
 							chart: {
@@ -1037,7 +1063,7 @@ if(!$member->is_loggedin())
 								type: 'pie'
 							},
 							title: {
-								text: 'จำนวนครั้งในการจองของแต่ละห้อง'
+								text: 'จำนวนครั้งในการเข้าใช้ประจำปี'
 							},
 							tooltip: {
 								pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

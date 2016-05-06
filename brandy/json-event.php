@@ -17,7 +17,7 @@ if(isset($_POST['json'])){
 				'id'=>$calendar['Reser_ID'],
 				'title'=>$calendar['Title']." - ".$get_roomname,
 				'start'=>$calendar['Reser_Startdate'],
-				'end'=>$calendar['Reser_Enddate'],
+				'end'=>$calendar['Reser_Enddate']."T23:59:00",
 				'Rdate'=>$calendar['Reser_Date'],
 				'titleModal'=>$calendar['Title'],
 				'className'=>$calendar['Day_time'],

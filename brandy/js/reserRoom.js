@@ -8,7 +8,6 @@ $(function() {
       dcmstart: "required",
       dcmend: "required",
       myRadio: "required",
-      dcmforwhom: "required"
 
     },
     messages: {
@@ -17,7 +16,6 @@ $(function() {
       dcmstart: "กรุณากรอกเวลาเริ่ม",
       dcmend: "กรุณากรอบเวลาสิ้นสุด",
       myRadio: "กรุณาเลือกช่วงเวลาที่ต้องการจอง",
-      dcmforwhom: "กรุณาเลือกผู้รับหมาย"
 
     },
     submitHandler: submitForm
@@ -32,7 +30,6 @@ $(function() {
     var txtdcmtitle = $('#dcmtitle').val();
     var txtdcmstart = $('#dcmstart').val();
     var txtdcmend = $('#dcmend').val();
-    var txtdcmfw = $('#dcmforwhom').val();
     var x = checkRadio();
     var reser = "reser"
     $.ajax({
@@ -43,8 +40,6 @@ $(function() {
         dcmtitle: txtdcmtitle,
         dcmstart: txtdcmstart,
         dcmend: txtdcmend,
-        dcmfw: txtdcmfw,
-        // date:date,
         dayTime:x,
         reser: reser
       },

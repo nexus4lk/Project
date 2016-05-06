@@ -53,10 +53,13 @@ $(document).ready(function() {
           var RCapa = value.RCapa;
           var Building = value.Building;
           var Bfloor = value.Bfloor;
+          var RForwhom = value.RForwhom;
           document.getElementById("roomname3").value = RName;
           document.getElementById("roomcapa3").value = RCapa;
           document.getElementById("roomtype3").value = RType;
           document.getElementById("Building3").value = Building;
+          document.getElementById("editforwhom").value = RForwhom;
+
           var building_id = Building;
           var getfloor = "getfloor"
           $.ajax({
@@ -84,6 +87,7 @@ $(function() {
   $("#edit-form").validate({
     rules: {
       roomname3: "required",
+      editforwhom: "required",
       roomcapa3: "required",
       roomtype3: "required",
       Building3: "required",
@@ -91,6 +95,7 @@ $(function() {
     },
     messages: {
       roomname3: "กรุณากรอกชื่อห้อง",
+      editforwhom: "กรุณาเลือกผู้รับผิดชอบห้อง",
       roomcapa3: "กรุณากรอกความจุของห้อง",
       roomtype3: "กรุณาเลือกประเภทห้อง",
       Building3: "กรุณาเลือกอาคาร",
@@ -104,6 +109,7 @@ $(function() {
   function submitForm() {
     $('#roomname').focus();
     var txtRoomname = $('#roomname3').val();
+    var txtforwhom = $('#editforwhom').val();
     var txtRoomcapa = $('#roomcapa3').val();
     var txtRoomtype = $('#roomtype3').val();
     var txtBuilding = $('#Building3').val();
@@ -115,6 +121,7 @@ $(function() {
       url: 'room_manager.php',
       data: {
         roomname: txtRoomname,
+        forwhom:txtforwhom,
         roomcapa: txtRoomcapa,
         roomtype: txtRoomtype,
         Building:txtBuilding,
@@ -124,6 +131,7 @@ $(function() {
       },
       success: function(response) {
         loadroomOption();
+        alert(response);
         if (response == "success") {
           alert('แก้ไขห้องเรียน ' + txtRoomname + ' เรียบร้อยแล้ว');
         }  else {

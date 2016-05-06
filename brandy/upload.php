@@ -1,29 +1,23 @@
 <?php
 require "dbconfig.php";
-if (isset($_FILES["fileToUpload"]["type"])) {
-
+if (isset($_FILES["fileToUpload"]["name"])) {
 $target_dir = "uploads/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-$uploadOk = 1;
-$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+$target_file = $target_dir.basename($_FILES["fileToUpload"]["name"]);
+// $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+$type = substr( $_FILES["fileToUpload"]["name"] , strpos( $_FILES["fileToUpload"]["name"] , '.' )+1 ) ;
 // Check if image file is a actual image or fake image
-if(isset($_POST["uploadImg"])) {
-    $check = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+if(isset($_FILES["fileToUpload"]["tmp_name"])) {
+    $check = @getimagesize($_FILES["fileToUpload"]["tmp_name"]);
     if($check !== false) {
-        echo "ไฟล์นี้เป็นรูปภาพ - " . $check["mime"] . ".";
         $uploadOk = 1;
-
-    } else {
-        echo "ไฟล์นี้ไม่ใช่รูปภาพ\n";
+    }
+    else if(isset($_POST["uploadImg"]) && !isset($_FILES["fileToUpload"]["name"])) {
+        print "ไม่สามารถใช้รูปนี้ได้ โปรดใช้รูปอื่น";
         $uploadOk = 0;
         exit();
+    }else {
+      $uploadOk = 0;
     }
-}elseif(isset($_POST["uploadImg"]) && !isset($_FILES['fileToUpload'])) {
-    print "ฟร์อมถูกส่งแล้ว แต่ไฟล์ไม่ถูกส่งมา";
-    exit();
-}else {
-    print "ฟร์อมไม่ได้ถูกส่ง";
-    exit();
 }
 // Check if file already exists
 if (file_exists($target_file)) {
@@ -32,21 +26,20 @@ if (file_exists($target_file)) {
     exit();
 }
 // Check file size
-if ($_FILES["fileToUpload"]["size"] > 500000) {
-    echo "ไฟล์มีขนาดใหญ่เกิน 5Mb\n";
+if ($_FILES["fileToUpload"]["size"] > 5120000) {
+    echo "ไฟล์มีขนาดใหญ่เกิน 5MB\n";
     $uploadOk = 0;
     exit();
 }
 // Allow certain file formats
-if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-&& $imageFileType != "gif" ) {
+if($type != "JPG" && $type != "PNG" && $type != "JPEG" && $type != "GIF" && $type != "jpg" && $type != "png" && $type != "jpeg" && $type != "gif" ) {
     echo "รับเฉพาะไฟล์ที่เป็นนามสกุล JPG, JPEG, PNG และ GIF เท่านั้น\n";
     $uploadOk = 0;
     exit();
 }
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
-    echo "ไฟล์ของคุณไม่ถูกอัพโหลด\n";
+    echo "ไม่สามารถอัพโหลดไฟล์ได้\n";
     exit();
 // if everything is ok, try to upload file
 } else {
@@ -56,17 +49,15 @@ if ($uploadOk == 0) {
       $upload_img = $db->prepare("INSERT INTO images (img_Id, img_name, Room_ID) VALUES (NULL, ?, ?)");
       $upload_img->bind_param("si",$_FILES["fileToUpload"]["name"], $_POST['roomid11']);
       if(!$upload_img->execute()){
-          echo "เกิดข้อผิดพลาดขนะอัพโหลด\n";
+          echo "เกิดข้อผิดพลาดขณะอัพโหลด\n";
           exit();
       }else{
-        echo "ไฟล์ ". basename( $_FILES["fileToUpload"]["name"]). " ถูกอัพโหลดแล้ว\n";
+        echo "อัพโหลดไฟล์ ". basename( $_FILES["fileToUpload"]["name"]). " เสร็จสิ้น\n";
       }
-
     } else {
-        echo "เกิดข้อผิดพลาดขนะอัพโหลด\n";
+        echo "เกิดข้อผิดพลาดขณะอัพโหลด\n";
         exit();
     }
+  }
 }
-}
-
 ?>

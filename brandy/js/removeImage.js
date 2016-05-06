@@ -44,7 +44,13 @@ $(function() {
         RemoveImg: RemoveImg
       },
       success: function(response) {
-        alert(response);
+        if (response) {
+          loadimgOption();
+          $('#removeImg').html('');
+          alert("ลบรูปภาพเรียบร้อย");
+        }else {
+          alert("เกิดข้อผิดพลาด");
+        }
       }
     });
     return false;

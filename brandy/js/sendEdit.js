@@ -4,7 +4,6 @@ $(function() {
   $("#edit_calendar").validate({
     rules: {
       editroom: "required",
-      editforwhom: "required",
       edittitle: "required",
       editstart: "required",
       editend: "required"
@@ -12,7 +11,6 @@ $(function() {
     },
     messages: {
       editroom: "กรุณาเลือกห้องที่ต้องการจอง",
-      editforwhom: "กรุณาเลือกผู้รับหมาย",
       edittitle: "กรุณากรอกจุดประสงค์การจองห้อง",
       editstart: "กรุณากรอกเวลาเริ่ม",
       editend: "กรุณากรอบเวลาสิ้นสุด",
@@ -29,7 +27,6 @@ $(function() {
     var txttitle = $('#edittitle').val();
     var txtstart = $('#editstart').val();
     var txtend = $('#editend').val();
-    var txteditforwhom = $('#editforwhom').val();
     var x = checkRadio();
     var editreser = "editreser"
     $.ajax({
@@ -42,7 +39,6 @@ $(function() {
         start: txtstart,
         end: txtend,
         dayTime:x,
-        editforwhom:txteditforwhom,
         editreser: editreser
     },
       success: function(response) {

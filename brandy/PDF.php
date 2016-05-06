@@ -44,7 +44,6 @@ if($detail =$get_reserDetail->fetch_assoc()){
   $Reser_Startdate = $detail['Reser_Startdate'];
   $Reser_Enddate = $detail['Reser_Enddate'];
   $Day_time = $detail['Day_time'];
-  $forwhom = $detail['forwhom'];
 
   $get_memDetail = $db->query("SELECT * FROM member WHERE Mem_ID = '$Mem_ID'");
   if($memDetail =$get_memDetail->fetch_assoc()){
@@ -56,6 +55,7 @@ if($detail =$get_reserDetail->fetch_assoc()){
     $get_roomDetail = $db->query("SELECT * FROM room WHERE Room_ID = '$Room_ID'");
     if ($roomDetail =$get_roomDetail->fetch_assoc()) {
         $Room_Name = $roomDetail['Room_Name'];
+        $forWhom = $roomDetail['Forwhom'];
     }else {
       echo "false";
       exit();
@@ -117,7 +117,7 @@ $pdf->MultiCell( 0  , 0 , iconv( 'UTF-8','cp874' , 'ขออนุญาติ�
 $pdf->setXY( 25, 80  );
 $pdf->MultiCell( 0  , 0 , iconv( 'UTF-8','cp874' , 'เรียน')  );
 $pdf->setXY( 40, 80  );
-$pdf->MultiCell( 0  , 0 , iconv( 'UTF-8','cp874' , $forwhom)  );
+$pdf->MultiCell( 0  , 0 , iconv( 'UTF-8','cp874' , $forWhom)  );
 $pdf->setXY( 40, 90  );
 if ($Reser_Startdate != $Reser_Enddate) {
   $pdf->Write( 7  , iconv( 'UTF-8','cp874' , 'ข้าพเจ้า   '.$Mem_Design.' '.$Mem_Fname.' '.$Mem_Lname.' สาขาวิชา/ภาควิชา   '.$Mem_Branch.' คณะ   '.$Mem_Faculty.' มีความประสงค์จะขอใช้ห้องเรียน/ห้องปฏิบัติการ '.$Room_Name.' สำหรับ '.$Title.' ในวันที่ '.thai_date(strtotime($Reser_Startdate)).' ถึงวันที่ '.thai_date(strtotime($Reser_Enddate)).' เวลา '.$day_text) );

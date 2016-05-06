@@ -4,7 +4,7 @@ require "dbconfig.php";
 class roomManager {
 
   // login
-  public function reserRoom($user_id,$roomid,$title,$start,$end,$time,$fw){
+  public function reserRoom($user_id,$roomid,$title,$start,$end,$time){
       $connect = new connect();
       $db = $connect->connect();
       $date = date("Y-m-d");
@@ -12,27 +12,27 @@ class roomManager {
       $complete = "Cmpt";
       $process = "Proc";
       $check_roomCmpt = $db->query("SELECT * FROM reserve_data WHERE Room_ID = '$roomid'
-        AND `Reser_Startdate` >= '$start' AND `Reser_Enddate` <= '$end'
         AND Day_time = '$time'
         AND Reser_Satatus = '$complete'");
       $check_roomProc = $db->query("SELECT * FROM reserve_data WHERE Room_ID = '$roomid'
-        AND `Reser_Startdate` >= '$start' AND `Reser_Enddate` <= '$end'
         AND Day_time = '$time'
         AND Reser_Satatus = '$process'");
-      if($check_roomCmpt->fetch_assoc()){
+      while($Cmpt = $check_roomCmpt->fetch_assoc()){
+        if ($start >= $Cmpt['Reser_Startdate'] && $start <= $Cmpt['Reser_Enddate']) {
+          return false;
+        }
+      }
+      while($proc = $check_roomProc->fetch_assoc()){
+        if ($start >= $proc['Reser_Startdate'] && $start <= $proc['Reser_Enddate']) {
+          return false;
+        }
+      }
+      $add_user = $db->prepare("INSERT INTO reserve_data (Reser_ID, Mem_ID, Room_ID, Title, Reser_Date, Reser_Startdate, Reser_Enddate,	Day_time, Reser_Satatus) VALUES (NULL, ?, ?, ?, ?, ?, ?, ? , ?)");
+    	$add_user->bind_param("iissssss",$user_id,$roomid,$title,$date,$start,$end,$time,$wait);
+      if(!$add_user->execute()){
         return false;
       }else{
-        if($check_roomProc->fetch_assoc()){
-          return false;
-        }else {
-          $add_user = $db->prepare("INSERT INTO reserve_data (Reser_ID, Mem_ID, Room_ID, Title, Reser_Date, Reser_Startdate, Reser_Enddate,	Day_time, Reser_Satatus, forwhom) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ? , ?)");
-    		  $add_user->bind_param("iisssssss",$user_id,$roomid,$title,$date,$start,$end,$time,$wait,$fw);
-          if(!$add_user->execute()){
-            return false;
-          }else{
-            return true;
-          }
-        }
+        return true;
       }
       $db->close();
     }
@@ -140,7 +140,7 @@ class roomManager {
       $db->close();
     }
 
-    public function addRoom($roomname,$roomcapa,$roomtype,$building,$floor){
+    public function addRoom($roomname,$roomcapa,$roomtype,$building,$floor,$FW){
       $connect = new connect();
       $db = $connect->connect();
       $count = 0;
@@ -149,8 +149,8 @@ class roomManager {
         return false;
       }
       else {
-        $add_room = $db->prepare("INSERT INTO room (Room_ID, Room_Name, Type_id, Building_id, Room_Capa , Floor , Count_chart) VALUES (NULL, ?, ?, ? ,? ,? ,?)");
-        $add_room->bind_param("siiiii",$roomname, $roomtype, $building, $roomcapa, $floor, $count);
+        $add_room = $db->prepare("INSERT INTO room (Room_ID, Room_Name, Type_id, Building_id, Room_Capa , Floor, Forwhom, Count_chart) VALUES (NULL, ?, ?, ?, ? ,? ,? ,?)");
+        $add_room->bind_param("siiiisi",$roomname, $roomtype, $building, $roomcapa, $floor, $FW, $count);
         if(!$add_room->execute()){
           return false;
         }else{
@@ -703,7 +703,7 @@ class roomManager {
         }
       }
 
-        public function editReser($reserId,$roomid,$title,$start,$end,$dayTime,$fw){
+        public function editReser($reserId,$roomid,$title,$start,$end,$dayTime){
           $connect = new connect();
           $db = $connect->connect();
           $checkStatus = $db->query("SELECT * FROM reserve_data WHERE Reser_ID = '$reserId' AND Reser_Satatus NOT LIKE 'Wait'");
@@ -711,10 +711,9 @@ class roomManager {
             $edit_reser = $db->prepare("UPDATE reserve_data SET Title = ?,
                                                 Reser_Startdate = ?,
                                                 Reser_Enddate = ?,
-                                                Day_time = ?,
-                                                forwhom = ?
+                                                Day_time = ?
                                           WHERE Reser_ID = ?");
-            $edit_reser->bind_param("sssssi",$title, $start,$end,$dayTime,$fw,$reserId);
+            $edit_reser->bind_param("ssssi",$title, $start,$end,$dayTime,$reserId);
               if(!$edit_reser->execute()){
                 return false;
               }else{
@@ -730,11 +729,11 @@ class roomManager {
           $db->close();
         }
 
-        public function editRoom($roomid,$roomname,$roomcapa,$roomtype,$Building,$floor){
+        public function editRoom($roomid,$roomname,$roomcapa,$roomtype,$Building,$floor,$FW){
           $connect = new connect();
           $db = $connect->connect();
-          $add_room = $db->prepare("UPDATE room SET Room_Name = ?, Type_id = ?, Building_id = ?, Room_Capa = ?, Floor = ? WHERE Room_ID = ?");
-          $add_room->bind_param("siiiii",$roomname, $roomtype, $Building, $roomcapa, $floor, $roomid);
+          $add_room = $db->prepare("UPDATE room SET Room_Name = ?, Type_id = ?, Building_id = ?, Room_Capa = ?, Floor = ?, Forwhom = ? WHERE Room_ID = ?");
+          $add_room->bind_param("siiiisi",$roomname, $roomtype, $Building, $roomcapa, $floor, $FW, $roomid);
           if(!$add_room->execute()){
             return false;
           }else{
@@ -956,6 +955,22 @@ class roomManager {
         $get_roomOption = $db->query("SELECT * FROM room ORDER BY Room_id ASC");
         while($room= $get_roomOption->fetch_assoc()){
             $result[] = $room;
+        }
+        if(!empty($result)){
+          return $result;
+        }else {
+          $result = "empty";
+          return $result;
+        }
+        $db->close();
+      }
+
+      public function getimgOption(){
+        $connect = new connect();
+        $db = $connect->connect();
+        $get_imgOption = $db->query("SELECT * FROM images ORDER BY img_Id ASC");
+        while($img= $get_imgOption->fetch_assoc()){
+            $result[] = $img;
         }
         if(!empty($result)){
           return $result;

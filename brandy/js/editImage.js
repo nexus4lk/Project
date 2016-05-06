@@ -1,3 +1,27 @@
+function loadimgOption(){
+  var loadimgOption = "loadimgOption";
+    $.ajax({
+        type: 'POST',
+        url: 'room_manager.php',
+        data: {
+          loadimgOption: loadimgOption
+        },
+        success: function(response) {
+          $('#Imgid12 option[value!="0"]').remove();
+          $('#Imgid13 option[value!="0"]').remove();
+          var json_obj = jQuery.parseJSON(response);
+          $.each(json_obj, function(key, value) {
+            var IId = value.IId;
+            var IName = value.IName;
+            $("#Imgid12").append("<option value="+IId+">"+IName+"</option>");
+            $("#Imgid13").append("<option value="+IId+">"+IName+"</option>");
+          });// each
+
+        } //function
+    });
+}
+
+
 $(document).ready(function() {
   $("#Imgid12").change(function() {
     var Img_id = $('#Imgid12').val();
@@ -10,6 +34,7 @@ $(document).ready(function() {
         geteditImg: geteditImg
       },
       success: function(response) {
+        loadimgOption();
         var json_obj = jQuery.parseJSON(response);
         $.each(json_obj, function(key, value) {
         var Img = value.Img;

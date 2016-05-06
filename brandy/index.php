@@ -359,14 +359,6 @@ if(!$member->is_loggedin())
         <label>กิจกรรม :</label>
         <input type="text" class="form-control" name="dcmtitle" placeholder="" id="dcmtitle">
         <br>
-        <label>เรียน </label>
-        <select class="btn btn-default dropdown-toggle" name="dcmforwhom" id="dcmforwhom">
-          <option value="">กรุณาเลือกผู้รับ</option>
-          <option value="หัวหน้าสาขาวิชา/หัวหน้าภาควิชา">หัวหน้าสาขาวิชา/หัวหน้าภาควิชา</option>
-          <option value="คณบดี">คณบดีคณะวิศวกรรมศาสตร์</option>
-        </select>
-        <br>
-
         <label for="gender">ช่วงเวลาที่ต้องการจอง: </label><br>
         <input type="radio" id="myRadio" name="myRadio" value="Morning" >ช่วงเช้า : 8.30 - 12.00น.</input><br>
         <input type="radio" id="myRadio" name="myRadio" value="Afternoon" >ช่วงบ่าย : 12.00 - 16.30น.</input><br>
@@ -414,13 +406,6 @@ if(!$member->is_loggedin())
             <br>
         <label>กิจกรรม :</label>
         <input type="text" class="form-control" name="edittitle" placeholder="" id="edittitle">
-        <br>
-        <label>เรียน </label>
-        <select class="btn btn-default dropdown-toggle" name="editforwhom" id="editforwhom">
-          <option value="">กรุณาเลือกผู้รับ</option>
-          <option value="หัวหน้าสาขาวิชา/หัวหน้าภาควิชา">หัวหน้าสาขาวิชา/หัวหน้าภาควิชา</option>
-          <option value="คณบดี">คณบดีคณะวิศวกรรมศาสตร์</option>
-        </select>
         <br>
         <label for="gender">ช่วงเวลาที่ต้องการจอง: </label><br>
         <input type="radio" id="Morning" name="editmyRadio" value="Morning" >ช่วงเช้า</input><br>
@@ -534,7 +519,9 @@ if(!$member->is_loggedin())
   <style>
   #calendar {
       width: 1000;
-    }
+    }.fc-time{
+   display : none;
+}
     .Morning,
     .Morning div,
     .Morning span {

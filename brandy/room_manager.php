@@ -290,7 +290,6 @@ if(isset($_POST['get_edit'])){
 				'reserStart'=>$edit["Reser_Startdate"],
 				'reserEnd'=>$edit["Reser_Enddate"],
 				'Day_time'=>$edit["Day_time"],
-				'forwhom'=>$edit["forwhom"]
 			);
 	}
 		//return JSON object
@@ -324,7 +323,7 @@ if(isset($_POST['get_roomDetail'])){
 }
 
 if(isset($_POST['editreser'])){
-	$reserRoom = $roomManager->editReser($_POST['reserId'],$_POST['roomid'],$_POST['title'],$_POST['start'],$_POST['end'],$_POST['dayTime'],$_POST['editforwhom']);
+	$reserRoom = $roomManager->editReser($_POST['reserId'],$_POST['roomid'],$_POST['title'],$_POST['start'],$_POST['end'],$_POST['dayTime']);
 	if($reserRoom === true){
 		echo " แก้ไข้เรียบร้อย ";
 	}
@@ -357,7 +356,7 @@ if(isset($_POST['getresername'])){
 }
 
 if(isset($_POST['reser'])){
-	$reserRoom = $roomManager->reserRoom($_SESSION['user_session'],$_POST['roomid'],$_POST['dcmtitle'],$_POST['dcmstart'],$_POST['dcmend'],$_POST['dayTime'],$_POST['dcmfw']);
+	$reserRoom = $roomManager->reserRoom($_SESSION['user_session'],$_POST['roomid'],$_POST['dcmtitle'],$_POST['dcmstart'],$_POST['dcmend'],$_POST['dayTime']);
 	if($reserRoom){
 		echo "กรุณารอการดำเนินเรื่อง 3-4 วัน ";
 	}
@@ -443,7 +442,7 @@ if (isset($_POST['denyComplete'])){
 }
 
 if (isset($_POST['addroom'])){
-	$addRoom = $roomManager->addRoom($_POST['roomname'],$_POST['roomcapa'],$_POST['roomtype'],$_POST['building'],$_POST['floor']);
+	$addRoom = $roomManager->addRoom($_POST['roomname'],$_POST['roomcapa'],$_POST['roomtype'],$_POST['building'],$_POST['floor'],$_POST['forwhom']);
 	if($addRoom){
 		echo "success";
 	}
@@ -483,7 +482,7 @@ if (isset($_POST['editbuilding'])){
 }
 
 if (isset($_POST['editroom'])){
-	$editRoom = $roomManager->editRoom($_POST['roomid'],$_POST['roomname'],$_POST['roomcapa'],$_POST['roomtype'],$_POST['Building'],$_POST['floor']);
+	$editRoom = $roomManager->editRoom($_POST['roomid'],$_POST['roomname'],$_POST['roomcapa'],$_POST['roomtype'],$_POST['Building'],$_POST['floor'],$_POST['forwhom']);
 	if($editRoom){
 		echo "success";
 	}
@@ -511,7 +510,8 @@ if(isset($_POST['selectroom'])){
 				'RType'=>$room['Type_id'],
 				'RCapa'=>$room['Room_Capa'],
 				'Building'=>$room['Building_id'],
-				'Bfloor'=>$room['Floor']
+				'Bfloor'=>$room['Floor'],
+				'RForwhom'=>$room['Forwhom']
 			);
 		}
 		//return JSON object
@@ -704,6 +704,23 @@ if(isset($_POST['loadroomOption'])){
 			$json[] = array(
 				'Id'=>$roomOption['Room_ID'],
 	      'Name'=>$roomOption['Room_Name'],
+			);
+		}
+		//return JSON object
+		echo json_encode($json);
+	}
+	else {
+		echo "empty";
+	}
+}
+
+if(isset($_POST['loadimgOption'])){
+	$get_imgOption = $roomManager->getImgOption();
+	if($get_imgOption != "empty"){
+		foreach($get_imgOption as $img){
+			$json[] = array(
+				'IId'=>$img['img_Id'],
+	      'IName'=>$img['img_name'],
 			);
 		}
 		//return JSON object

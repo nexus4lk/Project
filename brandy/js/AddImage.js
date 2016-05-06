@@ -11,7 +11,7 @@ $(document).ready(function() {
 
 function imageIsLoaded(e) {
     img =  e.target.result;
-    $('#preview').html('<img src="'+e.target.result+'" height="400" width="500">');
+    $('#preview').html('<img src="'+e.target.result+'" height="600" width="700">');
 
 };
 
@@ -41,9 +41,10 @@ $(function() {
     contentType: false,
     cache: false,
     processData:false,
-    success: function(data)
+    success: function(response)
     {
-      alert(data);
+      loadimgOption();
+      alert(response);
     }
     });
     return false;
