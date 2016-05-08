@@ -327,21 +327,8 @@ if(isset($_POST['editreser'])){
 	if($reserRoom === true){
 		echo " แก้ไข้เรียบร้อย ";
 	}
-	else if($reserRoom === false){
-		echo "เกิดข้อผิดพลาด";
-	}else {
-		switch ($reserRoom) {
-			case "Proc":
-					$reserRoom = "อยู่ในระหว่างการดำเนินการจอง";
-					break;
-			case "Cmpt":
-					$reserRoom = "การจองเสร็จสิ้นแล้ว";
-					break;
-			case "deny":
-					$reserRoom = "การจองถูกปฏิเสธ";
-					break;
-					}
-	echo "ไม่สามารถแก้ไขรายละเอียดได้เนื่องจาก".$reserRoom;
+	else{
+		echo $reserRoom;
 	}
 }
 
@@ -441,7 +428,7 @@ if (isset($_POST['denyComplete'])){
 	}
 }
 
-if (isset($_POST['addroom'])){
+	if (isset($_POST['addroom'])){
 	$addRoom = $roomManager->addRoom($_POST['roomname'],$_POST['roomcapa'],$_POST['roomtype'],$_POST['building'],$_POST['floor'],$_POST['forwhom']);
 	if($addRoom){
 		echo "success";

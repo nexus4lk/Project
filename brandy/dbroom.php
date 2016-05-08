@@ -243,23 +243,31 @@ class roomManager {
           $db = $connect->connect();
           $process = "Proc";
           $complete = "Cmpt";
-          $day = date("Y-m-d");
+          $date = date("Y-m-d");
           $checkroom = $db->query("SELECT * FROM reserve_data WHERE Reser_ID = '$reser_id'");
           if($get_detail= $checkroom->fetch_assoc()){
             $roomid = $get_detail['Room_ID'];
             $start = $get_detail['Reser_Startdate'];
             $end = $get_detail['Reser_Enddate'];
             $time = $get_detail['Day_time'];
+            $check_roomCmpt = $db->query("SELECT * FROM reserve_data WHERE Room_ID = '$roomid'
+              AND Day_time = '$time'
+              AND Reser_Satatus = '$complete'");
             $check_roomProc = $db->query("SELECT * FROM reserve_data WHERE Room_ID = '$roomid'
-              AND `Reser_Startdate` >= '$start' AND `Reser_Enddate` <= '$end'
               AND Day_time = '$time'
               AND Reser_Satatus = '$process'");
-              if (!$check_roomProc->fetch_assoc()) {
-                $check_roomCmpt = $db->query("SELECT * FROM reserve_data WHERE Room_ID = '$roomid'
-                  AND `Reser_Startdate` >= '$start' AND `Reser_Enddate` <= '$end'
-                  AND Day_time = '$time'
-                  AND Reser_Satatus = '$complete'");
-                  if (!$check_roomCmpt->fetch_assoc()) {
+                  while($Cmpt = $check_roomCmpt->fetch_assoc()){
+                    if ($start >= $Cmpt['Reser_Startdate'] && $start <= $Cmpt['Reser_Enddate']) {
+                       echo "มีการจองซ้ำอยู่ในระบบ";
+                      return false;
+                    }
+                  }
+                  while($proc = $check_roomProc->fetch_assoc()){
+                    if ($start >= $proc['Reser_Startdate'] && $start <= $proc['Reser_Enddate']) {
+                         echo "มีการจองซ้ำอยู่ในระหว่างการดำเนินการจอง";
+                      return false;
+                    }
+                  }
                     $allow_room = $db->prepare("UPDATE reserve_data SET Reser_Satatus = ? WHERE Reser_ID = ?");
                     $allow_room->bind_param("si",$process, $reser_id );
                     if(!$allow_room->execute()){
@@ -268,20 +276,9 @@ class roomManager {
                     }else {
                       return true;
                     }
-                  }else {
-                    echo "มีการจองซ้ำอยู่ในระบบ";
-                    exit();
-                  }
-              }else {
-                echo "มีการจองซ้ำอยู่ในระหว่างการดำเนินการจอง";
-                exit();
-              }
-          }else {
-          echo "เกิดข้อผิดพลาด";
-          exit();
-          }
           $db->close();
-          }
+        }
+      }
 
         public function denyReser($reser_id){
           $connect = new connect();
@@ -706,8 +703,28 @@ class roomManager {
         public function editReser($reserId,$roomid,$title,$start,$end,$dayTime){
           $connect = new connect();
           $db = $connect->connect();
-          $checkStatus = $db->query("SELECT * FROM reserve_data WHERE Reser_ID = '$reserId' AND Reser_Satatus NOT LIKE 'Wait'");
-          if (!$checkStatus->fetch_assoc()) {
+          $date = date("Y-m-d");
+          $wait = "Wait";
+          $complete = "Cmpt";
+          $process = "Proc";
+          $check_roomCmpt = $db->query("SELECT * FROM reserve_data WHERE Room_ID = '$roomid'
+            AND Day_time = '$dayTime'
+            AND Reser_Satatus = '$complete'");
+          $check_roomProc = $db->query("SELECT * FROM reserve_data WHERE Room_ID = '$roomid'
+            AND Day_time = '$dayTime'
+            AND Reser_Satatus = '$process'");
+                while($Cmpt = $check_roomCmpt->fetch_assoc()){
+                  if ($start >= $Cmpt['Reser_Startdate'] && $start <= $Cmpt['Reser_Enddate']) {
+                     echo "ไม่สามารถแก้ไขเวลาจองได้เนื่องจากเวลานี้มีการจองอยู่ในระบบ";
+                    return false;
+                  }
+                }
+                  while($proc = $check_roomProc->fetch_assoc()){
+                  if ($start >= $proc['Reser_Startdate'] && $start <= $proc['Reser_Enddate']) {
+                       echo "ไม่สามารถแก้ไขเวลาจองได้เนื่องจากเวลานี้มีการจองอยู่ในระหว่างการดำเนินการจอง";
+                    return false;
+                  }
+                }
             $edit_reser = $db->prepare("UPDATE reserve_data SET Title = ?,
                                                 Reser_Startdate = ?,
                                                 Reser_Enddate = ?,
@@ -719,28 +736,27 @@ class roomManager {
               }else{
                 return true;
                 }
-          }else{
-            $checkStatus = $db->query("SELECT * FROM reserve_data WHERE Reser_ID = '$reserId'");
-            if($status = $checkStatus->fetch_assoc()){
-              $result = $status['Reser_Satatus'];
-              return $result;
-            }
-          }
           $db->close();
         }
 
         public function editRoom($roomid,$roomname,$roomcapa,$roomtype,$Building,$floor,$FW){
           $connect = new connect();
           $db = $connect->connect();
-          $add_room = $db->prepare("UPDATE room SET Room_Name = ?, Type_id = ?, Building_id = ?, Room_Capa = ?, Floor = ?, Forwhom = ? WHERE Room_ID = ?");
-          $add_room->bind_param("siiiisi",$roomname, $roomtype, $Building, $roomcapa, $floor, $FW, $roomid);
-          if(!$add_room->execute()){
+          $checkroom = $db->query("SELECT * FROM room WHERE Room_Name = '$roomname'");
+          if ($checkroom->fetch_assoc()){
+            return false;
+          }
+          else {
+          $edit_room = $db->prepare("UPDATE room SET Room_Name = ?, Type_id = ?, Building_id = ?, Room_Capa = ?, Floor = ?, Forwhom = ? WHERE Room_ID = ?");
+          $edit_room->bind_param("siiiisi",$roomname, $roomtype, $Building, $roomcapa, $floor, $FW, $roomid);
+          if(!$edit_room->execute()){
             return false;
           }else{
             return true;
             }
             $db->close();
           }
+        }
 
         public function editTyperoom($roomTypeid,$roomtypeName){
           $connect = new connect();

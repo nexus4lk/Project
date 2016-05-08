@@ -1,6 +1,5 @@
 function reportePDF(reser_id) {
   var rid = reser_id;
-  alert(rid);
   var getresername = "getresername"
   $('#PDFTitle').empty();
   $.ajax({

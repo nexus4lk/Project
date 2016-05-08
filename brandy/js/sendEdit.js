@@ -47,11 +47,9 @@ $(function() {
           var modal = document.getElementById('edit_Modal');
           modal.style.display = "none";
           getReser();
-        }else if(!response){
-          alert("เกิดข้อผิดพลาด");
-          }else {
+        }else{
           alert(response);
-        }
+          }
       }
     });
     return false;

@@ -135,7 +135,7 @@ $(function() {
         if (response == "success") {
           alert('แก้ไขห้องเรียน ' + txtRoomname + ' เรียบร้อยแล้ว');
         }  else {
-          alert('แก้ไขห้องเรียน ' + txtRoomname + ' เรียบร้อยแล้ว');
+          alert('ชื่อห้อง ' + txtRoomname + ' มีอยู่ในระบบแล้ว');
         }
       }
     });
