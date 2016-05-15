@@ -160,7 +160,7 @@ function denyComplete(reser_id) {
             +"<td>"+reserStart+"</td>"
             +"<td>"+reserEnd+"</td>"
             +"<td>"+reserStatus+"</td>"
-            +"<td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='allowProcess("+Id+")'></td>"
+            +"<td><input name='btnAdd' type='button' id='btnAdd' value='Allow' onclick='allowProcess("+Id+")'></td>"
             +"<td><input name='btnAdd' type='button' id='btnAdd' value='Remove' onclick='denyProcess("+Id+")'></td>"
             +"</tr>";
             $("#tbody").append(texttable);
@@ -223,7 +223,7 @@ function denyComplete(reser_id) {
             +"<td>"+reserStart+"</td>"
             +"<td>"+reserEnd+"</td>"
             +"<td>"+reserStatus+"</td>"
-            +"<td><input name='btnAdd' type='button' id='btnAdd' value='Add' onclick='allowComplete("+Id+")'></td>"
+            +"<td><input name='btnAdd' type='button' id='btnAdd' value='Complete' onclick='allowComplete("+Id+")'></td>"
             +"<td><input name='btnAdd' type='button' id='btnAdd' value='Remove' onclick='denyComplete("+Id+")'></td>"
             +"<td><a onclick='reportePDF("+Id+")' >พิมพ์เอกสาร PDF</a></td>"
             +"</tr>";

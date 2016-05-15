@@ -17,10 +17,10 @@ $thai_month_arr=array(
     "12"=>"ธันวาคม"
 );
 function thai_date($time){
-    global $thai_day_arr,$thai_month_arr;
+    global $thai_month_arr;
     $thai_date_return = date("j",$time);
     $thai_date_return.=" ".$thai_month_arr[date("n",$time)];
-    $thai_date_return.= " ".(date("Yํ",$time)+543);
+    $thai_date_return.= " ".(date("Y",$time)+543);
     return $thai_date_return;
 }
 require('fpdf181/fpdf.php');
@@ -78,7 +78,7 @@ switch ($Day_time) {
   $day_text = "16.30 - 22.00น";
       break;
     }
-$currentday = date('d/m/Y');
+$currentday = date('m/d/Y');
 $thai_date=strtotime($currentday);
 $pdf->SetMargins( 25,10,20 );
 $pdf->AddPage();
@@ -100,7 +100,7 @@ $pdf->MultiCell( 0  , 0 , iconv( 'UTF-8','cp874' , $txt2)  );
 $pdf->setXY( 110, 55  );
 $pdf->MultiCell( 0  , 0 , iconv( 'UTF-8','cp874' , 'วันที่  ___________________________')  );
 $pdf->setXY( 125, 54  );
-$pdf->MultiCell( 0  , 0 , iconv( 'UTF-8','cp874' , thai_date($thai_date))  );
+$pdf->MultiCell( 0  , 0 , iconv( 'UTF-8','cp874' , thai_date($thai_date)) );
 $pdf->setXY( 25, 65  );
 $pdf->MultiCell( 0  , 0 , iconv( 'UTF-8','cp874' , 'เรื่อง')  );
 $pdf->setXY( 37, 65  );

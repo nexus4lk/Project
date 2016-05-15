@@ -323,12 +323,17 @@ if(isset($_POST['get_roomDetail'])){
 }
 
 if(isset($_POST['editreser'])){
-	$reserRoom = $roomManager->editReser($_POST['reserId'],$_POST['roomid'],$_POST['title'],$_POST['start'],$_POST['end'],$_POST['dayTime']);
-	if($reserRoom === true){
-		echo " แก้ไข้เรียบร้อย ";
-	}
-	else{
-		echo $reserRoom;
+	$currentday = date("Y-m-d");
+	if ($_POST['start'] <= $currentday || $_POST['end'] <= $currentday) {
+		echo "ไม่สามารถแก้ไขเวลาการจองนี้ได้";
+	}else {
+		$reserRoom = $roomManager->editReser($_POST['reserId'],$_POST['roomid'],$_POST['title'],$_POST['start'],$_POST['end'],$_POST['dayTime']);
+		if($reserRoom === true){
+			echo " แก้ไข้เรียบร้อย ";
+		}
+		else{
+			echo $reserRoom;
+		}
 	}
 }
 

@@ -80,7 +80,7 @@ $(function() {
         if (response == "success") {
         alert('แก้ไขประเภท ' + txtTypename + ' เรียบร้อยแล้ว');
         } else  {
-        alert('ไม่สามารถแก้ไข ' + txtTypename + ' ได้');
+          alert('ชื่อประเภทห้อง ' + txtTypename + ' มีอยู่ในระบบแล้ว');
         }
       }
     });

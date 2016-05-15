@@ -1082,7 +1082,7 @@ class roomManager {
         $connect = new connect();
         $db = $connect->connect();
         $Current_date = date("Y-m-d");
-        $get_reserData = $db->query("SELECT * FROM reserve_data WHERE Reser_Startdate >= '$Current_date' AND Reser_Satatus LIKE 'deny' ORDER BY Reser_Date ASC");
+        $get_reserData = $db->query("SELECT * FROM reserve_data WHERE Reser_Startdate >= '$Current_date' AND Reser_Satatus LIKE 'deny' ORDER BY Reser_Date DESC");
         while($row = $get_reserData->fetch_assoc()) {
             $result[] = $row;
         }

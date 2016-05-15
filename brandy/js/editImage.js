@@ -34,7 +34,6 @@ $(document).ready(function() {
         geteditImg: geteditImg
       },
       success: function(response) {
-        loadimgOption();
         var json_obj = jQuery.parseJSON(response);
         $.each(json_obj, function(key, value) {
         var Img = value.Img;

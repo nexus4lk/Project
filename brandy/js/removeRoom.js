@@ -3,10 +3,10 @@ $(function() {
   /* validation */
   $("#remove-form").validate({
     rules: {
-      roomid2: "required"
+      roomid4: "required"
     },
     messages: {
-      roomid2: "กรุณาเลือกห้อง"
+      roomid4: "กรุณาเลือกห้อง"
     },
     submitHandler: submitForm
   });
@@ -25,7 +25,7 @@ $(function() {
         getroomNameremove: getroomNameremove
       },
       success: function(response) {
-        var r = confirm("คุณแน่ใจที่จะลบ "+response+" ใช่หรือไม่");
+        var r = confirm("ข้อมูลทั้งหมดที่เกี่ยวข้องจะถูกลบทั้งหมด คุณแน่ใจที่จะลบ "+response+" ใช่หรือไม่");
         if (r == true) {
           var removeroom = "removeroom"
 

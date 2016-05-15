@@ -375,7 +375,7 @@ if(!$member->is_loggedin())
       ?>
       <br>
       <br>
-      <h2>Denined</h2>
+      <h2>Denied</h2>
       <?php
       // Check connection
       $connect = new connect();
@@ -785,7 +785,7 @@ if(!$member->is_loggedin())
     </div>
 
     <div id="section9">
-      <h2>Edit Room Type </h2>
+      <h2>Edit Building </h2>
       <div class="col-md-10">
       <form class="contact-form" id="editBuilding-form" method="post">
         <div class="row">
@@ -1045,7 +1045,6 @@ if(!$member->is_loggedin())
   <script type="text/javascript" src="js/removeRoomType.js"></script>
   <script type="text/javascript" src="js/removeBuilding.js"></script>
   <script type="text/javascript" src="js/reportePDF.js"></script>
-
   <script>
 
 		$(function () {
@@ -1055,40 +1054,85 @@ if(!$member->is_loggedin())
 				seriesData = data;
         console.log(data);
 
-					$('#chartsContainer').highcharts({
-							chart: {
-								plotBackgroundColor: null,
-								plotBorderWidth: null,
-								plotShadow: false,
-								type: 'pie'
-							},
-							title: {
-								text: 'จำนวนครั้งในการเข้าใช้ประจำปี'
-							},
-							tooltip: {
-								pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-							},
-							plotOptions: {
-								pie: {
-									allowPointSelect: true,
-									cursor: 'pointer',
-									dataLabels: {
-										enabled: true,
-										//format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-										format: '<b>{point.name}</b>: {point.y} ครั้ง',
-										style: {
-											color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-										}
-									}
-								}
-							},
-							series: [{
-								name: 'จำนวน',
-								colorByPoint: true,
-								data: seriesData
+					// $('#chartsContainer').highcharts({
+					// 		chart: {
+					// 			plotBackgroundColor: null,
+					// 			plotBorderWidth: null,
+					// 			plotShadow: false,
+					// 			type: 'column'
+					// 		},
+					// 		title: {
+					// 			text: 'จำนวนครั้งในการเข้าใช้ประจำปี'
+					// 		},
+					// 		tooltip: {
+          //       headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+					// 			pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+					// 		},
+					// 		plotOptions: {
+					// 			pie: {
+					// 				allowPointSelect: true,
+					// 				cursor: 'pointer',
+					// 				dataLabels: {
+					// 					enabled: true,
+					// 					//format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+					// 					format: '<b>{point.name}</b>: {point.y} ครั้ง',
+					// 					style: {
+					// 						color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+					// 					}
+					// 				}
+					// 			}
+					// 		},
+					// 		series: [{
+					// 			name: 'จำนวน',
+					// 			colorByPoint: true,
+					// 			data: seriesData
+          //
+					// 		}]
+					// 	});
+    $('#chartsContainer').highcharts({
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'จำนวนครั้งในการเข้าใช้ห้องแต่ละห้อง'
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: 'จำนวนครั้งในการเข้าใช้ห้อง'
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '<b>{point.name}</b>: {point.y} ครั้ง'
+                }
+            }
+        },
 
-							}]
-						});
+        tooltip: {
+            headerFormat: '',
+            // pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+            pointFormat: '{point.name}: <b>{point.y} ครั้ง</b>'
+        },
+
+        series: [{
+            name: 'ห้อง',
+            colorByPoint: true,
+            	data: seriesData
+        }]
+
+    });
 			});
 
 		});

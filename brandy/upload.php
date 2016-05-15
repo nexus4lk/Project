@@ -12,7 +12,7 @@ if(isset($_FILES["fileToUpload"]["tmp_name"])) {
         $uploadOk = 1;
     }
     else if(isset($_POST["uploadImg"]) && !isset($_FILES["fileToUpload"]["name"])) {
-        print "ไม่สามารถใช้รูปนี้ได้ โปรดใช้รูปอื่น";
+        echo "ไม่สามารถใช้รูปนี้ได้ โปรดใช้รูปอื่น";
         $uploadOk = 0;
         exit();
     }else {
@@ -39,7 +39,7 @@ if($type != "JPG" && $type != "PNG" && $type != "JPEG" && $type != "GIF" && $typ
 }
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
-    echo "ไม่สามารถอัพโหลดไฟล์ได้\n";
+    echo "ไม่สามารถอัพโหลดไฟล์ได้";
     exit();
 // if everything is ok, try to upload file
 } else {

@@ -24,7 +24,7 @@ $(function() {
         getroomTypeName: getroomTypeName
       },
       success: function(response) {
-        var r = confirm("คุณแน่ใจที่จะอนุมัติ "+response+" เพื่อดำเนินการจองใช่หรือไม่");
+        var r = confirm("ข้อมูลทั้งหมดที่เกี่ยวข้องจะถูกลบทั้งหมด คุณแน่ใจที่จะอนุมัติ "+response+" เพื่อดำเนินการจองใช่หรือไม่");
         if (r == true) {
           var removeroomType = "removeroomType"
               $.ajax({

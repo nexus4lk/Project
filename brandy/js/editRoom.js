@@ -131,7 +131,6 @@ $(function() {
       },
       success: function(response) {
         loadroomOption();
-        alert(response);
         if (response == "success") {
           alert('แก้ไขห้องเรียน ' + txtRoomname + ' เรียบร้อยแล้ว');
         }  else {

@@ -24,7 +24,7 @@ $(function() {
         getbuildingName: getbuildingName
       },
       success: function(response) {
-        var r = confirm("คุณแน่ใจที่จะลบ "+response+"ใช่หรือไม่");
+        var r = confirm("ข้อมูลทั้งหมดที่เกี่ยวข้องจะถูกลบทั้งหมด คุณแน่ใจที่จะลบ "+response+"ใช่หรือไม่");
         if (r == true) {
           var removeBuilding = "removeBuilding"
               $.ajax({
