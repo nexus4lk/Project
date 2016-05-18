@@ -61,16 +61,16 @@ if(!$member->is_loggedin())
       <li><a href="#section8">Add Building</a></li>
       <li><a href="#section9">Edit Building</a></li>
       <li><a href="#section10">Remove Building</a></li>
-      <li><a href="#section11">Room Picture</a></li>
-      <li><a href="#section12">Edit Picture</a></li>
-      <li><a href="#section13">Remove Picture</a></li>
+      <li><a href="#section11">Room Image</a></li>
+      <li><a href="#section12">Edit Image</a></li>
+      <li><a href="#section13">Remove Image</a></li>
       <li><a href="#section14">The Chart</a></li>
     </ul>
   </div>
 
   <div style="margin-left:25%;" class="container">
     <div id="section1">
-      <h2>Reser Incomes</h2>
+      <h2>รายการจองรอการอนุมัติ</h2>
       <?php
       // Check connection
       $connect = new connect();
@@ -173,7 +173,7 @@ if(!$member->is_loggedin())
       ?>
       <br>
       <br>
-      <h2>In Process</h2>
+      <h2>รายการอยู่ในระหว่างดำเนินการ</h2>
       <?php
       // Check connection
       $connect = new connect();
@@ -278,7 +278,7 @@ if(!$member->is_loggedin())
       ?>
       <br>
       <br>
-      <h2>Complete</h2>
+      <h2>รายการจองเสร็จสิ้น</h2>
       <?php
       // Check connection
       $connect = new connect();
@@ -375,7 +375,7 @@ if(!$member->is_loggedin())
       ?>
       <br>
       <br>
-      <h2>Denied</h2>
+      <h2>รายการจองที่ถูกปฏิเสธ</h2>
       <?php
       // Check connection
       $connect = new connect();
@@ -563,7 +563,7 @@ if(!$member->is_loggedin())
             <div class="single_contact_info">
               <h4 class="form-heading" align="left">ห้อง</h4>
               <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomid3" id="roomid3">
-              <option value="">       </option>
+              <option value="">กรุณาเลือกห้อง</option>
                 <?php
                 $connect = new connect();
                 $db = $connect->connect();
@@ -593,7 +593,7 @@ if(!$member->is_loggedin())
               </select>
               <h4 class="form-heading" align="left">ประเภทห้อง</h4>
               <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomtype3" id="roomtype3">
-              <option value="">       </option>
+                <option value="">กรุณาเลือกประเภทห้อง</option>
                 <?php
                 $connect = new connect();
                 $db = $connect->connect();
@@ -607,7 +607,7 @@ if(!$member->is_loggedin())
               </select>
               <h4 class="form-heading" align="left">อาคาร</h4>
               <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="Building3" id="Building3">
-              <option value="">       </option>
+                <option value="">กรุณาเลือกอาคาร</option>
                 <?php
                 $connect = new connect();
                 $db = $connect->connect();
@@ -621,7 +621,7 @@ if(!$member->is_loggedin())
                 </select>
                 <h4 class="form-heading" align="left">ชั้น</h4>
                 <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="floor3" id="floor3">
-                <option value="">       </option>
+                  <option value="">กรุณาเลือกชั้น</option>
 
                   </select>
 
@@ -644,9 +644,9 @@ if(!$member->is_loggedin())
               <h3 class="form-heading" align="left">โปรดเลือกห้องที่ต้องการ</h3>
             </div>
             <div class="single_contact_info">
-              <h4 class="form-heading" align="left">Room</h4>
+              <h4 class="form-heading" align="left">ห้อง</h4>
               <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomid4" id="roomid4">
-              <option value="">       </option>
+              <option value="">กรุณาเลือกห้อง</option>
                 <?php
                 $connect = new connect();
                 $db = $connect->connect();
@@ -675,10 +675,10 @@ if(!$member->is_loggedin())
         <div class="row">
           <div class="col-md-10">
             <div class="single_contact_info">
-              <h3 class="form-heading" align="left">กรอกประเภทของห้องที่ต้องการ</h3>
+              <h3 class="form-heading" align="left">โปรดกรอกประเภทของห้องที่ต้องการ</h3>
             </div>
             <div class="single_contact_info">
-              <h4 class="form-heading" align="left">Room Type</h4>
+              <h4 class="form-heading" align="left">ประเภทห้อง</h4>
               <input type="text" class="form-control" name="addroomtype" id="addroomtype" placeholder="ชนิดของห้อง* ตัวอย่าง ห้องปฏิบัติการ" size="50">
 
             </div>
@@ -701,9 +701,9 @@ if(!$member->is_loggedin())
               <h3 class="form-heading" align="left">โปรดกรอกรายละเอียดประเภทของห้อง</h3>
             </div>
             <div class="single_contact_info">
-              <h4 class="form-heading" align="left">Room Type</h4>
+              <h4 class="form-heading" align="left">ประเภทห้อง</h4>
               <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomtype6" id="roomtype6">
-              <option value="">       </option>
+              <option value="">กรูณาเลือกประเภทห้อง</option>
                 <?php
                 $connect = new connect();
                 $db = $connect->connect();
@@ -736,9 +736,9 @@ if(!$member->is_loggedin())
               <h3 class="form-heading" align="left">โปรดเลือกประเภทห้องที่ต้องการ</h3>
             </div>
             <div class="single_contact_info">
-              <h4 class="form-heading" align="left">Room Type</h4>
+              <h4 class="form-heading" align="left">ประเภทห้อง</h4>
               <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomtype7" id="roomtype7">
-              <option value="">       </option>
+              <option value="">กรูณาเลือกประเภทห้อง</option>
                 <?php
                 $connect = new connect();
                 $db = $connect->connect();
@@ -796,7 +796,7 @@ if(!$member->is_loggedin())
             <div class="single_contact_info">
               <h4 class="form-heading" align="left">อาคาร</h4>
               <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="Building9" id="Building9">
-              <option value="">       </option>
+                <option value="">กรูณาเลือกอาคาร</option>
                 <?php
                 $connect = new connect();
                 $db = $connect->connect();
@@ -830,9 +830,9 @@ if(!$member->is_loggedin())
               <h3 class="form-heading" align="left">โปรดเลือกอาคารที่ต้องการ</h3>
             </div>
             <div class="single_contact_info">
-              <h4 class="form-heading" align="left">ฺBuilding</h4>
+              <h4 class="form-heading" align="left">อาคาร</h4>
               <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="Building10" id="Building10">
-              <option value="">       </option>
+                <option value="">กรูณาเลือกอาคาร</option>
                 <?php
                 $connect = new connect();
                 $db = $connect->connect();
@@ -855,7 +855,7 @@ if(!$member->is_loggedin())
     </div>
 
     <div id="section11">
-      <h2>Picture Upload</h2>
+      <h2>Image Upload</h2>
       <div class="col-md-10">
       <form class="contact-form" id="upload-form" method="post" enctype="multipart/form-data">
         <div class="row">
@@ -863,8 +863,9 @@ if(!$member->is_loggedin())
             <div class="single_contact_info">
               <h3 class="form-heading" align="left">อัพโหลดรูปภาพ</h3>
             </div>
+            <h4 class="form-heading" align="left">ห้อง</h4>
             <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomid11" id="roomid11">
-            <option value="">       </option>
+            <option value="">กรุณาเลือกห้อง</option>
               <?php
               $connect = new connect();
               $db = $connect->connect();
@@ -878,6 +879,7 @@ if(!$member->is_loggedin())
             </select>
             <br>
             <br>
+            <h4 class="form-heading" align="left">อัพโหลด</h4>
             <div class="single_contact_info">
               <input type="file" name="fileToUpload" id="fileToUpload">
               <div id="preview"></div>
@@ -893,7 +895,7 @@ if(!$member->is_loggedin())
     </div>
     </div>
     <div id="section12">
-      <h2>Edit Picture</h2>
+      <h2>Edit Image</h2>
       <div class="col-md-10">
       <form class="contact-form" id="editImg-form" method="post" enctype="multipart/form-data">
         <div class="row">
@@ -901,8 +903,9 @@ if(!$member->is_loggedin())
             <div class="single_contact_info">
               <h3 class="form-heading" align="left">แก้ไขรูปภาพ</h3>
             </div>
+            <h4 class="form-heading" align="left">รูปภาพ</h4>
             <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="Imgid12" id="Imgid12">
-            <option value="">       </option>
+            <option value="">กรุณาเลือกรูปภาพ</option>
               <?php
               $connect = new connect();
               $db = $connect->connect();
@@ -915,12 +918,12 @@ if(!$member->is_loggedin())
               ?>
             </select>
             <br>
-            <br>
             <div class="single_contact_info">
               <div id="editPreview"></div>
             </div>
+            <h4 class="form-heading" align="left">ห้อง</h4>
             <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="roomid12" id="roomid12">
-            <option value="">       </option>
+            <option value="">กรุณาเลือกห้อง</option>
               <?php
               $connect = new connect();
               $db = $connect->connect();
@@ -936,7 +939,7 @@ if(!$member->is_loggedin())
               <br>
           </div>
           <div class="col-md-12">
-            <input type="submit" id="uploadImg" class="btn btn-primary cs-btn" value="Edit Picture" name="uploadImg">
+            <input type="submit" id="uploadImg" class="btn btn-primary cs-btn" value="Edit Image" name="uploadImg">
           </div>
         </div>
       </form>
@@ -945,7 +948,7 @@ if(!$member->is_loggedin())
     </div>
     </div>
     <div id="section13">
-      <h2>Remove Picture</h2>
+      <h2>Remove Image</h2>
       <div class="col-md-10">
       <form class="contact-form" id="RemoveImg-form" method="post" enctype="multipart/form-data">
         <div class="row">
@@ -953,8 +956,9 @@ if(!$member->is_loggedin())
             <div class="single_contact_info">
               <h3 class="form-heading" align="left">ลบรูปภาพ</h3>
             </div>
+            <h4 class="form-heading" align="left">รูปภาพ</h4>
             <select class="btn btn-default dropdown-toggle" style="width: 150px;" name="Imgid13" id="Imgid13">
-            <option value="">       </option>
+              <option value="">กรุณาเลือกรูปภาพ</option>
               <?php
               $connect = new connect();
               $db = $connect->connect();
@@ -971,7 +975,7 @@ if(!$member->is_loggedin())
               <br>
           </div>
           <div class="col-md-12">
-            <input type="submit" id="deleteImg" class="btn btn-primary cs-btn" value="Delete Image" name="deleteImg">
+            <input type="submit" id="deleteImg" class="btn btn-primary cs-btn" value="Remove Image" name="deleteImg">
           </div>
         </div>
       </form>

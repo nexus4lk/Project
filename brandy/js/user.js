@@ -1,7 +1,7 @@
 // JavaScript Document
 function userEdit(reser_id,room_id,memid) {
+
   var modal = document.getElementById('edit_Modal');
-  modal.style.display = "block";
   var get_edit = "get_edit"
   // document.getElementById("dcmstart").value = Reser_Startdate
   // document.getElementById("dcmend").value = Reser_Enddate
@@ -26,6 +26,7 @@ function userEdit(reser_id,room_id,memid) {
         var reserEnd = value.reserStart;
         var Day_time = value.Day_time;
         var forwhom = value.forwhom;
+        var status = value.status;
 
         $('#editheadTitle').html(Title);
         document.getElementById(Day_time).checked = true;
@@ -35,7 +36,15 @@ function userEdit(reser_id,room_id,memid) {
         document.getElementById("editend").value = reserEnd;
         document.getElementById("editsubmit").value = reser_id;
         document.getElementById("logout").value = memid;
+        if (status == "Cmpt") {
+          alert("ไม่สามารถแก้ไขรายการจองได้");
+        }else {
+          modal.style.display = "block";
+        }
         });
+
+
+
     }
   });
 

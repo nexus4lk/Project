@@ -289,6 +289,7 @@ if(isset($_POST['get_edit'])){
 				'Title'=>$edit['Title'],
 				'reserStart'=>$edit["Reser_Startdate"],
 				'reserEnd'=>$edit["Reser_Enddate"],
+				'status'=>$edit["Reser_Satatus"],
 				'Day_time'=>$edit["Day_time"],
 			);
 	}

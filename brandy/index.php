@@ -526,25 +526,25 @@ if(!$member->is_loggedin())
     .Morning div,
     .Morning span {
       background-color: #FFE700; /* background color */
-      border-color: #FFE700;     /* border color */
+      border-color: #000000;     /* border color */
       color: black;
-      font-size: 20px;          /* text color */
+      font-size: 15px;          /* text color */
     }
     .Afternoon,
     .Afternoon div,
     .Afternoon span {
       background-color: #2CDAFF; /* background color */
-      border-color: #2CDAFF;     /* border color */
+      border-color: #000000;     /* border color */
       color: black;
-      font-size: 20px;       /* text color */
+      font-size: 15px;       /* text color */
     }
     .Night,
     .Night div,
     .Night span {
       background-color: #041519; /* background color */
-      border-color: #041519;     /* border color */
+      border-color: #000000;     /* border color */
       color: white;
-      font-size: 20px;        /* text color */
+      font-size: 15px;        /* text color */
     }
   </style>
 

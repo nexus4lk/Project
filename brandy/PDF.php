@@ -89,7 +89,7 @@ $pdf->Cell( 0  , 37 , iconv( 'UTF-8','cp874' , 'บันทึกข้อค�
 $pdf->SetFont('THSarabunNew','',16);
 $pdf->setXY( 25, 45  );
 $pdf->MultiCell( 0  , 0 , iconv( 'UTF-8','cp874' , 'ส่วนราชการ   _______________________________________________________________')  );
-$pdf->setXY( 65, 44  );
+$pdf->setXY( 55, 44  );
 $pdf->MultiCell( 0  , 0 , iconv( 'UTF-8','cp874' , $txt1)  );
 $pdf->setXY( 25, 55  );
 $pdf->MultiCell( 0  , 0 , iconv( 'UTF-8','cp874' , 'ที่')  );
