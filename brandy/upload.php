@@ -14,7 +14,6 @@ if(isset($_FILES["fileToUpload"]["tmp_name"])) {
     else if(isset($_POST["uploadImg"]) && !isset($_FILES["fileToUpload"]["name"])) {
         echo "ไม่สามารถใช้รูปนี้ได้ โปรดใช้รูปอื่น";
         $uploadOk = 0;
-        exit();
     }else {
       $uploadOk = 0;
     }
@@ -23,24 +22,20 @@ if(isset($_FILES["fileToUpload"]["tmp_name"])) {
 if (file_exists($target_file)) {
     echo "ไฟล์ชื่อนี้มีอยู่ในระบบแล้ว\n";
     $uploadOk = 0;
-    exit();
 }
 // Check file size
 if ($_FILES["fileToUpload"]["size"] > 5120000) {
     echo "ไฟล์มีขนาดใหญ่เกิน 5MB\n";
     $uploadOk = 0;
-    exit();
 }
 // Allow certain file formats
 if($type != "JPG" && $type != "PNG" && $type != "JPEG" && $type != "GIF" && $type != "jpg" && $type != "png" && $type != "jpeg" && $type != "gif" ) {
     echo "รับเฉพาะไฟล์ที่เป็นนามสกุล JPG, JPEG, PNG และ GIF เท่านั้น\n";
     $uploadOk = 0;
-    exit();
 }
 // Check if $uploadOk is set to 0 by an error
 if ($uploadOk == 0) {
     echo "ไม่สามารถอัพโหลดไฟล์ได้";
-    exit();
 // if everything is ok, try to upload file
 } else {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
@@ -50,13 +45,11 @@ if ($uploadOk == 0) {
       $upload_img->bind_param("si",$_FILES["fileToUpload"]["name"], $_POST['roomid11']);
       if(!$upload_img->execute()){
           echo "เกิดข้อผิดพลาดขณะอัพโหลด\n";
-          exit();
       }else{
         echo "อัพโหลดไฟล์ ". basename( $_FILES["fileToUpload"]["name"]). " เสร็จสิ้น\n";
       }
     } else {
         echo "เกิดข้อผิดพลาดขณะอัพโหลด\n";
-        exit();
     }
   }
 }

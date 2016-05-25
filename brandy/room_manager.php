@@ -325,17 +325,22 @@ if(isset($_POST['get_roomDetail'])){
 
 if(isset($_POST['editreser'])){
 	$currentday = date("Y-m-d");
-	if ($_POST['start'] <= $currentday || $_POST['end'] <= $currentday) {
-		echo "ไม่สามารถแก้ไขเวลาการจองนี้ได้";
+	if ($_POST['start'] <= $_POST['end']) {
+		if ($_POST['start'] <= $currentday || $_POST['end'] <= $currentday) {
+			echo "ไม่สามารถแก้ไขเวลาการจองนี้ได้";
+		}else {
+			$reserRoom = $roomManager->editReser($_POST['reserId'],$_POST['roomid'],$_POST['title'],$_POST['start'],$_POST['end'],$_POST['dayTime']);
+			if($reserRoom === true){
+				echo " แก้ไข้เรียบร้อย ";
+			}
+			else{
+				echo $reserRoom;
+			}
+		}
 	}else {
-		$reserRoom = $roomManager->editReser($_POST['reserId'],$_POST['roomid'],$_POST['title'],$_POST['start'],$_POST['end'],$_POST['dayTime']);
-		if($reserRoom === true){
-			echo " แก้ไข้เรียบร้อย ";
-		}
-		else{
-			echo $reserRoom;
-		}
+		echo "ไม่สามารถแก้ไขเวลาการจองนี้ได้";
 	}
+
 }
 
 if(isset($_POST['getresername'])){
@@ -349,12 +354,18 @@ if(isset($_POST['getresername'])){
 }
 
 if(isset($_POST['reser'])){
-	$reserRoom = $roomManager->reserRoom($_SESSION['user_session'],$_POST['roomid'],$_POST['dcmtitle'],$_POST['dcmstart'],$_POST['dcmend'],$_POST['dayTime']);
-	if($reserRoom){
-		echo "กรุณารอการดำเนินเรื่อง 3-4 วัน ";
+	$currentday = date("Y-m-d");
+	if ($_POST['dcmstart'] <= $_POST['dcmend']) {
+		$reserRoom = $roomManager->reserRoom($_SESSION['user_session'],$_POST['roomid'],$_POST['dcmtitle'],$_POST['dcmstart'],$_POST['dcmend'],$_POST['dayTime']);
+		if($reserRoom){
+			echo "กรุณารอการดำเนินเรื่อง 3-4 วัน ";
+		}
+		else {
+			echo "ไม่สามารถจองห้องได้เนื่องจากห้องมีการจองอยู่ หรือ ห้องอยู่ระหว่างการดำเนินการจอง";
+		}
 	}
 	else {
-		echo "ไม่สามารถจองห้องได้เนื่องจากห้องมีการจองอยู่ หรือ ห้องอยู่ระหว่างการดำเนินการจอง";
+		echo "ไม่สามารถทำการจองได้เนื่องจากวันที่เริ่มต้น มากกว่า วันที่สิ้นสุด";
 	}
 }
 

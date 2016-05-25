@@ -18,12 +18,11 @@ function userEdit(reser_id,room_id,memid) {
       get_edit: get_edit
     },
     success: function(response) {
-      console.log(response);
       var json_obj = jQuery.parseJSON(response);
       $.each(json_obj, function(key, value) {
         var Title = value.Title;
         var reserStart = value.reserStart;
-        var reserEnd = value.reserStart;
+        var reserEnd = value.reserEnd;
         var Day_time = value.Day_time;
         var forwhom = value.forwhom;
         var status = value.status;
@@ -36,7 +35,7 @@ function userEdit(reser_id,room_id,memid) {
         document.getElementById("editend").value = reserEnd;
         document.getElementById("editsubmit").value = reser_id;
         document.getElementById("logout").value = memid;
-        if (status == "Cmpt") {
+        if (status == "Cmpt" || status == "Proc") {
           alert("ไม่สามารถแก้ไขรายการจองได้");
         }else {
           modal.style.display = "block";

@@ -365,11 +365,13 @@ if(!$member->is_loggedin())
         <input type="radio" id="myRadio" name="myRadio" value="Night" >ช่วงค่ำ : 16.30 - 22.00น.</input>
         <div class="form-group">
         <label >วันที่เริมต้น</label>
-        <input type="text" class="form-control" name="dcmstart"  placeholder="" id="dcmstart">
+        <!-- <input type="text"  name="dcmstart"  placeholder="" id="dcmstart"> -->
+        <input type="date" class="form-control" id="dcmstart" name="dcmstart"><br><br>
         </div>
         <div class="form-group">
         <label >วันที่สิ้นสุด</label>
-        <input type="text" class="form-control" name="dcmend"  placeholder="" id="dcmend">
+        <!-- <input type="text" class="form-control" name="dcmend"  placeholder="" id="dcmend"> -->
+        <input type="date" class="form-control" id="dcmend" name="dcmend"><br><br>
         </div>
         <div class ="reser_error"></div>
         <div class="modal-footer">
@@ -413,11 +415,15 @@ if(!$member->is_loggedin())
         <input type="radio" id="Night" name="editmyRadio" value="Night" >ช่วงค่ำ</input>
         <div class="form-group">
         <label >วันที่เริมต้น</label>
-        <input type="text" class="form-control" name="editstart"  placeholder="" id="editstart">
+        <!-- <input type="text" class="form-control" name="editstart"  placeholder="" id="editstart"> -->
+        <input type="date" class="form-control" id="editstart" placeholder="" name="editstart"><br><br>
+
         </div>
         <div class="form-group">
         <label >วันที่สิ้นสุด</label>
-        <input type="text" class="form-control" name="editend"  placeholder="" id="editend">
+        <!-- <input type="text" class="form-control" name="editend"  placeholder="" id="editend"> -->
+        <input type="date" class="form-control" id="editend" placeholder="" name="editend"><br><br>
+
         </div>
         <div class ="reser_error"></div>
         <div class="modal-footer">
@@ -460,7 +466,7 @@ if(!$member->is_loggedin())
 </div>
 
 
-    <section class="testimonial text-center wow fadeInUp animated" id="TESTIMONIAL">
+    <!-- <section class="testimonial text-center wow fadeInUp animated" id="TESTIMONIAL">
         <div class="container">
             <div class="icon">
                 <i class="icon-quote"></i>
@@ -476,7 +482,7 @@ if(!$member->is_loggedin())
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
 <footer>
     <div class="container">

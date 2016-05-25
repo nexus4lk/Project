@@ -684,11 +684,33 @@ class roomManager {
       public function editBuilding($buildingid,$buildingname,$Buildingfloor){
         $connect = new connect();
         $db = $connect->connect();
-        $checkBuilding = $db->query("SELECT * FROM building WHERE Building_name = '$buildingname'");
-        if ($checkBuilding->fetch_assoc()){
-          return false;
+        // $checkBuilding = $db->query("SELECT * FROM building WHERE Building_name = '$buildingname'");
+        // if ($checkBuilding->fetch_assoc()){
+        //   return false;
+        // }
+        // else {
+        // $add_Building = $db->prepare("UPDATE building SET Building_name = ?, Max_Floor = ? WHERE Building_id = ?");
+        // $add_Building->bind_param("sii",$buildingname, $Buildingfloor,$buildingid);
+        // if(!$add_Building->execute()){
+        //   return false;
+        // }else{
+        //   return true;
+        //   }
+        $checkBuilding = $db->query("SELECT * FROM `building` WHERE not(Building_id = '$buildingid')");
+        while($CheckBN= $checkBuilding->fetch_assoc()){
+            $BN = $CheckBN['Building_name'];
+            if ($BN == $buildingname) {
+              return false;
+            }else {
+              $add_Building = $db->prepare("UPDATE building SET Building_name = ?, Max_Floor = ? WHERE Building_id = ?");
+              $add_Building->bind_param("sii",$buildingname, $Buildingfloor,$buildingid);
+              if(!$add_Building->execute()){
+                return false;
+              }else{
+                return true;
+                }
+            }
         }
-        else {
         $add_Building = $db->prepare("UPDATE building SET Building_name = ?, Max_Floor = ? WHERE Building_id = ?");
         $add_Building->bind_param("sii",$buildingname, $Buildingfloor,$buildingid);
         if(!$add_Building->execute()){
@@ -697,7 +719,7 @@ class roomManager {
           return true;
           }
           $db->close();
-        }
+        // }
       }
 
         public function editReser($reserId,$roomid,$title,$start,$end,$dayTime){
@@ -742,11 +764,21 @@ class roomManager {
         public function editRoom($roomid,$roomname,$roomcapa,$roomtype,$Building,$floor,$FW){
           $connect = new connect();
           $db = $connect->connect();
-          $checkroom = $db->query("SELECT * FROM room WHERE Room_Name = '$roomname'");
-          if ($checkroom->fetch_assoc()){
-            return false;
+          $checkroom = $db->query("SELECT * FROM `room` WHERE not(Room_ID = '$roomid')");
+          while($CheckRN= $checkroom->fetch_assoc()){
+              $RN = $CheckRN['Room_Name'];
+              if ($RN == $roomname) {
+                return false;
+              }else {
+                $edit_room = $db->prepare("UPDATE room SET Room_Name = ?, Type_id = ?, Building_id = ?, Room_Capa = ?, Floor = ?, Forwhom = ? WHERE Room_ID = ?");
+                $edit_room->bind_param("siiiisi",$roomname, $roomtype, $Building, $roomcapa, $floor, $FW, $roomid);
+                if(!$edit_room->execute()){
+                  return false;
+                }else{
+                  return true;
+                  }
+              }
           }
-          else {
           $edit_room = $db->prepare("UPDATE room SET Room_Name = ?, Type_id = ?, Building_id = ?, Room_Capa = ?, Floor = ?, Forwhom = ? WHERE Room_ID = ?");
           $edit_room->bind_param("siiiisi",$roomname, $roomtype, $Building, $roomcapa, $floor, $FW, $roomid);
           if(!$edit_room->execute()){
@@ -754,25 +786,46 @@ class roomManager {
           }else{
             return true;
             }
-            $db->close();
-          }
+          $db->close();
         }
 
         public function editTyperoom($roomTypeid,$roomtypeName){
           $connect = new connect();
           $db = $connect->connect();
-          $checkroom = $db->query("SELECT * FROM roomtype WHERE Type_name = '$roomtypeName'");
-          if ($get_room = $checkroom->fetch_assoc()){
-            return false;
-          }else {
-            $add_roomType = $db->prepare("UPDATE roomtype SET Type_name = ? WHERE Type_id = ?");
-            $add_roomType->bind_param("si",$roomtypeName, $roomTypeid);
-            if(!$add_roomType->execute()){
-              return false;
-            }else{
-              return true;
+          // $checkroom = $db->query("SELECT * FROM roomtype WHERE Type_name = '$roomtypeName'");
+          // if ($get_room = $checkroom->fetch_assoc()){
+          //   return false;
+            // $add_roomType = $db->prepare("UPDATE roomtype SET Type_name = ? WHERE Type_id = ?");
+            // $add_roomType->bind_param("si",$roomtypeName, $roomTypeid);
+            // if(!$add_roomType->execute()){
+            //   return false;
+            // }else{
+            //   return true;
+            //   }
+          // }else {
+          // }
+          $checkroom = $db->query("SELECT * FROM `roomtype` WHERE not(Type_id = '$roomTypeid')");
+          while($CheckRTN= $checkroom->fetch_assoc()){
+              $RTN = $CheckRTN['Type_name'];
+              if ($RTN == $roomtypeName) {
+                return false;
+              }else {
+                $add_roomType = $db->prepare("UPDATE roomtype SET Type_name = ? WHERE Type_id = ?");
+                $add_roomType->bind_param("si",$roomtypeName, $roomTypeid);
+                if(!$add_roomType->execute()){
+                  return false;
+                }else{
+                  return true;
+                  }
               }
           }
+          $edit_room = $db->prepare("UPDATE room SET Room_Name = ?, Type_id = ?, Building_id = ?, Room_Capa = ?, Floor = ?, Forwhom = ? WHERE Room_ID = ?");
+          $edit_room->bind_param("siiiisi",$roomname, $roomtype, $Building, $roomcapa, $floor, $FW, $roomid);
+          if(!$edit_room->execute()){
+            return false;
+          }else{
+            return true;
+            }
             $db->close();
           }
 
